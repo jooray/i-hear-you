@@ -91,6 +91,7 @@ fun NowScreen(
             NowHeader()
             if (scope.sample) SampleBand()
             LinkRuler(scope = scope, aids = aids)
+            ReceiverNotice(scope = scope, aids = aids, modifier = Modifier.padding(bottom = 10.dp))
             // an aid still within its automatic reconnect attempts shows "connecting" on the
             // ruler only; the fix appears once they run out or for something to act on
             val unlinked = aids.filter { it.second == null }.map { it.first }
@@ -130,6 +131,7 @@ fun NowScreen(
                         }
                         Spacer(Modifier.height(12.dp))
                         PairKeys(scope = scope, aids = aids)
+                        StreamPlate(scope = scope, aids = aids)
                         ProgramsPlate(scope = scope, aids = aids, onOpenAid = onOpenAid)
                         if (aids.isNotEmpty()) {
                             Spacer(Modifier.height(4.dp))
@@ -150,6 +152,7 @@ fun NowScreen(
                     }
                     Spacer(Modifier.height(12.dp))
                     PairKeys(scope = scope, aids = aids)
+                    StreamPlate(scope = scope, aids = aids)
                     ProgramsPlate(scope = scope, aids = aids, onOpenAid = onOpenAid)
                     Spacer(Modifier.height(10.dp))
                     ConditionsRuler(scope = scope, aids = aids)
@@ -363,7 +366,13 @@ private fun ChannelPlate(
             verticalAlignment = Alignment.Bottom,
         ) {
             Column(Modifier.padding(bottom = 3.dp)) {
-                Text(stringResource(R.string.now_level), style = InstrumentType.plate.copy(fontSize = 9.sp), color = p.inkMuted)
+                // while a stream level exists or something is mixed in, the microphone level is the surroundings
+                val surroundings = state != null && app.ihearyou.service.StreamControl.surroundingsFor(state)
+                Text(
+                    stringResource(if (surroundings) R.string.now_surroundings else R.string.now_level),
+                    style = InstrumentType.plate.copy(fontSize = 9.sp),
+                    color = p.inkMuted,
+                )
                 Text(
                     readWord,
                     style = InstrumentType.plate.copy(fontSize = 9.sp, letterSpacing = 0.8.sp),
@@ -654,8 +663,10 @@ private fun ProgramsPlate(scope: AidScope, aids: List<Pair<String, AidUiState?>>
         val sound = pairSound(aids, scope.infos)
         if (sound != null && !split && sound.program == lead?.program) {
             var sheet by remember { mutableStateOf(false) }
-            SoundKeys(scope = scope, sound = sound, onOpen = { sheet = true })
+            var tinnitus by remember { mutableStateOf(false) }
+            SoundKeys(scope = scope, sound = sound, aids = aids, onOpen = { sheet = true }, onTinnitus = { tinnitus = true })
             if (sheet) SoundSheet(scope = scope, sound = sound, onDismiss = { sheet = false })
+            if (tinnitus && sound.tinnitus != null) TinnitusSheet(scope = scope, sound = sound, onDismiss = { tinnitus = false })
         }
     }
 }
@@ -666,11 +677,20 @@ private fun ProgramsPlate(scope: AidScope, aids: List<Pair<String, AidUiState?>>
  */
 @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
-private fun SoundKeys(scope: AidScope, sound: app.ihearyou.service.SoundState, onOpen: () -> Unit) {
+private fun SoundKeys(
+    scope: AidScope,
+    sound: app.ihearyou.service.SoundState,
+    aids: List<Pair<String, AidUiState?>>,
+    onOpen: () -> Unit,
+    onTinnitus: () -> Unit,
+) {
     val p = LocalPanel.current
     val context = LocalContext.current
     Spacer(Modifier.height(10.dp))
-    if (sound.presets.isNotEmpty()) {
+    if (sound.mixIn.isNotEmpty()) {
+        // while a phone or broadcast stream is mixed in, its keys take the presets' place
+        MixInKeys(scope = scope, sound = sound, aids = aids)
+    } else if (sound.presets.isNotEmpty()) {
         // two per row when there are three or the text is large, so a label never gets cut
         val large = androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.3f
         val perRow = if (sound.presets.size > 2 || large) 2 else sound.presets.size
@@ -706,6 +726,17 @@ private fun SoundKeys(scope: AidScope, sound: app.ihearyou.service.SoundState, o
         dense = true,
         modifier = Modifier.fillMaxWidth(),
     )
+    if (sound.tinnitus != null) {
+        Spacer(Modifier.height(6.dp))
+        Key(
+            text = stringResource(R.string.tsg_open),
+            onClick = onTinnitus,
+            tone = KeyTone.Ghost,
+            glyph = GlyphKind.Chevron,
+            dense = true,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
     if (sound.failed) {
         Text(
             stringResource(R.string.sound_failed),

@@ -222,12 +222,13 @@ class GnSession(
     }
 
     /**
-     * Writes one handle. Refused unless the platform is known and lists the handle as writable,
-     * so firmware, DFU and fitting handles can never be reached from here.
+     * Writes one handle. Refused unless the platform is known, lists the handle as writable and
+     * accepts the payload, so firmware, DFU and fitting handles can never be reached from here.
      */
     suspend fun writeHandle(handle: Int, data: ByteArray) {
         val p = platform ?: throw IOException("unknown platform, read-only")
         if (handle !in p.writable) throw IOException("handle $handle is not writable on ${p.label}")
+        if (!p.writeAllowed(handle, data)) throw IOException("payload refused for handle $handle on ${p.label}")
         txn.withLock { send(byteArrayOf(3, handle.toByte()) + data) }
     }
 

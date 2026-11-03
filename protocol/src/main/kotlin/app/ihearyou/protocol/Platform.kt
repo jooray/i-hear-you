@@ -34,16 +34,49 @@ enum class Platform(
     val programSound: Boolean get() = this == V4 || this == V5_0 || this == V5_1
 
     /**
+     * Protocols 4 and 5: handle 6 holds the stream / telecoil / audio-input level of the active
+     * program (`[program, attenuation]`, 0 = mute), and handle 22 plays a short tone on the aid.
+     */
+    val streamVolume: Boolean get() = programSound
+
+    /** Handle 31 is the stream type from protocol 2 on; on protocol 1 the number means something else. */
+    val streamType: Int? get() = if (this == V1) null else Handles.STREAM_TYPE
+
+    /** Handle 37 reports the receiver (the speaker in the ear) check on protocols 4 and 5. */
+    val receiverCheck: Int? get() = if (programSound) Handles.RIE_DETECT else null
+
+    /** Size of the tone handle (22): one byte on protocols 1 and 2, two from protocol 3 on. */
+    val melodySize: Int get() = if (this == V1 || this == V2) 1 else 2
+
+    /** Length of the per-program algorithm flags (19): 4 programs on protocol 5, 11 before. */
+    val criticalAlgoLength: Int get() = if (this == V5_0 || this == V5_1) 8 else 22
+
+    /**
      * The only handles the app ever writes: microphone attenuation, active program, program-name
-     * selector, (where it exists) the tap configuration, and on protocol 5 the active program's
-     * gain record and feature slice. Everything else is read-only, so no firmware, DFU or fitting
-     * handle, and no whole-blob gain or feature handle, can be reached through [app.ihearyou.protocol] users.
+     * selector, (where it exists) the tap configuration, and on protocols 4 and 5 the active
+     * program's gain record and feature slice, its stream level and the confirmation tone.
+     * Everything else is read-only, so no firmware, DFU or fitting handle, and no whole-blob gain
+     * or feature handle, can be reached through [app.ihearyou.protocol] users.
      */
     val writable: Set<Int>
         get() = setOfNotNull(
             Handles.MIC_ATTENUATION, Handles.ACTIVE_PROGRAM, Handles.PROGRAM_NAME_SELECTOR, tapConfig,
             Handles.GAIN_DATA.takeIf { programSound }, Handles.STANDARD_FEATURES.takeIf { programSound },
+            Handles.STREAMER_ATTENUATION.takeIf { streamVolume }, Handles.MELODY.takeIf { streamVolume },
         )
+
+    /**
+     * [writable] plus a payload check for handles where only some values are safe: the tone
+     * handle takes exactly the confirmation tone, the stream level exactly `[program, level]`.
+     */
+    fun writeAllowed(handle: Int, data: ByteArray): Boolean {
+        if (handle !in writable) return false
+        return when (handle) {
+            Handles.MELODY -> Melody.allowed(this, data)
+            Handles.STREAMER_ATTENUATION -> data.size == 2
+            else -> true
+        }
+    }
 
     companion object {
         /** Null for generations the app does not know; callers must then stay read-only. */

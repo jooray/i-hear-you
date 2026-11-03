@@ -53,6 +53,8 @@ fun AidDetailScreen(scope: AidScope, address: String, onBack: () -> Unit) {
             },
         )
 
+        if (!cros) ReceiverNotice(scope = scope, aids = listOf(address to state), modifier = Modifier.padding(top = 18.dp))
+
         Plate(title = stringResource(R.string.aid_detail_identification), modifier = Modifier.padding(top = 18.dp)) {
             InfoRow(stringResource(R.string.aid_detail_side), sideWord(context, side))
             HairRule()
@@ -103,6 +105,22 @@ fun AidDetailScreen(scope: AidScope, address: String, onBack: () -> Unit) {
             HairRule()
             InfoRow(stringResource(R.string.aid_detail_signal), state?.rssi?.let { stringResource(R.string.dbm, it) } ?: "—", mono = true)
             HairRule()
+            if (state?.streamControl == true) {
+                InfoRow(stringResource(R.string.stream_title), hexByte(state.streamAttenuation), mono = true)
+                HairRule()
+            }
+            state?.receiver?.let { rie ->
+                if (!cros) {
+                    InfoRow(
+                        stringResource(R.string.aid_detail_receiver),
+                        stringResource(if (rie.error) R.string.aid_detail_receiver_fault else R.string.aid_detail_receiver_ok),
+                        tone = if (rie.error) p.fault else p.live,
+                    )
+                    HairRule()
+                }
+                InfoRow(stringResource(R.string.aid_detail_receiver_data), "v${rie.version} · ${hexByte(rie.flags)}", mono = true)
+                HairRule()
+            }
             if (!cros && state?.tap != null) {
                 InfoRow(stringResource(R.string.aid_detail_tap_bits), hexBits(state.tap) + "  " + hexByte(state.tap), mono = true)
                 HairRule()

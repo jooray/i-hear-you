@@ -73,6 +73,23 @@ data class AidUiState(
     val confirmedAt: Long = 0L,
     /** Active program's bass/middle/treble and presets; null where the app cannot change them. */
     val sound: SoundState? = null,
+    /** The platform has a stream level (handle 6) the app may set. */
+    val streamControl: Boolean = false,
+    /** Stream level of the active program (handle 6): 0 muted, 1..255. */
+    val streamAttenuation: Int? = null,
+    /** Default microphone and stream levels (handle 16). */
+    val micDefault: Int? = null,
+    val streamDefault: Int? = null,
+    /** Program category per program index (handle 11). */
+    val programCategories: Map<Int, Int> = emptyMap(),
+    /** Program type per program index (handle 17). */
+    val environments: List<Int> = emptyList(),
+    /** Programs with the tinnitus generator (handle 19); null when unknown. */
+    val tinnitusPrograms: Set<Int>? = null,
+    /** Receiver check (handle 37); null when not read or not readable. */
+    val receiver: app.ihearyou.protocol.ReceiverCheck.Status? = null,
+    /** The last stream, tinnitus or quick-key level change was not confirmed. */
+    val streamFailed: Boolean = false,
 )
 
 sealed class Cmd {
@@ -107,6 +124,15 @@ sealed class Cmd {
     data class SoundEq(val program: Int, val eq: app.ihearyou.protocol.Eq) : Cmd()
     /** [program] back to its fitted sound. */
     data class SoundReset(val program: Int) : Cmd()
+    /** A feature control position for [program] (the active one), on every aid that has the feature. */
+    data class SoundFeature(val program: Int, val position: app.ihearyou.protocol.SoundEnhancer.Position) : Cmd()
+    /** A tinnitus generator setting for [program] (the active one), on every aid whose program has it. */
+    data class TinnitusSet(val program: Int, val change: TinnitusChange) : Cmd()
+    /** Stream level (or, with [tinnitus], the tinnitus generator level) on every aid it applies to. */
+    data class StreamLevel(val value: Int, val tinnitus: Boolean = false) : Cmd()
+    data class StreamMute(val on: Boolean, val tinnitus: Boolean = false) : Cmd()
+    /** A microphone quick key while a phone or broadcast stream is mixed in. */
+    data class MixIn(val kind: app.ihearyou.protocol.MixInButtons.Kind) : Cmd()
 }
 
 /** Where each aid's link stands, for status words and recovery hints in the UI. */
@@ -217,6 +243,7 @@ class RemoteService : Service() {
     private val lastAudible = ConcurrentHashMap<String, Int>()
     private lateinit var mapping: MappingStore
     private lateinit var sound: SoundControl
+    private lateinit var stream: StreamControl
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(app.ihearyou.domain.Language.wrap(newBase))
@@ -227,6 +254,11 @@ class RemoteService : Service() {
         app.ihearyou.util.EventLog.init(this)
         mapping = MappingStore(this)
         sound = SoundControl(this, scope, sessions, ::addLog)
+        stream = StreamControl(sessions, ::addLog, { sound.tinnitusMembers() }) { address, payload ->
+            states[address] = (states[address] ?: AidState()).copy(attenuation = payload)
+            remember(address, payload[0].toInt() and 0xff, payload)
+            ui.update { m -> m[address]?.let { st -> m + (address to st.copy(volume = payload[1].toInt() and 0xff, confirmedAt = System.currentTimeMillis())) } ?: m }
+        }
         voice = app.ihearyou.voice.VoiceNotes(this, scope, ::addLog)
         voice.recover()
         if (app.ihearyou.voice.VoiceSettings(this).whiteNoise) scope.launch { app.ihearyou.marmot.MarmotHost.start(this@RemoteService) }
@@ -638,10 +670,13 @@ class RemoteService : Service() {
             }
             val buttonHandle = platform?.pushButton
             val hiStateHandle = platform?.hiState
+            val streamTypeHandle = platform?.streamType
+            val receiverHandle = platform?.receiverCheck
             session.setNotifyVector(
                 listOfNotNull(
                     buttonHandle, Handles.ACTIVE_PROGRAM, Handles.MIC_ATTENUATION,
-                    Handles.STREAM_STATUS, Handles.STREAM_TYPE, hiStateHandle,
+                    Handles.STREAM_STATUS, streamTypeHandle, hiStateHandle,
+                    Handles.STREAMER_ATTENUATION.takeIf { platform?.streamVolume == true }, receiverHandle,
                 ),
             )
             // battery level notifies in plaintext on its own characteristic
@@ -657,6 +692,9 @@ class RemoteService : Service() {
             if (buttonHandle != null) addLog("$address: subscribed to button events")
             else addLog("$address: no button handle on this platform")
             runCatching { refreshState(address, session, gatt) }
+            runCatching {
+                stream.onConnect(address, session, info.value[address]?.cros == true)
+            }.onFailure { addLog("$address: stream read failed: ${it.message}") }
             runCatching {
                 val i = info.value[address]
                 sound.onConnect(address, session, i?.serial, i?.cros == true)
@@ -675,6 +713,17 @@ class RemoteService : Service() {
                             ui.update { m -> m[address]?.let { st -> m + (address to st.copy(hiState = b)) } ?: m }
                             continue
                         }
+                        if (v.handle == streamTypeHandle && v.data.isNotEmpty()) {
+                            val v0 = v.data[0].toInt() and 0xff
+                            ui.update { m -> m[address]?.let { st -> m + (address to st.copy(streamType = v0)) } ?: m }
+                            // the program presets give way to the stream keys and back
+                            sound.publish()
+                            continue
+                        }
+                        if (v.handle == receiverHandle) {
+                            stream.receiver(address, v.data, info.value[address]?.cros == true)
+                            continue
+                        }
                         when (v.handle) {
                             Handles.ACTIVE_PROGRAM -> {
                                 // our own compensation write echoes back with the target value, which
@@ -690,16 +739,14 @@ class RemoteService : Service() {
                                     ))
                                 } ?: m }
                                 sound.programChanged(address)
+                                launch { stream.reread(address) }
                                 maybeRevert(address)
                             }
                             Handles.STREAM_STATUS -> {
                                 val v0 = v.data[0].toInt() and 0xff
                                 ui.update { m -> m[address]?.let { st -> m + (address to st.copy(streamStatus = v0)) } ?: m }
                             }
-                            Handles.STREAM_TYPE -> {
-                                val v0 = v.data[0].toInt() and 0xff
-                                ui.update { m -> m[address]?.let { st -> m + (address to st.copy(streamType = v0)) } ?: m }
-                            }
+                            Handles.STREAMER_ATTENUATION -> stream.level(address, v.data)
                             Handles.MIC_ATTENUATION -> {
                                 val a = v.data.copyOf()
                                 states[address] = (states[address] ?: AidState()).copy(attenuation = a)
@@ -800,11 +847,18 @@ class RemoteService : Service() {
 
     // ------------------------------------------------------------------ state / commands
 
-    private suspend fun readProgramName(session: GnSession, index: Int): String? = runCatching {
-        session.writeHandle(Handles.PROGRAM_NAME_SELECTOR, byteArrayOf(index.toByte()))
-        val raw = session.readHandle(Handles.PROGRAM_NAME)
-        String(raw, Charsets.UTF_8).trim('\u0000', ' ').ifBlank { null }
-    }.getOrNull()
+    /** Name (handle 10) and, where the stream level exists, category (11) of program [index]. */
+    private suspend fun readProgram(session: GnSession, index: Int): Pair<String?, Int?> {
+        val name = runCatching {
+            session.writeHandle(Handles.PROGRAM_NAME_SELECTOR, byteArrayOf(index.toByte()))
+            val raw = session.readHandle(Handles.PROGRAM_NAME)
+            String(raw, Charsets.UTF_8).trim('\u0000', ' ').ifBlank { null }
+        }.getOrNull()
+        val category = if (session.platform?.streamVolume == true) runCatching {
+            session.readHandle(Handles.PROGRAM_CATEGORY).getOrNull(0)?.toInt()?.and(0xff)
+        }.getOrNull() else null
+        return name to category
+    }
 
     private suspend fun refreshState(address: String, session: GnSession, gatt: GattClient) {
         val battery = runCatching { gatt.read(Gn.BATTERY)[0].toInt() and 0xff }.getOrNull()
@@ -814,7 +868,9 @@ class RemoteService : Service() {
         val mask = runCatching { session.readHandle(Handles.AVAILABLE_PROGRAMS) }.getOrNull()
         val indices = mask?.let { Frames.programIndices(it) } ?: emptyList()
         val active = runCatching { session.readHandle(Handles.ACTIVE_PROGRAM)[0].toInt() and 0xff }.getOrNull()
-        val rawNames = indices.associateWith { idx -> readProgramName(session, idx) }
+        val programInfo = indices.associateWith { idx -> readProgram(session, idx) }
+        val rawNames = programInfo.mapValues { it.value.first }
+        val categories = programInfo.mapNotNull { (idx, v) -> v.second?.let { idx to it } }.toMap()
         val names = indices.map { idx -> idx to (rawNames[idx] ?: getString(R.string.program_default_name, idx + 1)) }
         val environments = runCatching {
             app.ihearyou.protocol.ProgramNames.parseEnvironmentIds(session.readHandle(Handles.ENVIRONMENT_ID))
@@ -822,7 +878,7 @@ class RemoteService : Service() {
         val kinds = indices.mapNotNull { idx ->
             app.ihearyou.protocol.ProgramNames.stockKind(environments.getOrNull(idx), rawNames[idx])?.let { idx to it }
         }.toMap()
-        addLog("$address: program types $environments -> ${kinds.mapValues { it.value.name }}")
+        addLog("$address: program types $environments -> ${kinds.mapValues { it.value.name }}${if (categories.isNotEmpty()) " categories $categories" else ""}")
         val volume = runCatching { session.readHandle(Handles.MIC_ATTENUATION)[1].toInt() and 0xff }.getOrNull()
         addLog("$address: state battery=$battery tap=${tapRaw?.joinToString(" ") { "%02X".format(it) }} programs=$indices active=$active volume=$volume")
         val blob = if (session.platform?.standardFeatures == true) {
@@ -834,7 +890,7 @@ class RemoteService : Service() {
             runCatching { session.readHandle(h)[0].toInt() and 0xff }.getOrNull()
         }
         val streamStatus = runCatching { session.readHandle(Handles.STREAM_STATUS)[0].toInt() and 0xff }.getOrNull()
-        val streamType = runCatching { session.readHandle(Handles.STREAM_TYPE)[0].toInt() and 0xff }.getOrNull()
+        val streamType = session.platform?.streamType?.let { h -> runCatching { session.readHandle(h)[0].toInt() and 0xff }.getOrNull() }
         val previous = ui.value[address]
         ui.update {
             it + (address to AidUiState(
@@ -851,6 +907,14 @@ class RemoteService : Service() {
                 features = features,
                 confirmedAt = System.currentTimeMillis(),
                 sound = previous?.sound,
+                streamControl = previous?.streamControl ?: false,
+                streamAttenuation = previous?.streamAttenuation,
+                micDefault = previous?.micDefault,
+                streamDefault = previous?.streamDefault,
+                programCategories = categories,
+                environments = environments,
+                tinnitusPrograms = previous?.tinnitusPrograms,
+                receiver = previous?.receiver,
             ))
         }
         sound.publish()
@@ -863,6 +927,7 @@ class RemoteService : Service() {
                 changeProgram(session, c.address, c.delta)
                 gatts[c.address]?.let { g -> refreshState(c.address, session, g) }
                 sound.programChanged(c.address)
+                stream.reread(c.address)
             }
             is Cmd.SelectProgram -> {
                 val session = sessions[c.address] ?: return
@@ -873,6 +938,7 @@ class RemoteService : Service() {
                         programName = st.programs.firstOrNull { it.first == c.index }?.second))
                 } ?: m }
                 sound.programChanged(c.address)
+                stream.reread(c.address)
             }
             is Cmd.Volume -> {
                 val session = sessions[c.address] ?: return
@@ -932,6 +998,11 @@ class RemoteService : Service() {
             is Cmd.SoundPreset -> sound.applyPreset(c.program, c.kind)
             is Cmd.SoundEq -> sound.setEq(c.program, c.eq)
             is Cmd.SoundReset -> sound.reset(c.program)
+            is Cmd.SoundFeature -> sound.setFeature(c.program, c.position)
+            is Cmd.TinnitusSet -> sound.setTinnitus(c.program, c.change)
+            is Cmd.StreamLevel -> stream.setLevel(c.value, c.tinnitus)
+            is Cmd.StreamMute -> stream.mute(c.on, c.tinnitus)
+            is Cmd.MixIn -> stream.mixIn(c.kind)
             is Cmd.Tap -> {
                 val session = sessions[c.address] ?: return
                 val tapHandle = session.platform?.tapConfig ?: return
@@ -1137,6 +1208,7 @@ class RemoteService : Service() {
             m + (address to u.copy(program = program, programName = u.programs.firstOrNull { it.first == program }?.second))
         } ?: m }
         sound.programChanged(address)
+        scope.launch { stream.reread(address) }
     }
 
 }

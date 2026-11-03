@@ -79,6 +79,13 @@ object SoundPresets {
         else -> emptyList()
     }
 
+    /**
+     * While an accessory streamer or partner microphone is mixed in (stream type 3 or 4), the
+     * active program offers bass and treble boost instead of its own presets.
+     */
+    fun forStream(streamType: Int?): List<Preset>? =
+        if (StreamRules.mixIn(streamType) in 3..4) tone else null
+
     private fun tierAllows(tiers: Tiers, tier: PriceTier) = when (tiers) {
         Tiers.ALL -> true
         Tiers.NOT_BUDGET -> tier != PriceTier.BUDGET

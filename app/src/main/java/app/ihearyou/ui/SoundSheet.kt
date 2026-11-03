@@ -30,9 +30,10 @@ import app.ihearyou.ui.theme.InstrumentType
 import app.ihearyou.ui.theme.LocalPanel
 
 /**
- * Bass, middle and treble for the active program, over the Now screen. The change applies to both
- * aids, so it lives here rather than on one aid's page. Sliders send on release; the reset goes
- * back to the audiologist's values. Closed by a tap outside, Back, or the close key.
+ * Bass, middle and treble for the active program, over the Now screen, and on top-tier aids the
+ * noise, speech focus and wind choices. The change applies to both aids, so it lives here rather
+ * than on one aid's page. Sliders send on release, choices at once; the reset goes back to the
+ * audiologist's values, tinnitus settings included. Closed by a tap outside, Back, or the close key.
  */
 @Composable
 fun SoundSheet(scope: AidScope, sound: SoundState, onDismiss: () -> Unit) {
@@ -90,7 +91,8 @@ private fun SoundTrims(scope: AidScope, sound: SoundState) {
         onCommit = { scope.send(Cmd.SoundEq(sound.program, eq.copy(treble = it))) },
         contentDescription = describe(treble),
     )
-    Spacer(Modifier.height(8.dp))
+    EnhancerControls(scope, sound)
+    Spacer(Modifier.height(12.dp))
     Key(
         text = stringResource(R.string.sound_reset),
         onClick = { scope.send(Cmd.SoundReset(sound.program)) },

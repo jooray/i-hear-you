@@ -58,13 +58,21 @@ Shared by all generations:
 | 1 | battery level (1–10) | read, notify |
 | 2 | side | read |
 | 5 | microphone attenuation `[program, attenuation 0–255]` | read, notify, **write** (volume, mute) |
+| 6 | stream / telecoil / tinnitus-sound level `[program, attenuation 0–255]`, 0 = mute (protocols 4, 5) | read, notify, **write** |
 | 7 | available programs (4-byte mask) | read |
 | 8 | active program | read, notify, **write** |
 | 10 | program name (UTF-8, zero padded) | read after selecting with 12 |
+| 11 | program category | read after selecting with 12 (protocols 4, 5) |
 | 12 | program name selector | **write** |
+| 16 | default levels: byte 0 microphone, byte 1 stream | read |
 | 17 | program environment IDs (u32 LE per program) | read |
+| 19 | per-program algorithm flags, 2 bytes per program; bit 0 of the first = tinnitus sound | read |
 | 21 | stream status | read, notify |
-| 31 | stream type | read, notify |
+| 22 | confirmation tone; only `05 00` is ever written (protocols 4, 5) | **write** |
+| 27 / 28 | active program's gain record / all gain records (protocols 4, 5) | **write** / read |
+| 31 | stream type (not on protocol 1, where 31 means something else) | read, notify |
+| 35 / 36 | active program's feature slice / all feature slices (protocols 4, 5) | **write** / read |
+| 37 | receiver check, 30 bytes (protocols 4, 5) | read, notify |
 
 A program mask whose first two bytes are zero is stored bit-reversed per byte and byte-reversed.
 
@@ -84,10 +92,10 @@ otherwise 5.1):
 - Tap config (u16): bit 0 program tap, bit 1 call tap, bits 8/9 whether each is allowed. The app
   changes only bits 0/1 with read-modify-write.
 - Standard features (36): 9 bytes per program slot, each byte a feature-value id, `FF` unused.
-  The app only reads it.
+  The app changes one slot at a time through 35, only to another id of the feature already in it.
 
-The app writes only handles 5, 8, 12 and the tap config handle. An unknown generation is kept
-read-only. The start-DFU handle and everything related to firmware or fitting are never written.
+The app writes only handles 5, 8, 12 and the tap config handle, and on protocols 4 and 5 also 6,
+22 (only the confirmation tone), 27 and 35. An unknown generation is kept read-only. The start-DFU handle and everything related to firmware or fitting are never written.
 
 ## Encryption
 

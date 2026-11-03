@@ -167,6 +167,8 @@ class DemoPanel {
             // voice notes have no sample-pair simulation
             is Cmd.VoiceStart, is Cmd.VoiceStop, is Cmd.VoiceRetry, is Cmd.VoiceDelete, is Cmd.VoiceImport,
             is Cmd.WhiteNoiseChanged, is Cmd.AcceptInvite, is Cmd.SimulateGesture -> Unit
+            // the sample pair has no stream, feature or tinnitus controls
+            is Cmd.SoundFeature, is Cmd.TinnitusSet, is Cmd.StreamLevel, is Cmd.StreamMute, is Cmd.MixIn -> Unit
             is Cmd.VolumeAll -> addresses.forEach { a ->
                 update(a) { it.copy(volume = ((it.volume ?: 0xAA) + cmd.delta).coerceIn(0, 255), confirmedAt = now) }
             }

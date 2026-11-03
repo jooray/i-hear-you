@@ -102,7 +102,9 @@ object GainRecord {
 }
 
 /** A speech-focus setting: a directionality id and a speech-focus band id written as a pair. */
-enum class Focus(val beam: Int, val band: Int) { NARROW(4, 0), WIDE_LOW(6, 3) }
+enum class Focus(val beam: Int, val band: Int) {
+    NARROW(4, 0), MEDIUM(5, 1), WIDE_MILD(6, 2), WIDE_LOW(6, 3), AUTO(7, 1),
+}
 
 /**
  * Per-program feature slice (handle 36 read, handle 35 write: `[program][9-byte slice]`).
@@ -118,7 +120,14 @@ object FeatureSlice {
     val NOISE_REDUCTION = 12..18
     /** A noise-reduction slot holding one of these belongs to a transmitter and is never changed. */
     val NOISE_REDUCTION_FIXED = 19..20
+    /** Noise reduction "per environment": only ever written back to a slot fitted with it. */
+    const val NOISE_REDUCTION_AUTO = 20
+    /** Noise reduction disabled by the fitting: never written, and the slot is never changed. */
+    const val NOISE_REDUCTION_DISABLED = 19
     val WIND = 51..54
+    /** Dynamic noise reduction: 55 off (never written), 56..58 mild to strong. */
+    val DNR = 55..58
+    val DNR_WRITABLE = 56..58
     val DIRECTIONALITY = 4..7
     val SPEECH_BAND = 0..3
 
@@ -129,7 +138,7 @@ object FeatureSlice {
 
     private fun ids(slice: ByteArray) = slice.map { it.toInt() and 0xff }
 
-    private fun groupOf(id: Int): IntRange? = listOf(NOISE_REDUCTION, WIND, DIRECTIONALITY, SPEECH_BAND).firstOrNull { id in it }
+    private fun groupOf(id: Int): IntRange? = listOf(NOISE_REDUCTION, WIND, DIRECTIONALITY, SPEECH_BAND, DNR).firstOrNull { id in it }
 
     fun hasSpeechFocus(slice: ByteArray?): Boolean =
         slice != null && ids(slice).any { it in DIRECTIONALITY } && ids(slice).any { it in SPEECH_BAND }
@@ -166,9 +175,11 @@ object FeatureSlice {
     }
 
     /**
-     * [current] with each managed slot (noise reduction, wind, directionality, speech band) set
-     * back to [saved]'s id, where [saved] holds the same feature in that slot. Everything else
-     * stays as in [current].
+     * [current] with each managed slot (noise reduction, wind, directionality, speech band, dynamic
+     * noise reduction) set back to [saved]'s id, where [saved] holds the same feature in that slot.
+     * A noise-reduction slot also goes back to "per environment" when [saved] has it there.
+     * Disabled noise reduction and dynamic noise reduction "off" are never restored into a slot
+     * that holds something else. Everything else stays as in [current].
      */
     fun restore(current: ByteArray, saved: ByteArray): ByteArray {
         require(current.size == SIZE && saved.size == SIZE)
@@ -176,8 +187,18 @@ object FeatureSlice {
         for (i in out.indices) {
             val now = current[i].toInt() and 0xff
             val was = saved[i].toInt() and 0xff
-            val group = groupOf(now) ?: continue
-            if (was in group) out[i] = was.toByte()
+            if (now == was) continue
+            if (now == NOISE_REDUCTION_DISABLED) continue
+            val noiseSlot = now in NOISE_REDUCTION || now == NOISE_REDUCTION_AUTO
+            when {
+                noiseSlot && (was in NOISE_REDUCTION || was == NOISE_REDUCTION_AUTO) -> out[i] = was.toByte()
+                now in DNR && was in DNR_WRITABLE -> out[i] = was.toByte()
+                now in DNR -> Unit
+                else -> {
+                    val group = groupOf(now) ?: continue
+                    if (was in group) out[i] = was.toByte()
+                }
+            }
         }
         return out
     }
@@ -206,14 +227,33 @@ object SoundWriteGuard {
         return eq == eq.clamped()
     }
 
-    fun featuresOk(current: ByteArray, target: ByteArray): Boolean {
+    /**
+     * Each changed slot must stay within its feature: noise reduction 12..18 (20 only where the
+     * slot holds it now or held it at the fitting, [fitted]; a slot holding 19 never changes),
+     * dynamic noise reduction to 56..58, wind, directionality and speech band within their ids.
+     * Tinnitus ids may change only when [tinnitusSide] is given (the program has the tinnitus
+     * generator on that aid), within the same tinnitus feature and with nature sounds of that side.
+     */
+    fun featuresOk(current: ByteArray, target: ByteArray, fitted: ByteArray? = null, tinnitusSide: Side? = null): Boolean {
         if (current.size != FeatureSlice.SIZE || target.size != FeatureSlice.SIZE) return false
-        val groups = listOf(FeatureSlice.NOISE_REDUCTION, FeatureSlice.WIND, FeatureSlice.DIRECTIONALITY, FeatureSlice.SPEECH_BAND)
+        if (fitted != null && fitted.size != FeatureSlice.SIZE) return false
+        val simple = listOf(FeatureSlice.WIND, FeatureSlice.DIRECTIONALITY, FeatureSlice.SPEECH_BAND)
         for (i in current.indices) {
             val c = current[i].toInt() and 0xff
             val t = target[i].toInt() and 0xff
             if (c == t) continue
-            if (groups.none { c in it && t in it }) return false
+            val f = fitted?.get(i)?.toInt()?.and(0xff)
+            val auto = FeatureSlice.NOISE_REDUCTION_AUTO
+            val ok = when {
+                c == FeatureSlice.NOISE_REDUCTION_DISABLED || t == FeatureSlice.NOISE_REDUCTION_DISABLED -> false
+                c in FeatureSlice.NOISE_REDUCTION || c == auto ->
+                    t in FeatureSlice.NOISE_REDUCTION || (t == auto && f == auto)
+                c in FeatureSlice.DNR -> t in FeatureSlice.DNR_WRITABLE
+                simple.any { c in it && t in it } -> true
+                tinnitusSide != null -> Tinnitus.sameFeature(c, t, tinnitusSide)
+                else -> false
+            }
+            if (!ok) return false
         }
         return true
     }

@@ -6,7 +6,12 @@ import app.ihearyou.protocol.Eq
 import app.ihearyou.protocol.FeatureSlice
 import app.ihearyou.protocol.GainRecord
 import app.ihearyou.protocol.Handles
+import app.ihearyou.protocol.Melody
+import app.ihearyou.protocol.MixInButtons
 import app.ihearyou.protocol.PriceTier
+import app.ihearyou.protocol.Side
+import app.ihearyou.protocol.SoundEnhancer
+import app.ihearyou.protocol.Tinnitus
 import app.ihearyou.protocol.ProgramNames
 import app.ihearyou.protocol.SoundPresets
 import app.ihearyou.protocol.SoundWriteGuard
@@ -28,15 +33,50 @@ data class SoundState(
     val busy: Boolean = false,
     /** The last change was not confirmed by an aid; nothing more was written for it. */
     val failed: Boolean = false,
+    /** Microphone quick keys while a phone or broadcast stream is mixed in (they replace [presets]). */
+    val mixIn: List<MixInButtons.Kind> = emptyList(),
+    /** Feature controls of a top-tier aid, in display order; empty when none apply. */
+    val enhancer: List<EnhancerControl> = emptyList(),
+    /** The program's tinnitus generator; null when the program has none. */
+    val tinnitus: TinnitusState? = null,
+)
+
+data class EnhancerControl(
+    val control: SoundEnhancer.Control,
+    val positions: List<SoundEnhancer.Position>,
+    val selected: SoundEnhancer.Position?,
 )
 
 /**
- * Per-program bass/middle/treble and quick presets, protocol 5 only.
+ * What the tinnitus panel offers and shows. [variation] 0..3 is selected only while no nature
+ * sound plays; [nature] 0..5 or null for none; [highPass] 0..5 and [lowPass] 0..6, 0 = open.
+ */
+data class TinnitusState(
+    val showVariation: Boolean,
+    val variation: Int?,
+    val showNature: Boolean,
+    val nature: Int?,
+    val showRange: Boolean,
+    val highPass: Int?,
+    val lowPass: Int?,
+)
+
+sealed class TinnitusChange {
+    data class Variation(val value: Int) : TinnitusChange()
+    data class Nature(val index: Int) : TinnitusChange()
+    data class HighPass(val index: Int) : TinnitusChange()
+    data class LowPass(val index: Int) : TinnitusChange()
+}
+
+/**
+ * Per-program bass/middle/treble, quick presets, the feature controls of top-tier aids and the
+ * tinnitus generator's shaping, protocols 4 and 5 only.
  *
  * Reads on connect: product information (13, price tier), input modes (18), environment ids (17),
  * last-fitted id (26), all gain records (28) and all feature slices (36). Writes only the active
  * program's gain record (27) and feature slice (35), never while charging, never for a program
  * other than the one the aid reports as active, and checks every write by reading 28/36 back.
+ * After a confirmed change it plays the aid's confirmation tone (22) once per receiving aid.
  *
  * Kept on the phone, per aid serial: the records and slices as fitted (taken again whenever the
  * last-fitted id changes), and per program the values from just before the first preset press,
@@ -140,7 +180,17 @@ class SoundControl(
         /** Linked aids on [program] that have a gain record for it, receivers first. */
         val members: List<String>,
         val active: SoundPresets.Preset?,
+        val mixIn: List<MixInButtons.Kind> = emptyList(),
+        val enhancer: List<EnhancerControl> = emptyList(),
+        /** [members] whose program has the tinnitus generator, with a known side and a slice. */
+        val tinnitusMembers: List<String> = emptyList(),
+        val tinnitus: TinnitusState? = null,
     )
+
+    private fun tinnitusOn(address: String, program: Int): Boolean =
+        RemoteService.ui.value[address]?.tinnitusPrograms?.contains(program) == true
+
+    private fun sideOf(address: String): Side? = Side.of(RemoteService.sides.value[address])
 
     private fun programOf(address: String): Int? = RemoteService.ui.value[address]?.program
 
@@ -152,7 +202,13 @@ class SoundControl(
         val tier = if (entries.any { it.value.tier == PriceTier.TOP }) PriceTier.TOP else lead.value.tier
         val mode = lead.value.inputModes.getOrNull(program)
         val focus = SoundPresets.speechFocusAvailable(tier, lead.value.features.getOrNull(program), mode)
-        val presets = SoundPresets.forProgram(lead.value.environments.getOrNull(program), mode, tier, focus)
+        val streamType = RemoteService.ui.value[lead.key]?.streamType
+        val mixIn = MixInButtons.offered(streamType)
+        val presets = when {
+            mixIn.isNotEmpty() -> emptyList()
+            else -> SoundPresets.forStream(streamType)
+                ?: SoundPresets.forProgram(lead.value.environments.getOrNull(program), mode, tier, focus)
+        }
         val members = entries.filter { (a, aid) -> programOf(a) == program && aid.gain.size > program }.map { it.key }
         val apply = SoundPresets.featuresApply(tier)
         val active = SoundPresets.active(
@@ -160,8 +216,61 @@ class SoundControl(
             members.map { a -> aids.getValue(a).let { GainRecord.read(it.gain[program]) to it.features.getOrNull(program) } },
             apply,
         )
-        return View(program, tier, presets, members, active)
+        // feature and tinnitus controls only while every linked receiver is on this program
+        val together = entries.filter { !it.value.cros }.all { programOf(it.key) == program }
+        val enhancer = if (together && apply) enhancerControls(program, members, mode) else emptyList()
+        val tsg = if (together) {
+            members.filter { tinnitusOn(it, program) && aids[it]?.features?.getOrNull(program) != null }
+        } else emptyList()
+        // a nature sound id depends on the side, so an aid of unknown side gets no tinnitus writes
+        val tsgMembers = if (tsg.all { sideOf(it) != null }) tsg else emptyList()
+        return View(
+            program, tier, presets, members, active, mixIn, enhancer, tsgMembers,
+            tinnitusState(program, tsgMembers),
+        )
     }
+
+    /**
+     * Controls offered from the lead's fitted slice. On a binaural fitting a control needs the
+     * feature on every member with the same fitted value; on a CROS system the receiver decides
+     * and a member without the feature is left alone.
+     */
+    private fun enhancerControls(program: Int, members: List<String>, mode: Int?): List<EnhancerControl> {
+        val withSlices = members.mapNotNull { a -> aids[a]?.let { aid -> aid.features.getOrNull(program)?.let { aid to it } } }
+        val (leadAid, leadSlice) = withSlices.firstOrNull() ?: return emptyList()
+        val leadFitted = fittedSlice(leadAid, program) ?: leadSlice
+        val cros = aids.values.any { it.cros }
+        return SoundEnhancer.Control.entries.mapNotNull { c ->
+            val positions = SoundEnhancer.positions(c, leadFitted, mode)
+            if (positions.isEmpty() || SoundEnhancer.idOf(c, leadSlice) == null) return@mapNotNull null
+            if (!cros && withSlices.any { (aid, slice) -> !SoundEnhancer.fittedEqual(c, leadFitted, fittedSlice(aid, program) ?: slice) }) {
+                return@mapNotNull null
+            }
+            EnhancerControl(c, positions, SoundEnhancer.selected(c, leadSlice))
+        }
+    }
+
+    private fun tinnitusState(program: Int, members: List<String>): TinnitusState? {
+        val aidsOn = members.mapNotNull { aids[it] }
+        if (aidsOn.isEmpty()) return null
+        val slices = aidsOn.map { it.features[program] }
+        val fitted = aidsOn.mapIndexed { i, aid -> fittedSlice(aid, program) ?: slices[i] }
+        fun agree(f: (ByteArray) -> Int?) = fitted.all { f(it) == f(fitted.first()) }
+        val lead = slices.first()
+        val nature = Tinnitus.nature(lead)?.takeIf { it >= 0 }
+        return TinnitusState(
+            showVariation = slices.all { Tinnitus.hasVariation(it) } && agree(Tinnitus::variation),
+            variation = if (nature == null) Tinnitus.variation(lead) else null,
+            showNature = slices.all { Tinnitus.hasNature(it) } && agree(Tinnitus::nature),
+            nature = nature,
+            showRange = slices.all { Tinnitus.hasRange(it) } && agree(Tinnitus::highPass) && agree(Tinnitus::lowPass),
+            highPass = Tinnitus.highPass(lead),
+            lowPass = Tinnitus.lowPass(lead),
+        )
+    }
+
+    /** Linked aids on the shown program whose program has the tinnitus generator. */
+    fun tinnitusMembers(): List<String> = runCatching { view()?.tinnitusMembers }.getOrNull().orEmpty()
 
     private fun fittedSlice(aid: Aid, program: Int): ByteArray? =
         prefs.getString("fit.${aid.serial}.std", null)?.let(::unhex)?.let { FeatureSlice.slices(it).getOrNull(program) }
@@ -179,8 +288,11 @@ class SoundControl(
             val aid = aids.getValue(a)
             val slice = aid.features.getOrNull(v.program)
             val fitted = fittedSlice(aid, v.program)
+            val side = sideOf(a)
             GainRecord.read(aid.gain[v.program]) != Eq.FLAT ||
-                (apply && slice != null && fitted != null && !FeatureSlice.restore(slice, fitted).contentEquals(slice))
+                (apply && slice != null && fitted != null && !FeatureSlice.restore(slice, fitted).contentEquals(slice)) ||
+                (a in v.tinnitusMembers && side != null && slice != null && fitted != null &&
+                    !Tinnitus.restore(slice, fitted, side).contentEquals(slice))
         }
         RemoteService.ui.update { m ->
             m.mapValues { (address, st) ->
@@ -193,6 +305,9 @@ class SoundControl(
                     canReset = canReset,
                     busy = busy,
                     failed = failed,
+                    mixIn = v.mixIn,
+                    enhancer = v.enhancer,
+                    tinnitus = v.tinnitus,
                 )
                 if (st.sound == sound) st else st.copy(sound = sound)
             }
@@ -201,7 +316,8 @@ class SoundControl(
 
     // ------------------------------------------------------------------ commands
 
-    private class Target(val record: ByteArray, val slice: ByteArray?)
+    /** [tinnitus]: the change may touch tinnitus slots (on aids whose program has the generator). */
+    private class Target(val record: ByteArray, val slice: ByteArray?, val tinnitus: Boolean = false)
 
     private fun beforeOf(aid: Aid, program: Int): Pair<ByteArray, ByteArray?>? {
         val raw = prefs.getString("before.${aid.serial}.$program", null) ?: return null
@@ -230,7 +346,7 @@ class SoundControl(
         val apply = SoundPresets.featuresApply(v.tier)
         val off = v.active?.kind == kind
         val label = if (off) "preset $kind off" else "preset $kind"
-        val ok = write(label, program, v.members) { aid, record, slice ->
+        val ok = write(label, program, v.members) { address, aid, record, slice ->
             val before = beforeOf(aid, program)
             if (off) {
                 val sliceTarget = if (!apply || slice == null) null
@@ -258,7 +374,7 @@ class SoundControl(
     suspend fun setEq(program: Int, eq: Eq) {
         val v = view() ?: return log("eq: no gain records")
         if (v.program != program) return log("eq: program changed to P${v.program + 1}, nothing written")
-        write("eq ${eq.clamped()}", program, v.members) { _, record, _ -> Target(GainRecord.withEq(record, eq), null) }
+        write("eq ${eq.clamped()}", program, v.members) { _, _, record, _ -> Target(GainRecord.withEq(record, eq), null) }
     }
 
     /** Back to the fitted values: flat EQ, and the fitted feature slice where features apply. */
@@ -266,11 +382,53 @@ class SoundControl(
         val v = view() ?: return log("reset: no gain records")
         if (v.program != program) return log("reset: program changed to P${v.program + 1}, nothing written")
         val apply = SoundPresets.featuresApply(v.tier)
-        val ok = write("reset", program, v.members) { aid, record, slice ->
+        val ok = write("reset", program, v.members) { address, aid, record, slice ->
             val fitted = fittedSlice(aid, program)
-            Target(GainRecord.withEq(record, Eq.FLAT), if (apply && slice != null && fitted != null) FeatureSlice.restore(slice, fitted) else null)
+            val side = address.takeIf { it in v.tinnitusMembers }?.let(::sideOf)
+            var target = if (apply && slice != null && fitted != null) FeatureSlice.restore(slice, fitted) else null
+            if (side != null && slice != null && fitted != null) target = Tinnitus.restore(target ?: slice, fitted, side)
+            Target(GainRecord.withEq(record, Eq.FLAT), target, tinnitus = side != null)
         }
         if (ok) v.members.mapNotNull { aids[it] }.forEach { clearBefore(it, program) }
+    }
+
+    /** A feature control position on every member that has the feature (top-tier aids only). */
+    suspend fun setFeature(program: Int, position: SoundEnhancer.Position) {
+        val label = "se $position"
+        val v = view() ?: return log("$label: no gain records")
+        if (v.program != program) return log("$label: program changed to P${v.program + 1}, nothing written")
+        if (v.enhancer.none { position in it.positions }) return log("$label: not offered on P${program + 1}")
+        write(label, program, v.members) { address, aid, record, slice ->
+            Target(record, slice?.let { SoundEnhancer.apply(it, position, transmitter = aid.cros) })
+        }
+    }
+
+    /** A tinnitus setting on every member whose program has the generator, with its own side's ids. */
+    suspend fun setTinnitus(program: Int, change: TinnitusChange) {
+        val label = "tsg $change"
+        val v = view() ?: return log("$label: no gain records")
+        if (v.program != program) return log("$label: program changed to P${v.program + 1}, nothing written")
+        if (v.tinnitusMembers.isEmpty()) return log("$label: no aid with the tinnitus generator on P${program + 1}")
+        write(label, program, v.tinnitusMembers) { address, aid, record, slice ->
+            val side = sideOf(address)
+            val target = if (slice == null || side == null) null else when (change) {
+                is TinnitusChange.Variation -> Tinnitus.withVariation(slice, change.value)
+                is TinnitusChange.Nature -> Tinnitus.withNature(slice, change.index, side)
+                is TinnitusChange.HighPass -> Tinnitus.withHighPass(slice, change.index)
+                is TinnitusChange.LowPass -> Tinnitus.withLowPass(slice, change.index)
+            }
+            Target(record, target ?: slice, tinnitus = true)
+        }
+    }
+
+    /** One confirmation tone on [address] (a receiving aid) after its change was read back. */
+    private suspend fun beep(address: String) {
+        val session = sessions[address] ?: return
+        val platform = session.platform ?: return
+        val payload = Melody.confirm(platform)
+        runCatching { session.writeHandle(Handles.MELODY, payload) }
+            .onSuccess { log("$address: tone 22 ${hex(payload)}") }
+            .onFailure { log("$address: tone failed: ${it.message}") }
     }
 
     /**
@@ -283,7 +441,7 @@ class SoundControl(
         label: String,
         program: Int,
         members: List<String>,
-        build: (Aid, ByteArray, ByteArray?) -> Target,
+        build: (String, Aid, ByteArray, ByteArray?) -> Target,
     ): Boolean {
         if (members.isEmpty()) {
             log("$label: no aid to write")
@@ -299,6 +457,7 @@ class SoundControl(
         failed = false
         publish()
         var written = 0
+        val changed = ArrayList<String>()
         try {
             for (address in members) {
                 val session = sessions[address] ?: continue
@@ -320,9 +479,11 @@ class SoundControl(
                 }
                 val record = aid.gain.getOrNull(p) ?: continue
                 val slice = aid.features.getOrNull(p)
-                val t = build(aid, record, slice)
+                val t = build(address, aid, record, slice)
+                val fitted = fittedSlice(aid, p)
+                val tinnitusSide = if (t.tinnitus && tinnitusOn(address, p)) sideOf(address) else null
                 if (!SoundWriteGuard.gainOk(record, t.record) ||
-                    (t.slice != null && (slice == null || !SoundWriteGuard.featuresOk(slice, t.slice)))
+                    (t.slice != null && (slice == null || !SoundWriteGuard.featuresOk(slice, t.slice, fitted, tinnitusSide)))
                 ) {
                     log("$address: $label: refused, target touches more than it may (${hex(t.record)} / ${t.slice?.let(::hex)})")
                     failed = true
@@ -354,9 +515,11 @@ class SoundControl(
                     return false
                 }
                 log("$address: $label P${p + 1} -> ${parts.joinToString(", ")}, verified")
+                if (!aid.cros) changed += address
                 written++
             }
             if (written == 0) failed = true
+            if (written > 0) changed.forEach { beep(it) }
             return written > 0
         } catch (t: Throwable) {
             log("$label: failed: ${t.message ?: t.javaClass.simpleName}")
