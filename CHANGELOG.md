@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.2 (2026-11-03)
+
+### Fixed
+
+- Linked hearing aids: when a press on one aid also changes the other one (aids set to change
+  volume or program on both ears), the app now restores both aids, not only the one that was
+  pressed. A mapped volume or program step is applied to both, as the aids would do themselves.
+
+### Changed
+
+- Every transcript is copied to the clipboard, whatever the destination (before: only for "Save").
+
 ## 0.2.1 (2026-11-03)
 
 ### Fixed

@@ -194,6 +194,12 @@ class RemoteService : Service() {
     private val lastDesync = ConcurrentHashMap<String, Long>()
     private val states = ConcurrentHashMap<String, AidState>()
     private val preGesture = ConcurrentHashMap<String, AidState>()
+    /**
+     * Per pressed aid: the other connected aids' state at the press. Binaurally linked aids
+     * apply one aid's button step (volume, program) to both, so compensation must hold the
+     * partner too, not only the aid that was pressed.
+     */
+    private val partnersPre = ConcurrentHashMap<String, Map<String, AidState>>()
     private val history = ConcurrentHashMap<String, ArrayDeque<Sample>>()
     private val pendingUntil = ConcurrentHashMap<String, Long>()
     /** State the aid is held to after a mapped gesture; absent while the gesture is undecided. */
@@ -723,6 +729,7 @@ class RemoteService : Service() {
             sessions.remove(address)
             gatts.remove(address)
             preGesture.remove(address)
+            partnersPre.remove(address)
             target.remove(address)
             pendingUntil.remove(address)
             if (counted) connected.update { (it - 1).coerceAtLeast(0) }
@@ -739,8 +746,15 @@ class RemoteService : Service() {
                 val holding = target[address]?.takeIf { (pendingUntil[address] ?: 0L) > System.currentTimeMillis() }
                 val snap = holding ?: stateBefore(address, System.currentTimeMillis())
                     ?: states[address] ?: AidState()
-                if (preGesture.putIfAbsent(address, snap) == null) target.remove(address)
-                pendingUntil[address] = System.currentTimeMillis() + 4_000
+                val now = System.currentTimeMillis()
+                if (preGesture.putIfAbsent(address, snap) == null) {
+                    target.remove(address)
+                    partnersPre[address] = sessions.keys.filter { it != address }.associateWith { other ->
+                        target[other]?.takeIf { (pendingUntil[other] ?: 0L) > now }
+                            ?: stateBefore(other, now) ?: states[other] ?: AidState()
+                    }
+                }
+                pendingUntil[address] = now + 4_000
                 addLog("  press snapshot: program=${snap.program} atten=${snap.attenuation?.joinToString("") { "%02X".format(it) }}")
             }
             engine.onPress()
@@ -936,6 +950,7 @@ class RemoteService : Service() {
         }
         addLog("$address: $gesture -> ${if (action == mapped) action.name else "${mapped.name} (voice: ${action.name})"}")
         val snap = preGesture.remove(address)
+        val partners = partnersPre.remove(address).orEmpty()
         if (action == ButtonAction.AID_DEFAULT || snap == null) {
             pendingUntil.remove(address)
             target.remove(address)
@@ -943,10 +958,17 @@ class RemoteService : Service() {
         }
         scope.launch {
             // Hold the aid to the pre-press state (or one step from it); the aid's own change
-            // may land before or after this point, maybeRevert handles both.
+            // may land before or after this point, maybeRevert handles both. A linked partner
+            // aid took the same step, so it is held the same way, from its own pre-press state.
             target[address] = targetFor(address, snap, action)
             pendingUntil[address] = System.currentTimeMillis() + 3_000
             maybeRevert(address)
+            for ((other, before) in partners) {
+                if (!sessions.containsKey(other)) continue
+                target[other] = targetFor(other, before, action)
+                pendingUntil[other] = System.currentTimeMillis() + 3_000
+                maybeRevert(other)
+            }
             performAction(address, action)
         }
     }

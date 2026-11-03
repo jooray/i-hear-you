@@ -351,10 +351,11 @@ class VoiceNotes(
         if (note.destination != Destination.SAVE) {
             progress(context.getString(R.string.voice_status_sending, context.getString(note.destination.labelRes)), note)
         }
+        // every transcript goes to the clipboard, whatever the destination, ready to paste
+        if (withText) copyToClipboard(transcript!!)
         try {
             when (note.destination) {
-                // the transcript goes to the clipboard, ready to paste wherever it was meant for
-                Destination.SAVE -> if (withText) copyToClipboard(transcript!!)
+                Destination.SAVE -> Unit
                 Destination.WEBHOOK -> {
                     val url = settings.webhookUrl.takeIf { VoiceSettings.isHttps(it) } ?: error(context.getString(R.string.voice_webhook_https))
                     val meta = JSONObject()
