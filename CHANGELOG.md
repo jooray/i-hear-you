@@ -1,15 +1,26 @@
 # Changelog
 
-## 0.3.0 (unreleased)
+## 0.3.0 (2026-11-03)
 
 ### Added
 
 - Sound buttons on the program card: Noise filter and Speech clarity (and, depending on the
   program, Hear everyone, Bass boost or Treble boost). One can be on at a time; pressing it again
-  restores the sound from before. Bass, middle and treble sliders (−6 to +6 dB) with a reset to
-  the audiologist's settings. On top-tier aids the buttons also set noise reduction, speech focus
-  and wind noise. GN protocol 5 only; every change is read back from the aid, and nothing is
-  written while an aid is charging. Works on GN protocols 4 and 5.
+  restores the sound from before.
+- Bass, middle and treble (−6 to +6 dB) in a sheet over the Now screen, with a reset to the
+  audiologist's settings. A short tone in the aid confirms each sound change.
+- On top-tier aids: noise reduction, speech focus, wind noise and DNR controls, and the sound
+  buttons set them too.
+- Stream level (TV streamer, telecoil and similar inputs) next to the surroundings level, and
+  while streaming quick buttons for call/stream focus, hear all, or bass/treble boost.
+- Tinnitus sound controls on programs the audiologist fitted with tinnitus.
+- Find my hearing aid: a closer/farther meter per aid from the Bluetooth signal, with an optional
+  tick on the phone speaker and the time an aid was last connected. No location is used.
+- Favourites: save the program, levels and sound under a name and bring them back with one tap.
+- A notice when an aid reports a problem with its in-ear receiver.
+- Everything sound-related works on GN protocols 4 and 5. Every change is read back from the aid,
+  nothing is written while an aid is charging, and the audiologist's fitting is never changed.
+- Includes the 0.2.2 fixes below.
 
 ### Fixed
 
