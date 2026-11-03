@@ -58,7 +58,7 @@ import kotlinx.coroutines.launch
 private val APP_VERSION = app.ihearyou.BuildConfig.VERSION_NAME
 
 @Composable
-fun SetupScreen(scope: AidScope, themeMode: ThemeMode, onTheme: (ThemeMode) -> Unit) {
+fun SetupScreen(scope: AidScope, themeMode: ThemeMode, onTheme: (ThemeMode) -> Unit, onOpenFinder: () -> Unit = {}) {
     val p = LocalPanel.current
     val context = LocalContext.current
     val coroutine = rememberCoroutineScope()
@@ -162,6 +162,16 @@ fun SetupScreen(scope: AidScope, themeMode: ThemeMode, onTheme: (ThemeMode) -> U
                     onClick = { RemoteService.stop(context) },
                     tone = KeyTone.Ghost,
                     modifier = Modifier.weight(0.6f),
+                )
+            }
+            if (scope.addresses.isNotEmpty()) {
+                Spacer(Modifier.height(8.dp))
+                Key(
+                    text = stringResource(R.string.finder_title),
+                    onClick = onOpenFinder,
+                    glyph = GlyphKind.Signal,
+                    tone = KeyTone.Neutral,
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
         }

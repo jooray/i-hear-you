@@ -70,6 +70,7 @@ fun NowScreen(
     scope: AidScope,
     onOpenAid: (String) -> Unit,
     onOpenSetup: () -> Unit,
+    onOpenFinder: () -> Unit = {},
 ) {
     val fontScale = LocalDensity.current.fontScale
     val aids = orderedAids(scope.addresses, scope.sides, scope.infos, scope.states)
@@ -78,7 +79,7 @@ fun NowScreen(
     LaunchedEffect(scope.addresses, scope.sample) {
         while (true) {
             scope.addresses.forEach { scope.send(Cmd.RefreshRssi(it)) }
-            delay(4_000)
+            delay(app.ihearyou.domain.Proximity.NORMAL_POLL_MS)
         }
     }
 
@@ -88,7 +89,7 @@ fun NowScreen(
         val track: Dp? = if (tight) 176.dp else null
 
         Column(Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
-            NowHeader()
+            NowHeader(showFinder = scope.addresses.isNotEmpty(), onOpenFinder = onOpenFinder)
             if (scope.sample) SampleBand()
             LinkRuler(scope = scope, aids = aids)
             ReceiverNotice(scope = scope, aids = aids, modifier = Modifier.padding(bottom = 10.dp))
@@ -186,14 +187,26 @@ private fun ChannelFor(
 }
 
 @Composable
-private fun NowHeader() {
+private fun NowHeader(showFinder: Boolean, onOpenFinder: () -> Unit) {
     val p = LocalPanel.current
-    Text(
-        stringResource(R.string.now_wordmark),
-        style = InstrumentType.wordmark,
-        color = p.ink,
-        modifier = Modifier.padding(top = 12.dp, bottom = 6.dp),
-    )
+    Row(Modifier.fillMaxWidth().padding(top = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            stringResource(R.string.now_wordmark),
+            style = InstrumentType.wordmark,
+            color = p.ink,
+            modifier = Modifier.weight(1f).padding(top = 6.dp, bottom = 6.dp),
+        )
+        if (showFinder) {
+            Key(
+                text = stringResource(R.string.finder_open),
+                onClick = onOpenFinder,
+                tone = KeyTone.Ghost,
+                glyph = GlyphKind.Signal,
+                dense = true,
+                contentDescription = stringResource(R.string.finder_title),
+            )
+        }
+    }
 }
 
 @Composable
@@ -660,13 +673,27 @@ private fun ProgramsPlate(scope: AidScope, aids: List<Pair<String, AidUiState?>>
                 modifier = Modifier.padding(top = 8.dp),
             )
         }
+        // null: closed; true: open with the name field up
+        var favourites by remember { mutableStateOf<Boolean?>(null) }
+        FavouritesStrip(scope = scope, aids = aids, onOpen = { save -> favourites = save })
         val sound = pairSound(aids, scope.infos)
         if (sound != null && !split && sound.program == lead?.program) {
             var sheet by remember { mutableStateOf(false) }
             var tinnitus by remember { mutableStateOf(false) }
             SoundKeys(scope = scope, sound = sound, aids = aids, onOpen = { sheet = true }, onTinnitus = { tinnitus = true })
-            if (sheet) SoundSheet(scope = scope, sound = sound, onDismiss = { sheet = false })
+            if (sheet) {
+                SoundSheet(
+                    scope = scope, sound = sound, onDismiss = { sheet = false },
+                    onSaveFavourite = {
+                        sheet = false
+                        favourites = true
+                    },
+                )
+            }
             if (tinnitus && sound.tinnitus != null) TinnitusSheet(scope = scope, sound = sound, onDismiss = { tinnitus = false })
+        }
+        favourites?.let { save ->
+            FavouritesSheet(scope = scope, aids = aids, saving = save, onDismiss = { favourites = null })
         }
     }
 }

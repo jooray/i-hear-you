@@ -339,10 +339,10 @@ class SoundControl(
      * A preset key on [program]: turns [kind] on (computed from the values before any preset), or,
      * when it is the active one, off again (back to those values, or to the fitted ones).
      */
-    suspend fun applyPreset(program: Int, kind: SoundPresets.Kind) {
-        val v = view() ?: return log("preset $kind: no gain records")
-        if (v.program != program) return log("preset $kind: program changed to P${v.program + 1}, nothing written")
-        val def = v.presets.firstOrNull { it.kind == kind } ?: return log("preset $kind: not offered on P${program + 1}")
+    suspend fun applyPreset(program: Int, kind: SoundPresets.Kind): Boolean {
+        val v = view() ?: return refuse("preset $kind: no gain records")
+        if (v.program != program) return refuse("preset $kind: program changed to P${v.program + 1}, nothing written")
+        val def = v.presets.firstOrNull { it.kind == kind } ?: return refuse("preset $kind: not offered on P${program + 1}")
         val apply = SoundPresets.featuresApply(v.tier)
         val off = v.active?.kind == kind
         val label = if (off) "preset $kind off" else "preset $kind"
@@ -368,13 +368,20 @@ class SoundControl(
             }
         }
         if (ok && off) v.members.mapNotNull { aids[it] }.forEach { clearBefore(it, program) }
+        return ok
+    }
+
+    /** Logs why nothing was written; false for the caller. */
+    private fun refuse(line: String): Boolean {
+        log(line)
+        return false
     }
 
     /** The bass/middle/treble sliders: [eq] for [program] on every aid that has a record. */
-    suspend fun setEq(program: Int, eq: Eq) {
-        val v = view() ?: return log("eq: no gain records")
-        if (v.program != program) return log("eq: program changed to P${v.program + 1}, nothing written")
-        write("eq ${eq.clamped()}", program, v.members) { _, _, record, _ -> Target(GainRecord.withEq(record, eq), null) }
+    suspend fun setEq(program: Int, eq: Eq): Boolean {
+        val v = view() ?: return refuse("eq: no gain records")
+        if (v.program != program) return refuse("eq: program changed to P${v.program + 1}, nothing written")
+        return write("eq ${eq.clamped()}", program, v.members) { _, _, record, _ -> Target(GainRecord.withEq(record, eq), null) }
     }
 
     /** Back to the fitted values: flat EQ, and the fitted feature slice where features apply. */
@@ -393,12 +400,12 @@ class SoundControl(
     }
 
     /** A feature control position on every member that has the feature (top-tier aids only). */
-    suspend fun setFeature(program: Int, position: SoundEnhancer.Position) {
+    suspend fun setFeature(program: Int, position: SoundEnhancer.Position): Boolean {
         val label = "se $position"
-        val v = view() ?: return log("$label: no gain records")
-        if (v.program != program) return log("$label: program changed to P${v.program + 1}, nothing written")
-        if (v.enhancer.none { position in it.positions }) return log("$label: not offered on P${program + 1}")
-        write(label, program, v.members) { address, aid, record, slice ->
+        val v = view() ?: return refuse("$label: no gain records")
+        if (v.program != program) return refuse("$label: program changed to P${v.program + 1}, nothing written")
+        if (v.enhancer.none { position in it.positions }) return refuse("$label: not offered on P${program + 1}")
+        return write(label, program, v.members) { address, aid, record, slice ->
             Target(record, slice?.let { SoundEnhancer.apply(it, position, transmitter = aid.cros) })
         }
     }

@@ -88,4 +88,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     testImplementation(kotlin("test"))
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+    // the real org.json for unit tests; Android's copy is a stub off the device
+    testImplementation("org.json:json:20240303")
 }

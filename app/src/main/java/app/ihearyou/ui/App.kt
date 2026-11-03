@@ -60,8 +60,10 @@ fun IHearYouApp(themeMode: ThemeMode, onTheme: (ThemeMode) -> Unit) {
     val scope = rememberAidScope()
     var destination by rememberSaveable { mutableIntStateOf(0) }
     var detailAddress by rememberSaveable { mutableStateOf<String?>(null) }
+    var finderOpen by rememberSaveable { mutableStateOf(false) }
 
     BackHandler(enabled = detailAddress != null) { detailAddress = null }
+    BackHandler(enabled = finderOpen && detailAddress == null) { finderOpen = false }
 
     fun open(address: String) {
         detailAddress = address
@@ -69,6 +71,7 @@ fun IHearYouApp(themeMode: ThemeMode, onTheme: (ThemeMode) -> Unit) {
 
     fun goTo(index: Int) {
         detailAddress = null
+        finderOpen = false
         destination = index
     }
 
@@ -82,14 +85,14 @@ fun IHearYouApp(themeMode: ThemeMode, onTheme: (ThemeMode) -> Unit) {
                 )
                 Box(Modifier.weight(1f).fillMaxHeight(), contentAlignment = Alignment.TopCenter) {
                     Box(Modifier.widthIn(max = 900.dp).fillMaxWidth()) {
-                        Host(scope, destination, detailAddress, ::open, ::goTo, { detailAddress = null }, themeMode, onTheme)
+                        Host(scope, destination, detailAddress, finderOpen, { finderOpen = it }, ::open, ::goTo, { detailAddress = null }, themeMode, onTheme)
                     }
                 }
             }
         } else {
             Column(Modifier.fillMaxSize().statusBarsPadding()) {
                 Box(Modifier.weight(1f)) {
-                    Host(scope, destination, detailAddress, ::open, ::goTo, { detailAddress = null }, themeMode, onTheme)
+                    Host(scope, destination, detailAddress, finderOpen, { finderOpen = it }, ::open, ::goTo, { detailAddress = null }, themeMode, onTheme)
                 }
                 PanelSwitchPlate(
                     selected = destination,
@@ -106,6 +109,8 @@ private fun Host(
     scope: AidScope,
     destination: Int,
     detailAddress: String?,
+    finderOpen: Boolean,
+    onFinder: (Boolean) -> Unit,
     onOpenAid: (String) -> Unit,
     onGoTo: (Int) -> Unit,
     onCloseDetail: () -> Unit,
@@ -120,11 +125,18 @@ private fun Host(
         )
         return
     }
+    if (finderOpen) {
+        FinderScreen(scope = scope, onBack = { onFinder(false) })
+        return
+    }
     when (destinations[destination]) {
-        Dest.Now -> NowScreen(scope = scope, onOpenAid = onOpenAid, onOpenSetup = { onGoTo(Dest.Setup.ordinal) })
+        Dest.Now -> NowScreen(
+            scope = scope, onOpenAid = onOpenAid, onOpenSetup = { onGoTo(Dest.Setup.ordinal) },
+            onOpenFinder = { onFinder(true) },
+        )
         Dest.Buttons -> ButtonsScreen(scope = scope)
         Dest.Voice -> VoiceScreen(scope = scope)
-        Dest.Setup -> SetupScreen(scope = scope, themeMode = themeMode, onTheme = onTheme)
+        Dest.Setup -> SetupScreen(scope = scope, themeMode = themeMode, onTheme = onTheme, onOpenFinder = { onFinder(true) })
     }
 }
 

@@ -371,4 +371,61 @@
     <string name="aid_detail_receiver_ok">Correcto</string>
     <string name="aid_detail_receiver_fault">Fallo</string>
     <string name="aid_detail_receiver_data">Comprobación del auricular</string>
+
+    <!-- finder -->
+    <string name="finder_title">Buscar mi audífono</string>
+    <string name="finder_open">Buscar</string>
+    <string name="finder_subtitle">Señal en el teléfono · sin red</string>
+    <string name="finder_hint">La barra crece a medida que el teléfono se acerca al audífono. El audífono debe estar encendido. Indica más cerca o más lejos, no una distancia en metros.</string>
+    <string name="finder_signal_plate">Intensidad de la señal</string>
+    <string name="finder_far">Lejos</string>
+    <string name="finder_closer">Más cerca</string>
+    <string name="finder_very_close">Muy cerca</string>
+    <string name="finder_out_of_range">Fuera de alcance</string>
+    <string name="finder_waiting">Leyendo la señal…</string>
+    <string name="finder_dbm">%1$d dBm · %2$d %%</string>
+    <string name="finder_meter_cd">%1$s: %2$s, señal %3$d por ciento</string>
+    <string name="finder_last_seen_now">Última conexión: ahora mismo</string>
+    <string name="finder_last_seen_minutes">Última conexión hace %1$d min, a las %2$s</string>
+    <string name="finder_last_seen_hours">Última conexión hace %1$d h, a las %2$s</string>
+    <string name="finder_never_seen">Aún no hay ninguna conexión registrada.</string>
+    <string name="finder_out_hint">Encienda el audífono o sáquelo del cargador. Se vuelve a conectar solo cuando está al alcance.</string>
+    <string name="finder_tick_title">Pitido</string>
+    <string name="finder_tick">Pitar en el teléfono según la señal</string>
+    <string name="finder_tick_hint">El pitido sale del altavoz del teléfono, no de los audífonos, y se acelera a medida que se acerca.</string>
+    <string name="finder_tick_for">Pitar para</string>
+    <string name="finder_local">Nada sale del teléfono: la señal se lee por la conexión existente y la hora de la última conexión solo se guarda aquí.</string>
+    <!-- favourites -->
+    <string name="fav_title">Favoritos</string>
+    <string name="fav_all">Todos…</string>
+    <string name="fav_all_cd">Todos los favoritos: guardar, renombrar o borrar</string>
+    <string name="fav_save">Guardar como favorito</string>
+    <string name="fav_apply_cd">Aplicar el favorito %1$s</string>
+    <string name="fav_matched_cd">%1$s, coincide con el ajuste actual</string>
+    <string name="fav_matched">Actual</string>
+    <string name="fav_local">Guardado solo en este teléfono, para este par de audífonos.</string>
+    <string name="fav_empty">Aún no hay favoritos. Ajuste el programa, el volumen y el sonido a su gusto y guárdelos aquí.</string>
+    <string name="fav_name">Nombre</string>
+    <string name="fav_save_key">Guardar</string>
+    <string name="fav_cancel">Cancelar</string>
+    <string name="fav_apply">Aplicar</string>
+    <string name="fav_rename">Renombrar</string>
+    <string name="fav_delete">Borrar</string>
+    <string name="fav_delete_confirm">Sí, borrar</string>
+    <string name="fav_rename_cd">Renombrar %1$s</string>
+    <string name="fav_delete_cd">Borrar %1$s</string>
+    <string name="fav_saves">Se guardará: %1$s</string>
+    <string name="fav_part_program">programa</string>
+    <string name="fav_part_volume">volumen</string>
+    <string name="fav_part_sound">sonido</string>
+    <string name="fav_part_enhancer">ajustes de ruido, enfoque y viento</string>
+    <string name="fav_running">Aplicando «%1$s»: %2$s…</string>
+    <string name="fav_done">«%1$s» aplicado y confirmado por los audífonos.</string>
+    <string name="fav_partial">«%1$s» se aplicó solo en parte. Sin confirmar: %2$s.</string>
+    <string name="fav_skipped">Estos audífonos no lo admiten ahora: %1$s.</string>
+    <plurals name="finder_last_seen_days">
+        <item quantity="one">Última conexión hace %1$d día, el %2$s</item>
+        <item quantity="many">Última conexión hace %1$d días, el %2$s</item>
+        <item quantity="other">Última conexión hace %1$d días, el %2$s</item>
+    </plurals>
 </resources>

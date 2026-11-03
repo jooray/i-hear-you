@@ -36,7 +36,7 @@ import app.ihearyou.ui.theme.LocalPanel
  * audiologist's values, tinnitus settings included. Closed by a tap outside, Back, or the close key.
  */
 @Composable
-fun SoundSheet(scope: AidScope, sound: SoundState, onDismiss: () -> Unit) {
+fun SoundSheet(scope: AidScope, sound: SoundState, onDismiss: () -> Unit, onSaveFavourite: (() -> Unit)? = null) {
     val p = LocalPanel.current
     val dismissLabel = stringResource(R.string.dismiss)
     PanelSheet(onDismiss = onDismiss) {
@@ -50,6 +50,16 @@ fun SoundSheet(scope: AidScope, sound: SoundState, onDismiss: () -> Unit) {
         Text(stringResource(R.string.aid_detail_enhancer), style = MaterialTheme.typography.titleMedium, color = p.ink)
         Spacer(Modifier.height(8.dp))
         SoundTrims(scope, sound)
+        if (onSaveFavourite != null) {
+            Spacer(Modifier.height(8.dp))
+            Key(
+                text = stringResource(R.string.fav_save),
+                onClick = onSaveFavourite,
+                glyph = app.ihearyou.ui.GlyphKind.Plus,
+                enabled = !sound.busy,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
         Spacer(Modifier.height(8.dp))
         Key(
             text = stringResource(R.string.dismiss),

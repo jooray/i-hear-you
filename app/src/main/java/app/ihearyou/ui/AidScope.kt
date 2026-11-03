@@ -108,6 +108,49 @@ class DemoPanel {
         ),
     )
 
+    /** Sample favourites live in memory only and are gone when the sample pair is closed. */
+    val favourites = MutableStateFlow<List<app.ihearyou.domain.Favourite>>(emptyList())
+    val run = MutableStateFlow<app.ihearyou.domain.FavouriteRun?>(null)
+
+    /** The same order as the service: program, levels, then sound; the sample has no feature controls. */
+    private fun applyFavourite(f: app.ihearyou.domain.Favourite) {
+        val results = LinkedHashMap<app.ihearyou.domain.FavouritePart, app.ihearyou.domain.PartResult>()
+        if (f.program != null) {
+            val has = states.value[rightAddress]?.programs?.any { it.first == f.program } == true
+            if (has) send(Cmd.SelectProgram(rightAddress, f.program))
+            results[app.ihearyou.domain.FavouritePart.PROGRAM] =
+                if (has) app.ihearyou.domain.PartResult.DONE else app.ihearyou.domain.PartResult.SKIPPED
+        }
+        if (f.volumes.isNotEmpty()) {
+            var any = false
+            addresses.forEach { a ->
+                f.volumes[app.ihearyou.domain.Favourites.aidKey(null, a)]?.let { send(Cmd.SetVolume(a, it)); any = true }
+            }
+            results[app.ihearyou.domain.FavouritePart.VOLUME] =
+                if (any) app.ihearyou.domain.PartResult.DONE else app.ihearyou.domain.PartResult.SKIPPED
+        }
+        if (f.preset != null || f.eq != null) {
+            val st = states.value[rightAddress]?.sound
+            results[app.ihearyou.domain.FavouritePart.SOUND] = when {
+                st == null -> app.ihearyou.domain.PartResult.SKIPPED
+                f.preset != null && st.active == f.preset -> app.ihearyou.domain.PartResult.DONE
+                f.preset != null && f.preset in st.presets -> {
+                    send(Cmd.SoundPreset(st.program, f.preset))
+                    app.ihearyou.domain.PartResult.DONE
+                }
+                f.eq != null -> {
+                    setEq(st.program, f.eq)
+                    app.ihearyou.domain.PartResult.DONE
+                }
+                else -> app.ihearyou.domain.PartResult.SKIPPED
+            }
+        }
+        if (f.enhancer.isNotEmpty()) results[app.ihearyou.domain.FavouritePart.ENHANCER] = app.ihearyou.domain.PartResult.SKIPPED
+        run.value = app.ihearyou.domain.FavouriteRun(
+            f.id, f.name, running = false, current = null, results = results, finishedAt = System.currentTimeMillis(),
+        )
+    }
+
     private fun update(address: String, block: (AidUiState) -> AidUiState) {
         states.value = states.value.mapValues { (key, value) ->
             if (key == address) block(value) else value
@@ -164,6 +207,7 @@ class DemoPanel {
                 it.copy(volume = ((it.volume ?: 0xAA) + cmd.delta).coerceIn(0, 255), confirmedAt = now)
             }
             is Cmd.Forget -> Unit
+            is Cmd.ApplyFavourite -> applyFavourite(cmd.favourite)
             // voice notes have no sample-pair simulation
             is Cmd.VoiceStart, is Cmd.VoiceStop, is Cmd.VoiceRetry, is Cmd.VoiceDelete, is Cmd.VoiceImport,
             is Cmd.WhiteNoiseChanged, is Cmd.AcceptInvite, is Cmd.SimulateGesture -> Unit
@@ -207,6 +251,14 @@ data class AidScope(
     val addresses: List<String>,
     val send: (Cmd) -> Unit,
     val setSample: (Boolean) -> Unit,
+    /** This pair's favourites, in the order the wearer keeps them. */
+    val favourites: List<app.ihearyou.domain.Favourite> = emptyList(),
+    /** The favourite being applied, or the last one's result. */
+    val favouriteRun: app.ihearyou.domain.FavouriteRun? = null,
+    /** Replaces this pair's favourites (save, rename, delete). */
+    val saveFavourites: (List<app.ihearyou.domain.Favourite>) -> Unit = {},
+    /** The key a favourite stores an aid's level under. */
+    val aidKey: (String) -> String = { it.uppercase() },
 ) {
     val anyLinked: Boolean get() = states.isNotEmpty()
 }
@@ -254,6 +306,19 @@ fun rememberAidScope(): AidScope {
     val addresses = if (sample) demo.addresses else (bondedAddresses + serviceInfos.keys + serviceLinks.keys).distinct()
         .filter { serviceLinks[it]?.phase != LinkPhase.UNSUPPORTED }
 
+    val favouriteStore = remember { app.ihearyou.domain.FavouriteStore(context) }
+    val favouriteVersion by app.ihearyou.domain.FavouriteStore.changed.collectAsState()
+    val serviceRun by RemoteService.favouriteRun.collectAsState()
+    val demoFavourites by demo.favourites.collectAsState()
+    val demoRun by demo.run.collectAsState()
+    val aidKey: (String) -> String = if (sample) {
+        { a -> app.ihearyou.domain.Favourites.aidKey(null, a) }
+    } else {
+        { a -> favouriteStore.aidKey(a, serviceInfos[a]?.serial) }
+    }
+    val system = favouriteStore.systemKey(addresses.map(aidKey))
+    val stored = remember(system, favouriteVersion) { favouriteStore.load(system) }
+
     return AidScope(
         states = if (sample) demoStates else serviceStates,
         infos = if (sample) demoInfos else serviceInfos,
@@ -270,6 +335,10 @@ fun rememberAidScope(): AidScope {
             settings.setPreviewPair(on)
             sample = on
         },
+        favourites = if (sample) demoFavourites else stored,
+        favouriteRun = if (sample) demoRun else serviceRun,
+        saveFavourites = { list -> if (sample) demo.favourites.value = list else favouriteStore.save(system, list) },
+        aidKey = aidKey,
     )
 }
 

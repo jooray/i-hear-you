@@ -428,4 +428,60 @@
     <string name="aid_detail_receiver_ok">OK</string>
     <string name="aid_detail_receiver_fault">Fault</string>
     <string name="aid_detail_receiver_data">Receiver check</string>
+
+    <!-- finder -->
+    <string name="finder_title">Find my hearing aid</string>
+    <string name="finder_open">Find</string>
+    <string name="finder_subtitle">Signal at the phone · no network</string>
+    <string name="finder_hint">The bar grows as the phone gets closer to the aid. The aid must be switched on. It shows nearer or farther, not a distance in metres.</string>
+    <string name="finder_signal_plate">Signal strength</string>
+    <string name="finder_far">Far</string>
+    <string name="finder_closer">Closer</string>
+    <string name="finder_very_close">Very close</string>
+    <string name="finder_out_of_range">Not in range</string>
+    <string name="finder_waiting">Reading signal…</string>
+    <string name="finder_dbm">%1$d dBm · %2$d %%</string>
+    <string name="finder_meter_cd">%1$s: %2$s, signal %3$d percent</string>
+    <string name="finder_last_seen_now">Last connected just now</string>
+    <string name="finder_last_seen_minutes">Last connected %1$d min ago, at %2$s</string>
+    <string name="finder_last_seen_hours">Last connected %1$d h ago, at %2$s</string>
+    <string name="finder_never_seen">No connection recorded yet.</string>
+    <string name="finder_out_hint">Switch the aid on, or take it out of the charger. It connects again by itself once it is in range.</string>
+    <string name="finder_tick_title">Tick</string>
+    <string name="finder_tick">Tick on the phone as the signal grows</string>
+    <string name="finder_tick_hint">The tick plays from the phone\'s own speaker, not in the aids, and gets quicker as you get closer.</string>
+    <string name="finder_tick_for">Tick for</string>
+    <string name="finder_local">Nothing leaves the phone: the signal is read over the existing link, and the last connection time is kept only here.</string>
+    <!-- favourites -->
+    <string name="fav_title">Favourites</string>
+    <string name="fav_all">All…</string>
+    <string name="fav_all_cd">All favourites: save, rename or delete</string>
+    <string name="fav_save">Save as favourite</string>
+    <string name="fav_apply_cd">Apply favourite %1$s</string>
+    <string name="fav_matched_cd">%1$s, matches the current setting</string>
+    <string name="fav_matched">Current</string>
+    <string name="fav_local">Kept only on this phone, for this pair of aids.</string>
+    <string name="fav_empty">No favourites yet. Set program, level and sound the way you like, then save them here.</string>
+    <string name="fav_name">Name</string>
+    <string name="fav_save_key">Save</string>
+    <string name="fav_cancel">Cancel</string>
+    <string name="fav_apply">Apply</string>
+    <string name="fav_rename">Rename</string>
+    <string name="fav_delete">Delete</string>
+    <string name="fav_delete_confirm">Really delete</string>
+    <string name="fav_rename_cd">Rename %1$s</string>
+    <string name="fav_delete_cd">Delete %1$s</string>
+    <string name="fav_saves">Saves: %1$s</string>
+    <string name="fav_part_program">program</string>
+    <string name="fav_part_volume">level</string>
+    <string name="fav_part_sound">sound</string>
+    <string name="fav_part_enhancer">noise, focus and wind settings</string>
+    <string name="fav_running">Applying “%1$s”: %2$s…</string>
+    <string name="fav_done">“%1$s” applied and read back from the aids.</string>
+    <string name="fav_partial">“%1$s” applied only in part. Not confirmed: %2$s.</string>
+    <string name="fav_skipped">Not available on these aids right now: %1$s.</string>
+    <plurals name="finder_last_seen_days">
+        <item quantity="one">Last connected %1$d day ago, on %2$s</item>
+        <item quantity="other">Last connected %1$d days ago, on %2$s</item>
+    </plurals>
 </resources>

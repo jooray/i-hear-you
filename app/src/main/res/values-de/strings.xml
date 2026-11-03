@@ -370,4 +370,60 @@
     <string name="aid_detail_receiver_ok">In Ordnung</string>
     <string name="aid_detail_receiver_fault">Fehler</string>
     <string name="aid_detail_receiver_data">Hörerprüfung</string>
+
+    <!-- finder -->
+    <string name="finder_title">Hörgerät finden</string>
+    <string name="finder_open">Finden</string>
+    <string name="finder_subtitle">Signal am Telefon · ohne Netz</string>
+    <string name="finder_hint">Der Balken wächst, je näher das Telefon dem Hörgerät kommt. Das Hörgerät muss eingeschaltet sein. Er zeigt näher oder weiter, keine Entfernung in Metern.</string>
+    <string name="finder_signal_plate">Signalstärke</string>
+    <string name="finder_far">Weit weg</string>
+    <string name="finder_closer">Näher</string>
+    <string name="finder_very_close">Sehr nah</string>
+    <string name="finder_out_of_range">Nicht in Reichweite</string>
+    <string name="finder_waiting">Signal wird gelesen…</string>
+    <string name="finder_dbm">%1$d dBm · %2$d %%</string>
+    <string name="finder_meter_cd">%1$s: %2$s, Signal %3$d Prozent</string>
+    <string name="finder_last_seen_now">Zuletzt verbunden: gerade eben</string>
+    <string name="finder_last_seen_minutes">Zuletzt verbunden vor %1$d Min., um %2$s</string>
+    <string name="finder_last_seen_hours">Zuletzt verbunden vor %1$d Std., um %2$s</string>
+    <string name="finder_never_seen">Noch keine Verbindung aufgezeichnet.</string>
+    <string name="finder_out_hint">Schalten Sie das Hörgerät ein oder nehmen Sie es aus dem Ladegerät. In Reichweite verbindet es sich von selbst.</string>
+    <string name="finder_tick_title">Ticken</string>
+    <string name="finder_tick">Am Telefon ticken, je nach Signal</string>
+    <string name="finder_tick_hint">Das Ticken kommt aus dem Lautsprecher des Telefons, nicht aus den Hörgeräten, und wird schneller, je näher Sie kommen.</string>
+    <string name="finder_tick_for">Ticken für</string>
+    <string name="finder_local">Nichts verlässt das Telefon: Das Signal wird über die bestehende Verbindung gelesen, die letzte Verbindungszeit bleibt nur hier.</string>
+    <!-- favourites -->
+    <string name="fav_title">Favoriten</string>
+    <string name="fav_all">Alle…</string>
+    <string name="fav_all_cd">Alle Favoriten: speichern, umbenennen oder löschen</string>
+    <string name="fav_save">Als Favorit speichern</string>
+    <string name="fav_apply_cd">Favorit %1$s anwenden</string>
+    <string name="fav_matched_cd">%1$s, entspricht der aktuellen Einstellung</string>
+    <string name="fav_matched">Aktuell</string>
+    <string name="fav_local">Nur auf diesem Telefon gespeichert, für dieses Hörgerätepaar.</string>
+    <string name="fav_empty">Noch keine Favoriten. Stellen Sie Programm, Lautstärke und Klang nach Wunsch ein und speichern Sie sie hier.</string>
+    <string name="fav_name">Name</string>
+    <string name="fav_save_key">Speichern</string>
+    <string name="fav_cancel">Abbrechen</string>
+    <string name="fav_apply">Anwenden</string>
+    <string name="fav_rename">Umbenennen</string>
+    <string name="fav_delete">Löschen</string>
+    <string name="fav_delete_confirm">Wirklich löschen</string>
+    <string name="fav_rename_cd">%1$s umbenennen</string>
+    <string name="fav_delete_cd">%1$s löschen</string>
+    <string name="fav_saves">Gespeichert wird: %1$s</string>
+    <string name="fav_part_program">Programm</string>
+    <string name="fav_part_volume">Lautstärke</string>
+    <string name="fav_part_sound">Klang</string>
+    <string name="fav_part_enhancer">Lärm-, Fokus- und Windeinstellungen</string>
+    <string name="fav_running">„%1$s“ wird eingestellt: %2$s…</string>
+    <string name="fav_done">„%1$s“ eingestellt und von den Hörgeräten bestätigt.</string>
+    <string name="fav_partial">„%1$s“ nur teilweise eingestellt. Nicht bestätigt: %2$s.</string>
+    <string name="fav_skipped">Auf diesen Hörgeräten gerade nicht möglich: %1$s.</string>
+    <plurals name="finder_last_seen_days">
+        <item quantity="one">Zuletzt verbunden vor %1$d Tag, am %2$s</item>
+        <item quantity="other">Zuletzt verbunden vor %1$d Tagen, am %2$s</item>
+    </plurals>
 </resources>

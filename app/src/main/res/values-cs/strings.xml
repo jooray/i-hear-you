@@ -358,4 +358,62 @@
     <string name="aid_detail_receiver_ok">V pořádku</string>
     <string name="aid_detail_receiver_fault">Chyba</string>
     <string name="aid_detail_receiver_data">Kontrola reproduktoru</string>
+
+    <!-- finder -->
+    <string name="finder_title">Najít naslouchátko</string>
+    <string name="finder_open">Najít</string>
+    <string name="finder_subtitle">Signál v telefonu · bez sítě</string>
+    <string name="finder_hint">Pruh se prodlužuje, když se telefon přibližuje k naslouchátku. Naslouchátko musí být zapnuté. Ukazuje blíž nebo dál, ne vzdálenost v metrech.</string>
+    <string name="finder_signal_plate">Síla signálu</string>
+    <string name="finder_far">Daleko</string>
+    <string name="finder_closer">Blíž</string>
+    <string name="finder_very_close">Velmi blízko</string>
+    <string name="finder_out_of_range">Není v dosahu</string>
+    <string name="finder_waiting">Čte se signál…</string>
+    <string name="finder_dbm">%1$d dBm · %2$d %%</string>
+    <string name="finder_meter_cd">%1$s: %2$s, signál %3$d procent</string>
+    <string name="finder_last_seen_now">Naposledy připojeno právě teď</string>
+    <string name="finder_last_seen_minutes">Naposledy připojeno před %1$d min, v %2$s</string>
+    <string name="finder_last_seen_hours">Naposledy připojeno před %1$d h, v %2$s</string>
+    <string name="finder_never_seen">Připojení zatím není zaznamenané.</string>
+    <string name="finder_out_hint">Zapněte naslouchátko nebo ho vyndejte z nabíječky. Až bude v dosahu, připojí se samo.</string>
+    <string name="finder_tick_title">Pípání</string>
+    <string name="finder_tick">Pípat na telefonu podle signálu</string>
+    <string name="finder_tick_hint">Pípání jde z reproduktoru telefonu, ne do naslouchátek, a zrychluje se, když se přibližujete.</string>
+    <string name="finder_tick_for">Pípat pro</string>
+    <string name="finder_local">Nic neopouští telefon: signál se čte přes stávající spojení a čas posledního připojení zůstává jen tady.</string>
+    <!-- favourites -->
+    <string name="fav_title">Oblíbené</string>
+    <string name="fav_all">Všechny…</string>
+    <string name="fav_all_cd">Všechny oblíbené: uložit, přejmenovat nebo smazat</string>
+    <string name="fav_save">Uložit jako oblíbené</string>
+    <string name="fav_apply_cd">Použít oblíbené %1$s</string>
+    <string name="fav_matched_cd">%1$s, odpovídá aktuálnímu nastavení</string>
+    <string name="fav_matched">Aktuální</string>
+    <string name="fav_local">Uloženo jen v tomto telefonu, pro tento pár naslouchátek.</string>
+    <string name="fav_empty">Zatím žádné oblíbené. Nastavte si program, hlasitost a zvuk podle sebe a uložte je sem.</string>
+    <string name="fav_name">Název</string>
+    <string name="fav_save_key">Uložit</string>
+    <string name="fav_cancel">Zrušit</string>
+    <string name="fav_apply">Použít</string>
+    <string name="fav_rename">Přejmenovat</string>
+    <string name="fav_delete">Smazat</string>
+    <string name="fav_delete_confirm">Opravdu smazat</string>
+    <string name="fav_rename_cd">Přejmenovat %1$s</string>
+    <string name="fav_delete_cd">Smazat %1$s</string>
+    <string name="fav_saves">Uloží se: %1$s</string>
+    <string name="fav_part_program">program</string>
+    <string name="fav_part_volume">hlasitost</string>
+    <string name="fav_part_sound">zvuk</string>
+    <string name="fav_part_enhancer">nastavení hluku, směru a větru</string>
+    <string name="fav_running">Nastavuje se „%1$s“: %2$s…</string>
+    <string name="fav_done">„%1$s“ je nastaveno a naslouchátka to potvrdila.</string>
+    <string name="fav_partial">„%1$s“ se nastavilo jen zčásti. Nepotvrzeno: %2$s.</string>
+    <string name="fav_skipped">Tato naslouchátka to teď nezvládnou: %1$s.</string>
+    <plurals name="finder_last_seen_days">
+        <item quantity="one">Naposledy připojeno před %1$d dnem, %2$s</item>
+        <item quantity="few">Naposledy připojeno před %1$d dny, %2$s</item>
+        <item quantity="many">Naposledy připojeno před %1$d dny, %2$s</item>
+        <item quantity="other">Naposledy připojeno před %1$d dny, %2$s</item>
+    </plurals>
 </resources>

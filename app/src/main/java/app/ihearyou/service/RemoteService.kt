@@ -133,6 +133,8 @@ sealed class Cmd {
     data class StreamMute(val on: Boolean, val tinnitus: Boolean = false) : Cmd()
     /** A microphone quick key while a phone or broadcast stream is mixed in. */
     data class MixIn(val kind: app.ihearyou.protocol.MixInButtons.Kind) : Cmd()
+    /** Program, then each aid's level, then the sound parts, through the same paths as the keys. */
+    data class ApplyFavourite(val favourite: app.ihearyou.domain.Favourite) : Cmd()
 }
 
 /** Where each aid's link stands, for status words and recovery hints in the UI. */
@@ -196,6 +198,8 @@ class RemoteService : Service() {
             kick.tryEmit(address)
         }
         val commands = kotlinx.coroutines.channels.Channel<Cmd>(256)
+        /** The favourite being applied, or the last one's result. */
+        val favouriteRun = MutableStateFlow<app.ihearyou.domain.FavouriteRun?>(null)
 
         fun start(context: Context) {
             ContextCompat.startForegroundService(context, Intent(context, RemoteService::class.java))
@@ -244,6 +248,7 @@ class RemoteService : Service() {
     private lateinit var mapping: MappingStore
     private lateinit var sound: SoundControl
     private lateinit var stream: StreamControl
+    private val lastSeen by lazy { app.ihearyou.domain.LastSeenStore(this) }
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(app.ihearyou.domain.Language.wrap(newBase))
@@ -336,6 +341,8 @@ class RemoteService : Service() {
     }
 
     override fun onDestroy() {
+        // the app stops watching: what was linked was last seen now
+        runCatching { sessions.keys.forEach { lastSeen.record(it) } }
         runCatching { voice.shutdown() }
         runCatching { unregisterReceiver(bluetoothState) }
         runCatching { unregisterReceiver(wakeUps) }
@@ -794,7 +801,10 @@ class RemoteService : Service() {
             partnersPre.remove(address)
             target.remove(address)
             pendingUntil.remove(address)
-            if (counted) connected.update { (it - 1).coerceAtLeast(0) }
+            if (counted) {
+                connected.update { (it - 1).coerceAtLeast(0) }
+                runCatching { lastSeen.record(address) }
+            }
             ui.update { it - address }
             sound.forget(address)
             gatt.close()
@@ -929,17 +939,8 @@ class RemoteService : Service() {
                 sound.programChanged(c.address)
                 stream.reread(c.address)
             }
-            is Cmd.SelectProgram -> {
-                val session = sessions[c.address] ?: return
-                session.writeHandle(Handles.ACTIVE_PROGRAM, byteArrayOf(c.index.toByte()))
-                addLog("${c.address}: program -> ${c.index}")
-                ui.update { m -> m[c.address]?.let { st ->
-                    m + (c.address to st.copy(program = c.index,
-                        programName = st.programs.firstOrNull { it.first == c.index }?.second))
-                } ?: m }
-                sound.programChanged(c.address)
-                stream.reread(c.address)
-            }
+            is Cmd.SelectProgram -> selectProgram(c.address, c.index)
+            is Cmd.ApplyFavourite -> applyFavourite(c.favourite)
             is Cmd.Volume -> {
                 val session = sessions[c.address] ?: return
                 adjustVolume(session, c.address, c.delta)
@@ -1100,10 +1101,132 @@ class RemoteService : Service() {
         }
     }
 
-    private suspend fun setVolume(address: String, value: Int) {
+    private suspend fun selectProgram(address: String, index: Int) {
         val session = sessions[address] ?: return
+        session.writeHandle(Handles.ACTIVE_PROGRAM, byteArrayOf(index.toByte()))
+        addLog("$address: program -> $index")
+        ui.update { m -> m[address]?.let { st ->
+            m + (address to st.copy(program = index,
+                programName = st.programs.firstOrNull { it.first == index }?.second))
+        } ?: m }
+        sound.programChanged(address)
+        stream.reread(address)
+    }
+
+    /** The first receiver's sound state, as the panel shows it. */
+    private fun pairSoundState(): SoundState? {
+        val entries = ui.value.entries.filter { it.value.sound != null }
+        return (entries.firstOrNull { info.value[it.key]?.cros != true } ?: entries.firstOrNull())?.value?.sound
+    }
+
+    /**
+     * Applies [f] part by part with the commands the panel keys use, so their guards apply: the
+     * program on every receiver that has it, then each aid's level (the aid may reset it with the
+     * program), then preset or bass/middle/treble, then feature positions. Values already set are
+     * not written again. Each part is confirmed by a read; a part these aids cannot take is skipped.
+     */
+    private suspend fun applyFavourite(f: app.ihearyou.domain.Favourite) {
+        val results = LinkedHashMap<app.ihearyou.domain.FavouritePart, app.ihearyou.domain.PartResult>()
+        var current: app.ihearyou.domain.FavouritePart? = null
+        fun progress(part: app.ihearyou.domain.FavouritePart?) {
+            current = part
+            favouriteRun.value = app.ihearyou.domain.FavouriteRun(f.id, f.name, running = true, current = part, results = results.toMap())
+        }
+        addLog("favourite \"${f.name}\": applying")
+        val store = app.ihearyou.domain.FavouriteStore(this)
+        try {
+            if (f.program != null) {
+                progress(app.ihearyou.domain.FavouritePart.PROGRAM)
+                val receivers = sessions.keys.filter { a ->
+                    info.value[a]?.cros != true && ui.value[a]?.programs?.any { it.first == f.program } == true
+                }
+                results[app.ihearyou.domain.FavouritePart.PROGRAM] = if (receivers.isEmpty()) {
+                    app.ihearyou.domain.PartResult.SKIPPED
+                } else {
+                    var ok = true
+                    var changed = false
+                    for (a in receivers) {
+                        if (ui.value[a]?.program == f.program) continue
+                        changed = true
+                        val confirmed = runCatching {
+                            selectProgram(a, f.program)
+                            delay(300)
+                            (sessions[a]?.readHandle(Handles.ACTIVE_PROGRAM)?.get(0)?.toInt()?.and(0xff)) == f.program
+                        }.getOrDefault(false)
+                        if (!confirmed) ok = false
+                    }
+                    // let the aid settle on the program before the level and sound follow
+                    if (changed) delay(1_200)
+                    if (ok) app.ihearyou.domain.PartResult.DONE else app.ihearyou.domain.PartResult.FAILED
+                }
+            }
+            if (f.volumes.isNotEmpty()) {
+                progress(app.ihearyou.domain.FavouritePart.VOLUME)
+                val targets = sessions.keys.mapNotNull { a ->
+                    f.volumes[store.aidKey(a, info.value[a]?.serial)]?.let { a to it }
+                }
+                results[app.ihearyou.domain.FavouritePart.VOLUME] = if (targets.isEmpty()) {
+                    app.ihearyou.domain.PartResult.SKIPPED
+                } else {
+                    var ok = true
+                    for ((a, level) in targets) {
+                        val now = runCatching { sessions[a]?.readHandle(Handles.MIC_ATTENUATION)?.get(1)?.toInt()?.and(0xff) }.getOrNull()
+                        if (now == level) continue
+                        if (!setVolume(a, level)) { ok = false; continue }
+                        val back = runCatching { sessions[a]?.readHandle(Handles.MIC_ATTENUATION)?.get(1)?.toInt()?.and(0xff) }.getOrNull()
+                        if (back != level) ok = false
+                    }
+                    if (ok) app.ihearyou.domain.PartResult.DONE else app.ihearyou.domain.PartResult.FAILED
+                }
+            }
+            if (f.preset != null || f.eq != null) {
+                progress(app.ihearyou.domain.FavouritePart.SOUND)
+                val st = pairSoundState()
+                results[app.ihearyou.domain.FavouritePart.SOUND] = when {
+                    st == null || (f.program != null && st.program != f.program) -> app.ihearyou.domain.PartResult.SKIPPED
+                    f.preset != null && st.active == f.preset -> app.ihearyou.domain.PartResult.DONE
+                    f.preset != null && f.preset in st.presets ->
+                        if (sound.applyPreset(st.program, f.preset)) app.ihearyou.domain.PartResult.DONE else app.ihearyou.domain.PartResult.FAILED
+                    f.eq != null && st.eq == f.eq && st.active == null -> app.ihearyou.domain.PartResult.DONE
+                    f.eq != null ->
+                        if (sound.setEq(st.program, f.eq)) app.ihearyou.domain.PartResult.DONE else app.ihearyou.domain.PartResult.FAILED
+                    else -> app.ihearyou.domain.PartResult.SKIPPED
+                }
+            }
+            if (f.enhancer.isNotEmpty()) {
+                progress(app.ihearyou.domain.FavouritePart.ENHANCER)
+                var applied = 0
+                var failed = false
+                for (position in f.enhancer) {
+                    val st = pairSoundState() ?: break
+                    if (f.program != null && st.program != f.program) break
+                    val control = st.enhancer.firstOrNull { it.control == position.control } ?: continue
+                    if (position !in control.positions) continue
+                    if (control.selected == position) { applied++; continue }
+                    if (sound.setFeature(st.program, position)) applied++ else failed = true
+                }
+                results[app.ihearyou.domain.FavouritePart.ENHANCER] = when {
+                    failed -> app.ihearyou.domain.PartResult.FAILED
+                    applied == 0 -> app.ihearyou.domain.PartResult.SKIPPED
+                    else -> app.ihearyou.domain.PartResult.DONE
+                }
+            }
+        } catch (t: Throwable) {
+            if (t is kotlinx.coroutines.CancellationException) throw t
+            addLog("favourite \"${f.name}\": ${t.message ?: t.javaClass.simpleName}")
+            current?.let { results.putIfAbsent(it, app.ihearyou.domain.PartResult.FAILED) }
+        } finally {
+            favouriteRun.value = app.ihearyou.domain.FavouriteRun(
+                f.id, f.name, running = false, current = null, results = results.toMap(), finishedAt = System.currentTimeMillis(),
+            )
+            addLog("favourite \"${f.name}\": ${results.entries.joinToString(", ") { "${it.key.name.lowercase()} ${it.value.name.lowercase()}" }}")
+        }
+    }
+
+    private suspend fun setVolume(address: String, value: Int): Boolean {
+        val session = sessions[address] ?: return false
         val v = value.coerceIn(0, 255)
-        runCatching {
+        return runCatching {
             val current = session.readHandle(Handles.MIC_ATTENUATION)
             val now = current[1].toInt() and 0xff
             if (now > 0) lastAudible[address] = now
@@ -1113,7 +1236,11 @@ class RemoteService : Service() {
             remember(address, current[0].toInt() and 0xff, payload)
             ui.update { m -> m[address]?.let { st -> m + (address to st.copy(volume = v)) } ?: m }
             addLog("$address: volume -> 0x%02X".format(v))
-        }.onFailure { addLog("$address: volume failed: ${it.message}") }
+            true
+        }.getOrElse {
+            addLog("$address: volume failed: ${it.message}")
+            false
+        }
     }
 
     private suspend fun adjustVolume(session: GnSession?, address: String, delta: Int) {
