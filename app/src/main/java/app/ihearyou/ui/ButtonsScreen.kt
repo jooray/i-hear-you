@@ -222,89 +222,64 @@ private fun ActionSelector(
     val context = LocalContext.current
     val dismissLabel = stringResource(R.string.dismiss)
     val closeLabel = stringResource(R.string.close)
-    androidx.compose.ui.window.Dialog(
-        onDismissRequest = onDismiss,
-        properties = androidx.compose.ui.window.DialogProperties(
-            usePlatformDefaultWidth = false,
-            decorFitsSystemWindows = false,
-        ),
-    ) {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .background(p.ink.copy(alpha = 0.46f))
-                .clickable(role = Role.Button) { onDismiss() }
-                .semantics { contentDescription = dismissLabel },
-        ) {
-            Column(
+    PanelSheet(onDismiss = onDismiss) {
+        HairRule()
+        Spacer(Modifier.height(12.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(
+                    stringResource(R.string.join_dot, stringResource(gestureName(gesture)).uppercase(), sideWord(context, side)),
+                    style = InstrumentType.plate,
+                    color = p.inkMuted,
+                )
+                Text(stringResource(R.string.buttons_choose), style = MaterialTheme.typography.titleMedium, color = p.ink)
+            }
+            Box(
                 Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .background(p.ground)
-                    .navigationBarsPadding()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp, bottom = 20.dp),
+                    .size(48.dp)
+                    .clickable(role = Role.Button) { onDismiss() }
+                    .semantics { contentDescription = closeLabel },
+                contentAlignment = Alignment.Center,
             ) {
-                HairRule()
-                Spacer(Modifier.height(12.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f)) {
-                        Text(
-                            stringResource(R.string.join_dot, stringResource(gestureName(gesture)).uppercase(), sideWord(context, side)),
-                            style = InstrumentType.plate,
-                            color = p.inkMuted,
-                        )
-                        Text(stringResource(R.string.buttons_choose), style = MaterialTheme.typography.titleMedium, color = p.ink)
-                    }
-                    Box(
-                        Modifier
-                            .size(48.dp)
-                            .clickable(role = Role.Button) { onDismiss() }
-                            .semantics { contentDescription = closeLabel },
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Glyph(GlyphKind.Close, color = p.ink, size = 18.dp)
-                    }
-                }
-                Spacer(Modifier.height(8.dp))
-                Column(
+                Glyph(GlyphKind.Close, color = p.ink, size = 18.dp)
+            }
+        }
+        Spacer(Modifier.height(8.dp))
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(2.dp))
+                .border(1.dp, p.rule),
+        ) {
+            ButtonAction.entries.forEachIndexed { index, action ->
+                if (index > 0) HairRule()
+                val selected = action == current
+                Row(
                     Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(2.dp))
-                        .border(1.dp, p.rule),
+                        .heightIn(min = 52.dp)
+                        .background(if (selected) p.plateAlt else p.plate)
+                        .selectable(selected = selected, role = Role.RadioButton) { onPick(action) }
+                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    ButtonAction.entries.forEachIndexed { index, action ->
-                        if (index > 0) HairRule()
-                        val selected = action == current
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .heightIn(min = 52.dp)
-                                .background(if (selected) p.plateAlt else p.plate)
-                                .selectable(selected = selected, role = Role.RadioButton) { onPick(action) }
-                                .padding(horizontal = 12.dp, vertical = 6.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Box(
-                                Modifier
-                                    .size(16.dp)
-                                    .border(1.dp, if (selected) p.seal else p.ruleStrong, RoundedCornerShape(1.dp)),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                if (selected) {
-                                    Box(Modifier.size(8.dp).background(p.seal))
-                                }
-                            }
-                            Spacer(Modifier.width(12.dp))
-                            Column(Modifier.weight(1f)) {
-                                Text(stringResource(action.labelRes), style = MaterialTheme.typography.bodyMedium, color = p.ink)
-                                Text(stringResource(action.hintRes), style = MaterialTheme.typography.bodySmall, color = p.inkMuted)
-                            }
-                            if (selected) {
-                                Text(stringResource(R.string.buttons_set), style = InstrumentType.plate.copy(fontSize = 9.sp), color = p.seal)
-                            }
+                    Box(
+                        Modifier
+                            .size(16.dp)
+                            .border(1.dp, if (selected) p.seal else p.ruleStrong, RoundedCornerShape(1.dp)),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        if (selected) {
+                            Box(Modifier.size(8.dp).background(p.seal))
                         }
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(action.labelRes), style = MaterialTheme.typography.bodyMedium, color = p.ink)
+                        Text(stringResource(action.hintRes), style = MaterialTheme.typography.bodySmall, color = p.inkMuted)
+                    }
+                    if (selected) {
+                        Text(stringResource(R.string.buttons_set), style = InstrumentType.plate.copy(fontSize = 9.sp), color = p.seal)
                     }
                 }
             }

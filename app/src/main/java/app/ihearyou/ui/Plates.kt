@@ -1,5 +1,7 @@
 package app.ihearyou.ui
 
+
+
 import android.animation.ValueAnimator
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
@@ -10,6 +12,8 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
@@ -221,7 +225,7 @@ fun Key(
             ) { onClick() }
             .heightIn(min = 48.dp)
             .padding(
-                horizontal = if (dense) 8.dp else 14.dp,
+                horizontal = if (dense) 6.dp else 14.dp,
                 vertical = if (dense) 4.dp else 8.dp,
             )
             .semantics {
@@ -866,6 +870,42 @@ fun TrimSlider(
             color = if (draft != 0 && value != null) p.ink else p.inkMuted,
             textAlign = TextAlign.End,
             modifier = Modifier.width(52.dp),
+        )
+    }
+}
+
+/**
+ * The app's bottom sheet: a Material modal sheet in the panel's colours, square-cornered like the
+ * plates. It keeps its content clear of the navigation bar, closes on a swipe down, a tap on the
+ * scrim, or Back, and scrolls when its content is taller than the screen.
+ */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@Composable
+fun PanelSheet(onDismiss: () -> Unit, content: @Composable androidx.compose.foundation.layout.ColumnScope.() -> Unit) {
+    val p = LocalPanel.current
+    androidx.compose.material3.ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = androidx.compose.material3.rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        containerColor = p.ground,
+        contentColor = p.ink,
+        scrimColor = p.ink.copy(alpha = 0.46f),
+        shape = RoundedCornerShape(topStart = 2.dp, topEnd = 2.dp),
+        dragHandle = {
+            Box(
+                Modifier
+                    .padding(top = 10.dp, bottom = 4.dp)
+                    .size(width = 36.dp, height = 3.dp)
+                    .background(p.ruleStrong),
+            )
+        },
+    ) {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp)
+                .padding(top = 8.dp, bottom = 20.dp),
+            content = content,
         )
     }
 }

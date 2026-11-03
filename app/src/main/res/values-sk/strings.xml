@@ -230,6 +230,7 @@
     <string name="now_program">Program</string>
     <string name="now_no_programs">Zatiaľ žiadne programy. Prístroj ich pošle po pripojení.</string>
     <string name="now_programs_split">Prístroje majú nastavené rôzne programy. Klepnutím na jeden nastavíte oba.</string>
+    <string name="now_programs_charging">Prístroj je v nabíjačke: kým ho nevyberiete, ponúka len prvý program.</string>
     <string name="now_programs_single">Nastavený je len jeden program. Ďalšie vám môže pridať audiológ.</string>
     <string name="now_start_here">Začnite tu</string>
     <string name="now_no_aids_yet">ZATIAĽ ŽIADNY PRÍSTROJ</string>
@@ -296,9 +297,10 @@
     <string name="sound_treble">Výšky</string>
     <string name="sound_db">%1$s dB</string>
     <string name="sound_reset">Späť na nastavenie od audiológa</string>
-    <string name="sound_hint">Program %1$d, obe načúvadlá. Odošle sa, keď posuvník pustíte.</string>
+    <string name="sound_hint">Odošle sa, keď posuvník pustíte.</string>
     <string name="sound_presets_hint">Ďalším ťuknutím sa vypne.</string>
     <string name="sound_failed">Načúvadlo zmenu nepotvrdilo. Nič ďalšie sa neodoslalo.</string>
+    <string name="sound_sheet_heading">Program %1$d · obe načúvadlá</string>
     <string name="sound_open">Basy · stredy · výšky</string>
     <string name="sound_preset_on_cd">%1$s, zapnuté. Ťuknutím vypnete.</string>
     <string name="sound_preset_off_cd">%1$s, vypnuté</string>

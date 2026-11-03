@@ -278,6 +278,7 @@
     <string name="now_program">Program</string>
     <string name="now_no_programs">No programs yet. The aid sends them once connected.</string>
     <string name="now_programs_split">The two aids are on different programs. Tap one to set both.</string>
+    <string name="now_programs_charging">An aid is in the charger: it offers only the first program until you take it out.</string>
     <string name="now_programs_single">Only one program is set up. Your audiologist can add more.</string>
     <!-- Heading of the first-run steps. -->
     <string name="now_start_here">Start here</string>
@@ -352,9 +353,10 @@
     <string name="sound_treble">Treble</string>
     <string name="sound_db">%1$s dB</string>
     <string name="sound_reset">Back to fitted sound</string>
-    <string name="sound_hint">Program %1$d, both aids. Sent when you let go of a slider.</string>
+    <string name="sound_hint">Sent when you let go of a slider.</string>
     <string name="sound_presets_hint">Tap again to switch off.</string>
     <string name="sound_failed">A hearing aid did not confirm the change. Nothing more was sent.</string>
+    <string name="sound_sheet_heading">Program %1$d · both aids</string>
     <string name="sound_open">Bass · middle · treble</string>
     <string name="sound_preset_on_cd">%1$s, on. Tap to switch off.</string>
     <string name="sound_preset_off_cd">%1$s, off</string>

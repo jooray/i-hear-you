@@ -221,6 +221,7 @@
     <string name="now_program">Program</string>
     <string name="now_no_programs">Zatím žádné programy. Sluchadlo je pošle po připojení.</string>
     <string name="now_programs_split">Každé sluchadlo má jiný program. Klepnutím na jeden nastavíte oba.</string>
+    <string name="now_programs_charging">Sluchadlo je v nabíječce: dokud ho nevyjmete, nabízí jen první program.</string>
     <string name="now_programs_single">Je nastaven jen jeden program. Další vám může přidat audiolog.</string>
     <string name="now_start_here">Začněte tady</string>
     <string name="now_no_aids_yet">ZATÍM ŽÁDNÁ SLUCHADLA</string>
@@ -282,9 +283,10 @@
     <string name="sound_treble">Výšky</string>
     <string name="sound_db">%1$s dB</string>
     <string name="sound_reset">Zpět na nastavení od audiologa</string>
-    <string name="sound_hint">Program %1$d, obě sluchadla. Odešle se, až posuvník pustíte.</string>
+    <string name="sound_hint">Odešle se, až posuvník pustíte.</string>
     <string name="sound_presets_hint">Dalším klepnutím se vypne.</string>
     <string name="sound_failed">Sluchadlo změnu nepotvrdilo. Nic dalšího se neodeslalo.</string>
+    <string name="sound_sheet_heading">Program %1$d · obě sluchadla</string>
     <string name="sound_open">Basy · středy · výšky</string>
     <string name="sound_preset_on_cd">%1$s, zapnuto. Klepnutím vypnete.</string>
     <string name="sound_preset_off_cd">%1$s, vypnuto</string>

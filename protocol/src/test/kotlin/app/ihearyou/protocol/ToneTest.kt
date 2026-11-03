@@ -191,9 +191,9 @@ class ToneTest {
     }
 
     @Test
-    fun soundHandlesWritableOnlyOnProtocol5() {
+    fun soundHandlesWritableOnlyOnProtocols4And5() {
         for (p in Platform.entries) {
-            val on = p == Platform.V5_0 || p == Platform.V5_1
+            val on = p == Platform.V4 || p == Platform.V5_0 || p == Platform.V5_1
             assertEquals(on, Handles.GAIN_DATA in p.writable, p.label)
             assertEquals(on, Handles.STANDARD_FEATURES in p.writable, p.label)
             assertFalse(Handles.ALL_GAIN_DATA in p.writable, p.label)
@@ -227,5 +227,19 @@ class SoundWriteGuardTest {
         assertFalse(SoundWriteGuard.featuresOk(cur, hex("02 07 10 35 15 12 FF FF 13"))) // unused slot
         assertFalse(SoundWriteGuard.featuresOk(cur, hex("02 07 10 35 15 FF FF FF 12"))) // transmitter
         assertFalse(SoundWriteGuard.featuresOk(cur, hex("02 07 36 35 15 FF FF FF 13"))) // other feature
+    }
+}
+
+class PriceTierDeviceIdTest {
+    private fun id(tier: Int) = byteArrayOf(0x34, 0x12, 0x00, (tier and 0x0f or 0x30).toByte())
+
+    @Test
+    fun tierFromBits24to27() {
+        assertEquals(PriceTier.TOP, PriceTier.fromDeviceId(id(1)))
+        assertEquals(PriceTier.PLUS, PriceTier.fromDeviceId(id(3)))
+        assertEquals(PriceTier.BASIC, PriceTier.fromDeviceId(id(4)))
+        assertEquals(PriceTier.BUDGET, PriceTier.fromDeviceId(id(7)))
+        assertEquals(PriceTier.UNKNOWN, PriceTier.fromDeviceId(id(0)))
+        assertEquals(PriceTier.UNKNOWN, PriceTier.fromDeviceId(byteArrayOf(1, 2)))
     }
 }

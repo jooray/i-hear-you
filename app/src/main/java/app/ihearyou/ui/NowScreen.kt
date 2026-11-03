@@ -412,7 +412,7 @@ private fun ChannelPlate(
                 } else {
                     stringResource(R.string.now_mute_cd, sideLc)
                 },
-                modifier = Modifier.weight(1.5f),
+                modifier = Modifier.weight(2f),
             )
             Key(
                 text = "",
@@ -638,6 +638,8 @@ private fun ProgramsPlate(scope: AidScope, aids: List<Pair<String, AidUiState?>>
         }
         val note = when {
             split -> stringResource(R.string.now_programs_split)
+            // an aid in the charger offers only its first program until it is taken out
+            programs.size == 1 && aids.any { isCharging(it.second?.hiState) } -> stringResource(R.string.now_programs_charging)
             programs.size == 1 -> stringResource(R.string.now_programs_single)
             else -> null
         }
@@ -651,9 +653,9 @@ private fun ProgramsPlate(scope: AidScope, aids: List<Pair<String, AidUiState?>>
         }
         val sound = pairSound(aids, scope.infos)
         if (sound != null && !split && sound.program == lead?.program) {
-            val soundAddress = receivers.firstOrNull { it.second?.sound != null }?.first
-                ?: aids.firstOrNull { it.second?.sound != null }?.first
-            SoundKeys(scope = scope, sound = sound, onOpen = { soundAddress?.let(onOpenAid) })
+            var sheet by remember { mutableStateOf(false) }
+            SoundKeys(scope = scope, sound = sound, onOpen = { sheet = true })
+            if (sheet) SoundSheet(scope = scope, sound = sound, onDismiss = { sheet = false })
         }
     }
 }
@@ -662,13 +664,22 @@ private fun ProgramsPlate(scope: AidScope, aids: List<Pair<String, AidUiState?>>
  * The active program's quick presets, side by side; the engaged one carries the seal. A second
  * tap on it switches it off again.
  */
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 private fun SoundKeys(scope: AidScope, sound: app.ihearyou.service.SoundState, onOpen: () -> Unit) {
     val p = LocalPanel.current
     val context = LocalContext.current
     Spacer(Modifier.height(10.dp))
     if (sound.presets.isNotEmpty()) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        // two per row when there are three or the text is large, so a label never gets cut
+        val large = androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.3f
+        val perRow = if (sound.presets.size > 2 || large) 2 else sound.presets.size
+        androidx.compose.foundation.layout.FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+            maxItemsInEachRow = perRow,
+        ) {
             sound.presets.forEach { kind ->
                 val label = soundPresetLabel(context, kind)
                 val on = sound.active == kind
@@ -676,10 +687,12 @@ private fun SoundKeys(scope: AidScope, sound: app.ihearyou.service.SoundState, o
                     text = label,
                     onClick = { scope.send(Cmd.SoundPreset(sound.program, kind)) },
                     tone = if (on) KeyTone.Primary else KeyTone.Neutral,
+                    // the check carries "on" as well as the colour
+                    glyph = if (on) GlyphKind.Check else null,
                     enabled = !sound.busy,
                     contentDescription = if (on) stringResource(R.string.sound_preset_on_cd, label)
                     else stringResource(R.string.sound_preset_off_cd, label),
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f).heightIn(min = 56.dp),
                 )
             }
         }

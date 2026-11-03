@@ -136,15 +136,6 @@ fun AidDetailScreen(scope: AidScope, address: String, onBack: () -> Unit) {
 
             Plate(title = stringResource(R.string.aid_detail_enhancer), modifier = Modifier.padding(top = 12.dp)) {
                 val features = state?.features.orEmpty()
-                val sound = state?.sound?.takeIf { scope.states.values.none { isCharging(it.hiState) } }
-                if (sound != null) {
-                    SoundTrims(scope, sound)
-                    Spacer(Modifier.height(10.dp))
-                    HairRule()
-                    Spacer(Modifier.height(8.dp))
-                    SectionLabel(stringResource(R.string.sound_features))
-                    Spacer(Modifier.height(4.dp))
-                }
                 if (features.isEmpty()) {
                     Text(
                         stringResource(R.string.aid_detail_enhancer_none),
@@ -203,50 +194,3 @@ fun AidDetailScreen(scope: AidScope, address: String, onBack: () -> Unit) {
 }
 
 /** Bass, middle and treble for the active program on both aids, and the way back to the fitting. */
-@Composable
-private fun SoundTrims(scope: AidScope, sound: app.ihearyou.service.SoundState) {
-    val p = LocalPanel.current
-    Text(
-        stringResource(R.string.sound_hint, sound.program + 1),
-        style = MaterialTheme.typography.bodySmall,
-        color = p.inkMuted,
-    )
-    Spacer(Modifier.height(4.dp))
-    val eq = sound.eq
-    val bass = stringResource(R.string.sound_bass)
-    val middle = stringResource(R.string.sound_middle)
-    val treble = stringResource(R.string.sound_treble)
-    val context = LocalContext.current
-    fun signed(v: Int) = if (v > 0) "+$v" else "$v"
-    val describe: (String) -> (Int) -> String = { label -> { v -> context.getString(R.string.sound_slider_cd, label, signed(v)) } }
-    TrimSlider(
-        label = bass, value = eq.bass, enabled = !sound.busy,
-        onCommit = { scope.send(Cmd.SoundEq(sound.program, eq.copy(bass = it))) },
-        contentDescription = describe(bass),
-    )
-    TrimSlider(
-        label = middle, value = eq.middle, enabled = !sound.busy,
-        onCommit = { scope.send(Cmd.SoundEq(sound.program, eq.copy(middle = it))) },
-        contentDescription = describe(middle),
-    )
-    TrimSlider(
-        label = treble, value = eq.treble, enabled = !sound.busy,
-        onCommit = { scope.send(Cmd.SoundEq(sound.program, eq.copy(treble = it))) },
-        contentDescription = describe(treble),
-    )
-    Spacer(Modifier.height(8.dp))
-    Key(
-        text = stringResource(R.string.sound_reset),
-        onClick = { scope.send(Cmd.SoundReset(sound.program)) },
-        enabled = sound.canReset && !sound.busy,
-        modifier = Modifier.fillMaxWidth(),
-    )
-    if (sound.failed) {
-        Text(
-            stringResource(R.string.sound_failed),
-            style = MaterialTheme.typography.bodySmall,
-            color = p.fault,
-            modifier = Modifier.padding(top = 6.dp),
-        )
-    }
-}

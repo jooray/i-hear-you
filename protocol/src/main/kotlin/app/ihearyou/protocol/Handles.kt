@@ -42,6 +42,8 @@ object Handles {
     const val PROGRAM_CATEGORY = 11
     const val PROGRAM_NAME_SELECTOR = 12
     const val PRODUCT_ID = 13
+    /** 32-bit little-endian device identifier; bits 24..27 carry the price tier. Readable without a session key. */
+    const val DEVICE_ID = 42
     const val DEVICE_OPTIONS = 14
     const val ATTENUATION_DEFAULTS = 16
     const val ENVIRONMENT_ID = 17
@@ -90,6 +92,7 @@ object Handles {
         PROGRAM_CATEGORY to "Program category",
         PROGRAM_NAME_SELECTOR to "Program name selector",
         PRODUCT_ID to "Product ID",
+        DEVICE_ID to "Device ID",
         DEVICE_OPTIONS to "Device information options",
         ATTENUATION_DEFAULTS to "Attenuation defaults",
         ENVIRONMENT_ID to "Program environment ID",

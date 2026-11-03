@@ -229,6 +229,7 @@
     <string name="now_program">Programa</string>
     <string name="now_no_programs">Aún no hay programas. El audífono los envía al conectarse.</string>
     <string name="now_programs_split">Los dos audífonos están en programas distintos. Toque uno para ponerlos igual.</string>
+    <string name="now_programs_charging">Un audífono está en el cargador: hasta que lo saque, solo ofrece el primer programa.</string>
     <string name="now_programs_single">Solo hay un programa configurado. Su audioprotesista puede añadir más.</string>
     <string name="now_start_here">Empiece aquí</string>
     <string name="now_no_aids_yet">SIN AUDÍFONOS</string>
@@ -295,9 +296,10 @@
     <string name="sound_treble">Agudos</string>
     <string name="sound_db">%1$s dB</string>
     <string name="sound_reset">Volver al ajuste del audioprotesista</string>
-    <string name="sound_hint">Programa %1$d, ambos audífonos. Se envía al soltar el control.</string>
+    <string name="sound_hint">Se envía al soltar el control.</string>
     <string name="sound_presets_hint">Toque de nuevo para apagarlo.</string>
     <string name="sound_failed">Un audífono no confirmó el cambio. No se envió nada más.</string>
+    <string name="sound_sheet_heading">Programa %1$d · ambos audífonos</string>
     <string name="sound_open">Graves · medios · agudos</string>
     <string name="sound_preset_on_cd">%1$s, activado. Toque para apagarlo.</string>
     <string name="sound_preset_off_cd">%1$s, apagado</string>

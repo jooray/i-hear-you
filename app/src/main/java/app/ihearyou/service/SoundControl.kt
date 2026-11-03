@@ -70,7 +70,8 @@ class SoundControl(
         if (session.platform?.programSound != true) return
         val key = serial?.takeIf { it.isNotBlank() } ?: address
         val product = runCatching { session.readHandle(Handles.PRODUCT_ID) }.getOrNull()
-        val tier = PriceTier.parse(product)
+        val deviceId = runCatching { session.readHandle(Handles.DEVICE_ID) }.getOrNull()
+        val tier = PriceTier.fromDeviceId(deviceId).takeIf { it != PriceTier.UNKNOWN } ?: PriceTier.parse(product)
         val modes = runCatching { session.readHandle(Handles.INPUT_MODE).map { it.toInt() and 0xff } }.getOrDefault(emptyList())
         val envs = runCatching { ProgramNames.parseEnvironmentIds(session.readHandle(Handles.ENVIRONMENT_ID)) }.getOrDefault(emptyList())
         val fittedId = runCatching { session.readHandle(Handles.LAST_FITTED_ID) }.getOrNull()
@@ -81,7 +82,7 @@ class SoundControl(
         val text = product?.let { String(it, Charsets.UTF_8).filter { c -> c.code in 0x20..0x7e } }
         val active = runCatching { session.readHandle(Handles.ACTIVE_PROGRAM)[0].toInt() and 0xff }.getOrNull()
         val eqLine = active?.let { p -> gain.getOrNull(p)?.let { " eq P${p + 1} ${GainRecord.read(it)}" } } ?: " no gain record"
-        log("$address: tier=${tier.label} ($text) inputModes=$modes fitted=${fittedId?.let(::hex) ?: "?"}$eqLine")
+        log("$address: tier=${tier.label} (device id ${deviceId?.let(::hex) ?: "?"}, product $text) inputModes=$modes fitted=${fittedId?.let(::hex) ?: "?"}$eqLine")
         log("$address: 28 ${gain.joinToString(" | ") { hex(it) }}")
         log("$address: 36 ${features.joinToString(" | ") { hex(it) }}")
 

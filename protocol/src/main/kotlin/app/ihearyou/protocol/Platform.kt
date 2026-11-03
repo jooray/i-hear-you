@@ -26,11 +26,12 @@ enum class Platform(
     ;
 
     /**
-     * Protocol 5 only: handle 27 sets the active program's gain record and handle 35 its feature
-     * slice. On earlier generations these numbers mean other things (on protocols 1 to 3, 36 is
-     * the feature write and 37 the blob), so they stay read-only there.
+     * Protocols 4 and 5: handle 27 sets the active program's gain record (`[program] + 13 bytes`)
+     * and handle 35 its feature slice (`[program] + 9 bytes`); 28 and 36 hold every program's
+     * records (4 programs on protocol 5, 9 on protocol 4). On protocols 1 to 3 these numbers mean
+     * other things (36 is the feature write and 37 the blob), so they stay read-only there.
      */
-    val programSound: Boolean get() = this == V5_0 || this == V5_1
+    val programSound: Boolean get() = this == V4 || this == V5_0 || this == V5_1
 
     /**
      * The only handles the app ever writes: microphone attenuation, active program, program-name

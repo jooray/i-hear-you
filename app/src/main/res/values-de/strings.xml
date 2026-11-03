@@ -228,6 +228,7 @@
     <string name="now_program">Programm</string>
     <string name="now_no_programs">Noch keine Programme. Das Hörgerät sendet sie, sobald es verbunden ist.</string>
     <string name="now_programs_split">Die beiden Hörgeräte sind in unterschiedlichen Programmen. Tippen Sie eines an, um beide umzustellen.</string>
+    <string name="now_programs_charging">Ein Hörgerät ist im Ladegerät: Bis Sie es herausnehmen, bietet es nur das erste Programm.</string>
     <string name="now_programs_single">Es ist nur ein Programm eingerichtet. Weitere kann Ihr Hörakustiker hinzufügen.</string>
     <string name="now_start_here">So fangen Sie an</string>
     <string name="now_no_aids_yet">NOCH KEINE GERÄTE</string>
@@ -294,9 +295,10 @@
     <string name="sound_treble">Höhen</string>
     <string name="sound_db">%1$s dB</string>
     <string name="sound_reset">Zurück zur Anpassung</string>
-    <string name="sound_hint">Programm %1$d, beide Hörgeräte. Wird gesendet, wenn Sie den Regler loslassen.</string>
+    <string name="sound_hint">Wird gesendet, wenn Sie den Regler loslassen.</string>
     <string name="sound_presets_hint">Noch einmal tippen zum Ausschalten.</string>
     <string name="sound_failed">Ein Hörgerät hat die Änderung nicht bestätigt. Es wurde nichts weiter gesendet.</string>
+    <string name="sound_sheet_heading">Programm %1$d · beide Hörgeräte</string>
     <string name="sound_open">Bass · Mitten · Höhen</string>
     <string name="sound_preset_on_cd">%1$s, an. Tippen zum Ausschalten.</string>
     <string name="sound_preset_off_cd">%1$s, aus</string>

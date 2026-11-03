@@ -747,56 +747,34 @@ private fun ChoiceSheet(
 ) {
     val p = LocalPanel.current
     val dismissLabel = stringResource(R.string.dismiss)
-    androidx.compose.ui.window.Dialog(
-        onDismissRequest = onDismiss,
-        properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false),
-    ) {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .background(p.ink.copy(alpha = 0.46f))
-                .clickable(role = Role.Button) { onDismiss() }
-                .semantics { contentDescription = dismissLabel },
-        ) {
-            Column(
-                Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .background(p.ground)
-                    .navigationBarsPadding()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp, bottom = 20.dp),
-            ) {
-                HairRule()
-                Spacer(Modifier.height(12.dp))
-                Text(heading, style = InstrumentType.plate, color = p.inkMuted)
-                Text(title, style = MaterialTheme.typography.titleMedium, color = p.ink)
-                Spacer(Modifier.height(8.dp))
-                Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(2.dp)).border(1.dp, p.rule)) {
-                    options.forEachIndexed { i, (key, label, hint) ->
-                        if (i > 0) HairRule()
-                        val isSelected = key == selected
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .heightIn(min = 52.dp)
-                                .background(if (isSelected) p.plateAlt else p.plate)
-                                .selectable(selected = isSelected, role = Role.RadioButton) { onPick(key) }
-                                .padding(horizontal = 12.dp, vertical = 6.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            RadioMark(isSelected)
-                            Spacer(Modifier.width(12.dp))
-                            Column(Modifier.weight(1f)) {
-                                Text(label, style = MaterialTheme.typography.bodyMedium, color = p.ink)
-                                Text(hint, style = MaterialTheme.typography.bodySmall, color = p.inkMuted)
-                            }
-                        }
+    PanelSheet(onDismiss = onDismiss) {
+        HairRule()
+        Spacer(Modifier.height(12.dp))
+        Text(heading, style = InstrumentType.plate, color = p.inkMuted)
+        Text(title, style = MaterialTheme.typography.titleMedium, color = p.ink)
+        Spacer(Modifier.height(8.dp))
+        Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(2.dp)).border(1.dp, p.rule)) {
+            options.forEachIndexed { i, (key, label, hint) ->
+                if (i > 0) HairRule()
+                val isSelected = key == selected
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 52.dp)
+                        .background(if (isSelected) p.plateAlt else p.plate)
+                        .selectable(selected = isSelected, role = Role.RadioButton) { onPick(key) }
+                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    RadioMark(isSelected)
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(label, style = MaterialTheme.typography.bodyMedium, color = p.ink)
+                        Text(hint, style = MaterialTheme.typography.bodySmall, color = p.inkMuted)
                     }
                 }
-                footer?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = p.inkMuted, modifier = Modifier.padding(top = 8.dp)) }
             }
         }
+        footer?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = p.inkMuted, modifier = Modifier.padding(top = 8.dp)) }
     }
 }

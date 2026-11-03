@@ -21,6 +21,23 @@ enum class PriceTier(val label: String) {
             }
         }
 
+        /**
+         * From the device identifier (handle 42): a 32-bit little-endian value whose bits 24..27
+         * hold the tier: 1 top, 2 prime plus, 3 plus, 4 basic, 5 prime, 6..8 budget lines.
+         */
+        fun fromDeviceId(raw: ByteArray?): PriceTier {
+            if (raw == null || raw.size < 4) return UNKNOWN
+            val v = (raw[0].toLong() and 0xff) or ((raw[1].toLong() and 0xff) shl 8) or
+                ((raw[2].toLong() and 0xff) shl 16) or ((raw[3].toLong() and 0xff) shl 24)
+            return when (((v shr 24) and 0x0f).toInt()) {
+                1 -> TOP
+                2, 3 -> PLUS
+                4, 5 -> BASIC
+                6, 7, 8 -> BUDGET
+                else -> UNKNOWN
+            }
+        }
+
         /** Product-information bytes as text (NUL padded). */
         fun parse(raw: ByteArray?): PriceTier = parse(raw?.let { String(it, Charsets.UTF_8) })
     }
