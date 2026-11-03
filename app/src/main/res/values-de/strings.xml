@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App chrome -->
+    <string name="nav_now">Jetzt</string>
+    <string name="nav_buttons">Tasten</string>
+    <string name="nav_setup">Einrichtung</string>
+    <string name="back">Zurück</string>
+
+    <!-- Side, role and status words -->
+    <string name="side_letter_left">L</string>
+    <string name="side_letter_right">R</string>
+    <string name="side_letter_unknown">?</string>
+    <string name="side_left">LINKS</string>
+    <string name="side_right">RECHTS</string>
+    <string name="side_unknown">SEITE UNBEKANNT</string>
+    <string name="side_left_title">Links</string>
+    <string name="side_right_title">Rechts</string>
+    <string name="side_aid_title">Hörgerät</string>
+    <string name="role_hearing_aid">HÖRGERÄT</string>
+    <string name="role_cros_tx">CROS · SENDER</string>
+    <string name="role_receiver">EMPFÄNGER</string>
+    <string name="role_long_hearing_aid">Hörgerät</string>
+    <string name="role_long_cros">CROS-Sender</string>
+    <string name="role_long_receiver">Empfänger</string>
+    <string name="battery_full">VOLL</string>
+    <string name="battery_charging">LÄDT</string>
+    <string name="battery_in_charger">IM LADEGERÄT</string>
+    <string name="battery_empty">LEER</string>
+    <string name="battery_low">NIEDRIG</string>
+    <string name="battery_level">%1$d/10</string>
+    <string name="stream_idle">INAKTIV</string>
+    <string name="stream_searching">SUCHE</string>
+    <string name="stream_out_of_range">ZU WEIT WEG</string>
+    <string name="stream_not_found">NICHT GEFUNDEN</string>
+    <string name="stream_streaming">STREAMING</string>
+    <string name="stream_state">STATUS %1$d</string>
+    <string name="stream_kind_spouse_mic">PARTNER-MIKRO</string>
+    <string name="tap_calls_program">ANRUF + PROGRAMM</string>
+    <string name="tap_calls">ANRUFE</string>
+    <string name="tap_program">PROGRAMM</string>
+    <string name="tap_off">AUS</string>
+    <string name="link_connecting">VERBINDET</string>
+    <string name="link_linked">VERBUNDEN</string>
+    <string name="link_needs_pairing">KOPPELN NÖTIG</string>
+    <string name="link_blocked">GESPERRT</string>
+    <string name="link_other_app">ANDERE APP</string>
+    <string name="link_not_supported">NICHT UNTERSTÜTZT</string>
+    <string name="link_bluetooth_off">BLUETOOTH AUS</string>
+
+    <!-- Shared -->
+    <string name="sample">Beispiel</string>
+    <string name="aid_with_side">Hörgerät %1$s</string>
+
+    <!-- Aid detail screen -->
+    <string name="aid_detail_identification">Kennung</string>
+    <string name="aid_detail_side">Seite</string>
+    <string name="aid_detail_role">Aufgabe</string>
+    <string name="aid_detail_model">Modell</string>
+    <string name="aid_detail_firmware">Firmware</string>
+    <string name="aid_detail_serial">Seriennummer · letzte 4</string>
+    <string name="aid_detail_address">Adresse</string>
+    <string name="aid_detail_session">Verbindung</string>
+    <string name="aid_detail_session_sample">Beispieldaten</string>
+    <string name="aid_detail_session_open">Gekoppelt · verbunden</string>
+    <string name="aid_detail_session_not_linked">Nicht verbunden</string>
+    <string name="aid_detail_readings">Messwerte</string>
+    <string name="aid_detail_attenuation">Dämpfung</string>
+    <string name="aid_detail_level_shown">Angezeigte Stufe</string>
+    <string name="aid_detail_level_of_99">%1$d / 99</string>
+    <string name="aid_detail_battery_state">Akkustatus</string>
+    <string name="aid_detail_battery_level">Akkustand</string>
+    <string name="aid_detail_battery_of_10">%1$d von 10</string>
+    <string name="aid_detail_program_index">Programmnummer</string>
+    <string name="aid_detail_stream">Streaming</string>
+    <string name="aid_detail_signal">Signal</string>
+    <string name="aid_detail_tap_bits">Tipp-Bits</string>
+    <string name="aid_detail_read_at">Gelesen um</string>
+    <string name="aid_detail_tap_control">Tipp-Steuerung</string>
+    <string name="aid_detail_tap_hint">Was ein Doppeltipp auf das Hörgerät selbst auslöst.</string>
+    <string name="aid_detail_tap_calls">Anrufe annehmen und beenden</string>
+    <string name="aid_detail_tap_program">Programm per Tipp wechseln</string>
+    <string name="aid_detail_enhancer">Klangverstärker</string>
+    <string name="aid_detail_enhancer_none">Noch nichts gemeldet.</string>
+    <string name="aid_detail_enhancer_hint">Wird vom Hörakustiker eingestellt. Hier nur zu sehen.</string>
+    <string name="aid_detail_transmitter">Sender</string>
+    <string name="aid_detail_transmitter_hint">Das CROS nimmt den Schall auf dieser Seite auf und schickt ihn an das andere Hörgerät. Es hat keine eigenen Programme.</string>
+    <string name="aid_detail_forget">Entfernen</string>
+    <string name="aid_detail_forget_confirm_hint">Der Schlüssel für dieses Hörgerät wird von diesem Handy gelöscht. Zum erneuten Verwenden koppeln Sie es unter Einrichtung neu.</string>
+    <string name="aid_detail_forget_hint">Löscht den Schlüssel dieses Handys für das Hörgerät. Nutzen Sie das, bevor Sie das Hörgerät weitergeben oder wenn Sie es neu koppeln möchten.</string>
+    <string name="aid_detail_forget_now">Jetzt entfernen</string>
+    <string name="aid_detail_forget_this">Hörgerät entfernen</string>
+    <string name="aid_detail_forget_confirm_cd">Bestätigen: dieses Hörgerät entfernen</string>
+
+    <!-- Common labels -->
+    <string name="dismiss">Schließen</string>
+    <string name="close">Schließen</string>
+
+    <!-- Button actions -->
+    <string name="action_aid_default">Funktion des Hörgeräts behalten</string>
+    <string name="action_aid_default_hint">Das Hörgerät tut, was dafür eingestellt ist.</string>
+    <string name="action_play_pause">Wiedergabe / Pause</string>
+    <string name="action_next_track">Nächster Titel</string>
+    <string name="action_previous_track">Vorheriger Titel</string>
+    <string name="action_restore_hint">Programm und Lautstärke werden nach dem Drücken zurückgesetzt.</string>
+    <string name="action_volume_up">Lauter</string>
+    <string name="action_volume_up_hint">Eine Stufe lauter als vor dem Drücken.</string>
+    <string name="action_volume_down">Leiser</string>
+    <string name="action_volume_down_hint">Eine Stufe leiser als vor dem Drücken.</string>
+    <string name="action_program_next">Nächstes Programm</string>
+    <string name="action_program_next_hint">Ein Programm weiter als vor dem Drücken.</string>
+    <string name="action_program_previous">Vorheriges Programm</string>
+    <string name="action_program_previous_hint">Ein Programm zurück gegenüber dem Stand vor dem Drücken.</string>
+    <string name="action_none">Nichts tun</string>
+    <string name="action_none_hint">Es passiert nichts. Die eigene Änderung des Hörgeräts wird rückgängig gemacht.</string>
+
+    <!-- Buttons screen -->
+    <string name="gesture_short">Kurz drücken</string>
+    <string name="gesture_long">Lang drücken</string>
+    <string name="gesture_double">Doppelt drücken</string>
+    <string name="gesture_short_hint">EINMAL DRÜCKEN</string>
+    <string name="gesture_long_hint">ÜBER 0,4 S HALTEN</string>
+    <string name="gesture_double_hint">ZWEIMAL DRÜCKEN</string>
+    <string name="buttons_title">Tasten</string>
+    <string name="buttons_subtitle">Ein Tastendruck, eine Handy-Aktion</string>
+    <string name="buttons_intro">Ein Tastendruck kann eine Aktion auf dem Handy auslösen statt der eigenen Funktion des Hörgeräts. Die Programm- oder Lautstärkeänderung des Hörgeräts wird gleich danach rückgängig gemacht.</string>
+    <string name="buttons_media_title">Kein Medienzugriff erlaubt</string>
+    <string name="buttons_media_body">Für Wiedergabe, Pause und Titelwechsel braucht die App Zugriff auf Benachrichtigungen. Erlauben Sie ihn unter Einrichtung. Ihre Auswahl bleibt in jedem Fall erhalten.</string>
+    <string name="buttons_mapping">Zuordnung</string>
+    <string name="buttons_no_aids">Noch keine Hörgeräte</string>
+    <string name="buttons_no_aids_hint">Koppeln Sie zuerst ein Hörgerät unter Einrichtung.</string>
+    <string name="not_linked">NICHT VERBUNDEN</string>
+    <string name="buttons_choose">Wählen Sie, was die Taste tut</string>
+    <string name="buttons_set">FEST</string>
+
+    <!-- Setup screen -->
+    <string name="setup_title">Einrichtung</string>
+    <string name="setup_subtitle">Verbindung, Kopplung, Darstellung</string>
+    <string name="setup_nearby_title">Berechtigung „Geräte in der Nähe“ fehlt</string>
+    <string name="setup_nearby_body">Ohne Bluetooth-Zugriff erreicht die App Ihre Hörgeräte nicht. Erlauben Sie „Geräte in der Nähe“ in den App-Einstellungen.</string>
+    <string name="setup_open_settings">App-Einstellungen öffnen</string>
+    <string name="setup_link">Verbindung</string>
+    <string name="setup_no_aids_bonded">KEINE HÖRGERÄTE GEKOPPELT</string>
+    <string name="setup_all_linked">ALLE VERBUNDEN</string>
+    <string name="n_of_m_linked">%1$d VON %2$d VERBUNDEN</string>
+    <string name="setup_link_hint">Die App hält beide Hörgeräte verbunden, auch bei ausgeschaltetem Bildschirm. Bricht eine Verbindung ab, stellt sie diese selbst wieder her.</string>
+    <string name="setup_reconnect">Beide neu verbinden</string>
+    <string name="setup_stop">Stopp</string>
+    <string name="setup_media">Medien</string>
+    <string name="setup_access_granted">BENACHRICHTIGUNGSZUGRIFF ERLAUBT</string>
+    <string name="setup_access_missing">BENACHRICHTIGUNGSZUGRIFF FEHLT</string>
+    <string name="setup_media_hint">Wiedergabe, Pause und Titelwechsel laufen über die Tasten der Medien-Benachrichtigung. Ohne diesen Zugriff passiert dabei nichts. Lautstärke und Programm funktionieren weiterhin.</string>
+    <string name="setup_change_access">Zugriff ändern</string>
+    <string name="setup_grant_access">Zugriff erlauben</string>
+    <string name="setup_pair">Hörgerät koppeln</string>
+    <string name="setup_pair_hint">Das Hörgerät startet zwischendurch neu. Wenn die App Sie dazu auffordert, legen Sie es ins Ladegerät und nehmen es wieder heraus, oder öffnen und schließen Sie das Batteriefach.</string>
+    <string name="setup_scanning">Suche läuft…</string>
+    <string name="setup_scan">Suchen</string>
+    <string name="setup_pairing_failed">Kopplung fehlgeschlagen</string>
+    <string name="setup_bonded">Gekoppelt</string>
+    <string name="setup_bonded_body">Die Verbindung wird hergestellt. Das Hörgerät sollte in wenigen Sekunden erscheinen.</string>
+    <string name="setup_ready_to_pair">Verbunden, zum Koppeln antippen</string>
+    <string name="setup_pair_this">Koppeln</string>
+    <string name="setup_unnamed_aid">Hörgerät ohne Namen</string>
+    <string name="setup_appearance">Darstellung</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
+    <string name="setup_language">Sprache</string>
+    <string name="setup_sample_pair">Beispielpaar</string>
+    <string name="setup_sample_preview">Vorschau mit Beispielpaar</string>
+    <string name="setup_sample_hint">Zeigt ein erfundenes Paar aus Nexia 5 und CROS, damit Sie die App ohne Bluetooth ausprobieren können. Solange es aktiv ist, steht BEISPIEL im Display.</string>
+    <string name="setup_log">Protokoll</string>
+    <plurals name="setup_log_lines">
+        <item quantity="one">%1$d ZEILE</item>
+        <item quantity="other">%1$d ZEILEN</item>
+    </plurals>
+    <string name="setup_scroll_newest">Zum neuesten Eintrag</string>
+    <string name="setup_log_empty">Noch nichts protokolliert.</string>
+    <string name="setup_about">Info</string>
+    <string name="setup_version">Version</string>
+
+    <!-- Now screen -->
+    <string name="now_sample_band">BEISPIELPAAR · ERFUNDENE DATEN</string>
+    <string name="now_no_aids">KEINE GERÄTE</string>
+    <string name="now_both_linked">BEIDE OHREN VERBUNDEN</string>
+    <string name="now_read_at">GELESEN %1$s</string>
+    <string name="now_sent">GESENDET</string>
+    <string name="now_waiting">WARTET</string>
+    <string name="now_read_back">BESTÄTIGT</string>
+    <string name="now_stale">ALT %1$s</string>
+    <string name="now_stream">STREAMING</string>
+    <string name="now_level">STUFE</string>
+    <string name="now_link">VERB.</string>
+    <string name="now_read">GELESEN</string>
+    <string name="now_both">BEIDE</string>
+    <string name="now_mute_reading">STUMM</string>
+    <string name="mute">Stummschalten</string>
+    <string name="unmute">Ton an</string>
+    <string name="quieter">Leiser</string>
+    <string name="louder">Lauter</string>
+    <string name="open_bluetooth_settings">Bluetooth-Einstellungen öffnen</string>
+    <string name="now_details_cd">Details zu Hörgerät %1$s</string>
+    <string name="now_level_cd">Lautstärke, Hörgerät %1$s</string>
+    <string name="now_quieter_cd">Leiser, Hörgerät %1$s</string>
+    <string name="now_unmute_cd">Ton an, Hörgerät %1$s</string>
+    <string name="now_mute_cd">Stummschalten, Hörgerät %1$s</string>
+    <string name="now_louder_cd">Lauter, Hörgerät %1$s</string>
+    <string name="now_quieter_both_cd">Leiser, beide Hörgeräte</string>
+    <string name="now_unmute_both_cd">Ton an, beide Hörgeräte</string>
+    <string name="now_mute_both_cd">Beide Hörgeräte stummschalten</string>
+    <string name="now_louder_both_cd">Lauter, beide Hörgeräte</string>
+    <string name="now_n_of_m_not_linked">%1$d VON %2$d NICHT VERBUNDEN</string>
+    <string name="now_fix_bt_off">Bluetooth ist ausgeschaltet. Schalten Sie es ein, dann verbinden sich die Hörgeräte von selbst wieder.</string>
+    <string name="now_fix_bt_off_key">Bluetooth</string>
+    <string name="now_fix_rival_taken">ReSound Smart 3D steuert gerade die Hörgeräte. Schließen Sie die App und holen Sie sich die Steuerung dann zurück.</string>
+    <string name="now_fix_other_taken">Eine andere App steuert gerade die Hörgeräte. Schließen Sie sie und holen Sie sich die Steuerung dann zurück.</string>
+    <string name="now_fix_take_back">Zurückholen</string>
+    <string name="now_fix_take_back_cd">Erneut mit den Hörgeräten verbinden</string>
+    <string name="now_fix_needs_pairing">Dieses Handy hat noch keinen Schlüssel für das Hörgerät. Koppeln Sie es einmalig unter Einrichtung.</string>
+    <string name="now_fix_pair_key">Koppeln</string>
+    <string name="now_fix_pair_cd">Einrichtung öffnen, um das Hörgerät zu koppeln</string>
+    <string name="now_fix_blocked">Das Hörgerät lässt gerade keine Anmeldung zu. Schalten Sie es aus und wieder ein und warten Sie eine Minute.</string>
+    <string name="now_fix_open_setup_cd">Einrichtung öffnen</string>
+    <string name="now_fix_rival">Nur eine App kann die Hörgeräte steuern. Läuft ReSound Smart 3D, beenden Sie die App erzwungen.</string>
+    <string name="now_fix_rival_cd">App-Info von Smart 3D öffnen, um sie zu beenden</string>
+    <string name="now_fix_reconnect_key">Verbinden</string>
+    <string name="now_fix_default">Auch nach mehreren Versuchen nicht verbunden. Prüfen Sie, ob das Hörgerät eingeschaltet und in Reichweite ist; im Hintergrund wird es weiter versucht.</string>
+    <string name="now_program">Programm</string>
+    <string name="now_no_programs">Noch keine Programme. Das Hörgerät sendet sie, sobald es verbunden ist.</string>
+    <string name="now_programs_split">Die beiden Hörgeräte sind in unterschiedlichen Programmen. Tippen Sie eines an, um beide umzustellen.</string>
+    <string name="now_programs_single">Es ist nur ein Programm eingerichtet. Weitere kann Ihr Hörakustiker hinzufügen.</string>
+    <string name="now_start_here">So fangen Sie an</string>
+    <string name="now_no_aids_yet">NOCH KEINE GERÄTE</string>
+    <string name="now_step1_title">Hörgerät mit Android koppeln</string>
+    <string name="now_step1_body">Öffnen Sie die Einstellungen, dann Bluetooth, und koppeln Sie das Hörgerät.</string>
+    <string name="now_step2_title">Einmal hier koppeln</string>
+    <string name="now_step2_body">Das Hörgerät startet zwischendurch neu. Wenn die App Sie dazu auffordert, legen Sie es ins Ladegerät und nehmen es wieder heraus, oder öffnen und schließen Sie das Batteriefach.</string>
+    <string name="now_pair_new">Neues Hörgerät koppeln</string>
+
+    <!-- Pairing progress and errors -->
+    <string name="pair_unknown_device">unbekanntes Gerät %1$s</string>
+    <string name="pair_with_android">Kopplung mit Android…</string>
+    <string name="pair_android_not_finished">Die Android-Kopplung wurde nicht abgeschlossen. Bestätigen Sie die Kopplungsanfrage und versuchen Sie es erneut.</string>
+    <string name="pair_connecting">Verbindung wird hergestellt…</string>
+    <string name="pair_passcode">Dieses Hörgerät verlangt beim Koppeln einen Code. Das kann I-Hear-You noch nicht.</string>
+    <string name="pair_update_mode">Dieses Hörgerät ist im Update-Modus. Starten Sie es neu und versuchen Sie es noch einmal.</string>
+    <string name="pair_first_auth">Anmeldung am Hörgerät…</string>
+    <string name="pair_auth_failed">Anmeldung fehlgeschlagen (Code %1$d)</string>
+    <string name="pair_restart_aid">Starten Sie das Hörgerät jetzt neu: Legen Sie es etwa 3 Sekunden ins Ladegerät oder öffnen und schließen Sie das Batteriefach.</string>
+    <string name="pair_waiting">Warten, bis das Hörgerät wieder da ist…</string>
+    <string name="pair_finalizing">Kopplung wird abgeschlossen…</string>
+    <string name="pair_finalizing_try">Kopplung wird abgeschlossen… (Versuch %1$d von 5)</string>
+    <string name="pair_not_accepted">Das Hörgerät hat den neuen Schlüssel nach 5 Versuchen nicht angenommen. Starten Sie es neu und beginnen Sie von vorn.</string>
+    <string name="pair_blocked">Das Hörgerät ist vorübergehend gesperrt. Schalten Sie es aus und wieder ein, warten Sie einige Minuten und versuchen Sie es dann erneut.</string>
+    <string name="pair_rejected">Das Hörgerät hat den Schlüssel abgelehnt. Schalten Sie es aus und wieder ein und versuchen Sie es dann erneut.</string>
+    <string name="pair_auth_failed_code">Anmeldung fehlgeschlagen (Code %1$d).</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Hörgeräte stumm</string>
+    <string name="tile_not_linked">Nicht verbunden</string>
+    <string name="tile_muted">Stumm</string>
+    <string name="tile_on">An</string>
+
+    <!-- Foreground service notification -->
+    <string name="notif_channel">Fernbedienung</string>
+    <string name="notif_listening">Wartet auf Tasten der Hörgeräte</string>
+    <string name="notif_muted">%1$s · stumm</string>
+    <string name="notif_looking">Suche nach Hörgeräten</string>
+    <string name="notif_aid_status">%1$s %2$s</string>
+
+    <!-- Link details and default program names -->
+    <string name="link_detail_no_gn">Kein unterstütztes Hörgerät</string>
+    <string name="link_detail_key_rejected">Schlüssel abgelehnt (Code %1$d)</string>
+    <string name="link_detail_blocked">Hörgerät aus- und wieder einschalten, dann eine Minute warten</string>
+    <string name="link_detail_taken_over">Eine andere App steuert das Hörgerät</string>
+    <string name="program_default_name">Programm %1$d</string>
+    <string name="program_kind_all_around">Alltag</string>
+    <string name="program_kind_restaurant">Restaurant</string>
+    <string name="program_kind_music">Musik</string>
+    <string name="program_kind_outdoor">Outdoor</string>
+    <string name="program_kind_lecture">Vortrag</string>
+    <string name="program_kind_hear_in_noise">Sprachfokus</string>
+    <string name="program_kind_traffic">Verkehr</string>
+
+</resources>

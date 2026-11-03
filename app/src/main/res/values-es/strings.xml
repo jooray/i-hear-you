@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App chrome -->
+    <string name="nav_now">Ahora</string>
+    <string name="nav_buttons">Botones</string>
+    <string name="nav_setup">Ajustes</string>
+    <string name="back">Atrás</string>
+
+    <!-- Side, role and status words (Format.kt) -->
+    <string name="side_letter_left">I</string>
+    <string name="side_letter_right">D</string>
+    <string name="side_letter_unknown">?</string>
+    <string name="side_left">IZQ.</string>
+    <string name="side_right">DER.</string>
+    <string name="side_unknown">LADO DESCONOCIDO</string>
+    <string name="side_left_title">Izquierdo</string>
+    <string name="side_right_title">Derecho</string>
+    <string name="side_aid_title">Audífono</string>
+    <string name="role_hearing_aid">AUDÍFONO</string>
+    <string name="role_cros_tx">CROS · TX</string>
+    <string name="role_receiver">RECEPTOR</string>
+    <string name="role_long_hearing_aid">Audífono</string>
+    <string name="role_long_cros">Transmisor CROS</string>
+    <string name="role_long_receiver">Receptor</string>
+    <string name="battery_full">LLENA</string>
+    <string name="battery_charging">CARGANDO</string>
+    <string name="battery_in_charger">EN CARGADOR</string>
+    <string name="battery_empty">VACÍA</string>
+    <string name="battery_low">BAJA</string>
+    <string name="battery_level">%1$d/10</string>
+    <string name="stream_idle">INACTIVO</string>
+    <string name="stream_searching">BUSCANDO</string>
+    <string name="stream_out_of_range">SIN ALCANCE</string>
+    <string name="stream_not_found">NO HALLADO</string>
+    <string name="stream_streaming">TRANSMITIENDO</string>
+    <string name="stream_state">ESTADO %1$d</string>
+    <string name="stream_kind_spouse_mic">MIC PAREJA</string>
+    <string name="tap_calls_program">LLAMADAS + PROG.</string>
+    <string name="tap_calls">LLAMADAS</string>
+    <string name="tap_program">PROGRAMA</string>
+    <string name="tap_off">APAGADO</string>
+    <string name="link_connecting">CONECTANDO</string>
+    <string name="link_linked">CONECTADO</string>
+    <string name="link_needs_pairing">SIN EMPAREJAR</string>
+    <string name="link_blocked">BLOQUEADO</string>
+    <string name="link_other_app">OTRA APP</string>
+    <string name="link_not_supported">NO COMPATIBLE</string>
+    <string name="link_bluetooth_off">BLUETOOTH APAGADO</string>
+
+    <!-- Shared -->
+    <string name="sample">Ejemplo</string>
+    <string name="aid_with_side">Audífono %1$s</string>
+
+    <!-- Aid detail screen -->
+    <string name="aid_detail_identification">Identificación</string>
+    <string name="aid_detail_side">Lado</string>
+    <string name="aid_detail_role">Función</string>
+    <string name="aid_detail_model">Modelo</string>
+    <string name="aid_detail_firmware">Firmware</string>
+    <string name="aid_detail_serial">N.º de serie · últimos 4</string>
+    <string name="aid_detail_address">Dirección</string>
+    <string name="aid_detail_session">Conexión</string>
+    <string name="aid_detail_session_sample">Datos de ejemplo</string>
+    <string name="aid_detail_session_open">Emparejado · conectado</string>
+    <string name="aid_detail_session_not_linked">Sin conexión</string>
+    <string name="aid_detail_readings">Lecturas</string>
+    <string name="aid_detail_attenuation">Atenuación</string>
+    <string name="aid_detail_level_shown">Nivel mostrado</string>
+    <string name="aid_detail_level_of_99">%1$d / 99</string>
+    <string name="aid_detail_battery_state">Estado de la batería</string>
+    <string name="aid_detail_battery_level">Nivel de batería</string>
+    <string name="aid_detail_battery_of_10">%1$d de 10</string>
+    <string name="aid_detail_program_index">Índice de programa</string>
+    <string name="aid_detail_stream">Transmisión</string>
+    <string name="aid_detail_signal">Señal</string>
+    <string name="aid_detail_tap_bits">Bits de toque</string>
+    <string name="aid_detail_read_at">Leído a las</string>
+    <string name="aid_detail_tap_control">Control por toque</string>
+    <string name="aid_detail_tap_hint">Qué hace un doble toque en el propio audífono.</string>
+    <string name="aid_detail_tap_calls">Contestar y finalizar llamadas</string>
+    <string name="aid_detail_tap_program">Cambiar de programa al tocar</string>
+    <string name="aid_detail_enhancer">Realce de sonido</string>
+    <string name="aid_detail_enhancer_none">Todavía no hay datos.</string>
+    <string name="aid_detail_enhancer_hint">Lo configura su audioprotesista. Aquí solo se puede ver.</string>
+    <string name="aid_detail_transmitter">Transmisor</string>
+    <string name="aid_detail_transmitter_hint">El CROS capta el sonido de este lado y lo envía al otro audífono. No tiene programas propios.</string>
+    <string name="aid_detail_forget">Olvidar</string>
+    <string name="aid_detail_forget_confirm_hint">La clave de este audífono se borra de este teléfono. Para volver a usarlo, empárelo en Ajustes.</string>
+    <string name="aid_detail_forget_hint">Borra la clave que este teléfono guarda del audífono. Hágalo antes de regalarlo o para emparejarlo de nuevo.</string>
+    <string name="aid_detail_forget_now">Olvidar ahora</string>
+    <string name="aid_detail_forget_this">Olvidar este audífono</string>
+    <string name="aid_detail_forget_confirm_cd">Confirmar: olvidar este audífono</string>
+
+    <!-- Common labels -->
+    <string name="dismiss">Descartar</string>
+    <string name="close">Cerrar</string>
+
+    <!-- Button actions (domain/MappingStore.kt) -->
+    <string name="action_aid_default">Mantener la acción del audífono</string>
+    <string name="action_aid_default_hint">El audífono hace lo que tiene configurado.</string>
+    <string name="action_play_pause">Reproducir / pausar</string>
+    <string name="action_next_track">Pista siguiente</string>
+    <string name="action_previous_track">Pista anterior</string>
+    <string name="action_restore_hint">Tras la pulsación se restablecen el programa y el volumen.</string>
+    <string name="action_volume_up">Subir volumen</string>
+    <string name="action_volume_up_hint">Un paso más alto que el volumen previo a la pulsación.</string>
+    <string name="action_volume_down">Bajar volumen</string>
+    <string name="action_volume_down_hint">Un paso más bajo que el volumen previo a la pulsación.</string>
+    <string name="action_program_next">Programa siguiente</string>
+    <string name="action_program_next_hint">El programa que sigue al que había antes de la pulsación.</string>
+    <string name="action_program_previous">Programa anterior</string>
+    <string name="action_program_previous_hint">El programa que precede al que había antes de la pulsación.</string>
+    <string name="action_none">No hacer nada</string>
+    <string name="action_none_hint">No ocurre nada. Se deshace el cambio propio del audífono.</string>
+
+    <!-- Buttons screen -->
+    <string name="gesture_short">Pulsación corta</string>
+    <string name="gesture_long">Pulsación larga</string>
+    <string name="gesture_double">Doble pulsación</string>
+    <string name="gesture_short_hint">PULSAR UNA VEZ</string>
+    <string name="gesture_long_hint">MÁS DE 0,4 S</string>
+    <string name="gesture_double_hint">PULSAR DOS VECES</string>
+    <string name="buttons_title">Botones</string>
+    <string name="buttons_subtitle">Una pulsación, una acción del teléfono</string>
+    <string name="buttons_intro">Una pulsación puede ejecutar una acción del teléfono en lugar de la propia del audífono. El cambio de programa o de volumen del audífono se deshace enseguida.</string>
+    <string name="buttons_media_title">Sin acceso a los medios</string>
+    <string name="buttons_media_body">Las teclas de reproducir, pausar y cambiar de pista necesitan acceso a las notificaciones. Concédalo en Ajustes. Sus elecciones se conservan igualmente.</string>
+    <string name="buttons_mapping">Asignación</string>
+    <string name="buttons_no_aids">Aún no hay audífonos</string>
+    <string name="buttons_no_aids_hint">Primero empareje un audífono en Ajustes.</string>
+    <string name="not_linked">SIN CONEXIÓN</string>
+    <string name="buttons_choose">Elija qué hace el botón</string>
+    <string name="buttons_set">LISTO</string>
+
+    <!-- Setup screen -->
+    <string name="setup_title">Ajustes</string>
+    <string name="setup_subtitle">Conexión, emparejamiento, aspecto</string>
+    <string name="setup_nearby_title">Falta el permiso de dispositivos cercanos</string>
+    <string name="setup_nearby_body">Sin acceso a Bluetooth, la app no puede comunicarse con sus audífonos. Permita Dispositivos cercanos en los ajustes de la app.</string>
+    <string name="setup_open_settings">Abrir ajustes de la app</string>
+    <string name="setup_link">Conexión</string>
+    <string name="setup_no_aids_bonded">SIN AUDÍFONOS</string>
+    <string name="setup_all_linked">TODOS CONECTADOS</string>
+    <string name="n_of_m_linked">%1$d DE %2$d CONECTADOS</string>
+    <string name="setup_link_hint">La app mantiene conectados ambos audífonos, incluso con la pantalla apagada. Si una conexión se corta, se restablece sola.</string>
+    <string name="setup_reconnect">Reconectar ambos</string>
+    <string name="setup_stop">Detener</string>
+    <string name="setup_media">Medios</string>
+    <string name="setup_access_granted">ACCESO CONCEDIDO</string>
+    <string name="setup_access_missing">FALTA EL ACCESO</string>
+    <string name="setup_media_hint">Las teclas de reproducir, pausar y cambiar de pista funcionan con los botones de la notificación multimedia. Sin este acceso no hacen nada. El volumen y los programas siguen funcionando.</string>
+    <string name="setup_change_access">Cambiar acceso</string>
+    <string name="setup_grant_access">Conceder acceso</string>
+    <string name="setup_pair">Emparejar un audífono</string>
+    <string name="setup_pair_hint">El audífono se reinicia a mitad del proceso. Cuando se lo pidan, colóquelo en el cargador y sáquelo, o abra y cierre el compartimento de la pila.</string>
+    <string name="setup_scanning">Buscando…</string>
+    <string name="setup_scan">Buscar</string>
+    <string name="setup_pairing_failed">No se pudo emparejar</string>
+    <string name="setup_bonded">Emparejado</string>
+    <string name="setup_bonded_body">Reconectando. El audífono debería aparecer en unos segundos.</string>
+    <string name="setup_ready_to_pair">Conectados, toque para emparejar</string>
+    <string name="setup_pair_this">Emparejar</string>
+    <string name="setup_unnamed_aid">Audífono sin nombre</string>
+    <string name="setup_appearance">Aspecto</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="setup_language">Idioma</string>
+    <string name="setup_sample_pair">Pareja de ejemplo</string>
+    <string name="setup_sample_preview">Vista previa con una pareja de ejemplo</string>
+    <string name="setup_sample_hint">Muestra un par ficticio, Nexia 5 y CROS, para probar la app sin Bluetooth. Mientras esté activado aparece la marca EJEMPLO.</string>
+    <string name="setup_log">Registro</string>
+    <plurals name="setup_log_lines">
+        <item quantity="one">%1$d LÍNEA</item>
+        <item quantity="many">%1$d DE LÍNEAS</item>
+        <item quantity="other">%1$d LÍNEAS</item>
+    </plurals>
+    <string name="setup_scroll_newest">Ir al más reciente</string>
+    <string name="setup_log_empty">Todavía no hay nada registrado.</string>
+    <string name="setup_about">Acerca de</string>
+    <string name="setup_version">Versión</string>
+
+    <!-- Now screen -->
+    <string name="now_sample_band">PAREJA DE EJEMPLO · DATOS FICTICIOS</string>
+    <string name="now_no_aids">SIN AUDÍFONOS</string>
+    <string name="now_both_linked">AMBOS CONECTADOS</string>
+    <string name="now_read_at">LEÍDO %1$s</string>
+    <string name="now_sent">ENVIADO</string>
+    <string name="now_waiting">ESPERANDO</string>
+    <string name="now_read_back">CONFIRMADO</string>
+    <string name="now_stale">ANTIGUO %1$s</string>
+    <string name="now_stream">SEÑAL</string>
+    <string name="now_level">NIVEL</string>
+    <string name="now_link">CONEXIÓN</string>
+    <string name="now_read">LECTURA</string>
+    <string name="now_both">AMBOS</string>
+    <string name="now_mute_reading">MUDO</string>
+    <string name="mute">Silenciar</string>
+    <string name="unmute">Activar sonido</string>
+    <string name="quieter">Más bajo</string>
+    <string name="louder">Más alto</string>
+    <string name="open_bluetooth_settings">Abrir ajustes de Bluetooth</string>
+    <string name="now_details_cd">Detalles del audífono: %1$s</string>
+    <string name="now_level_cd">Nivel, audífono: %1$s</string>
+    <string name="now_quieter_cd">Bajar volumen, audífono: %1$s</string>
+    <string name="now_unmute_cd">Activar sonido, audífono: %1$s</string>
+    <string name="now_mute_cd">Silenciar audífono: %1$s</string>
+    <string name="now_louder_cd">Subir volumen, audífono: %1$s</string>
+    <string name="now_quieter_both_cd">Bajar volumen, ambos audífonos</string>
+    <string name="now_unmute_both_cd">Activar sonido de ambos audífonos</string>
+    <string name="now_mute_both_cd">Silenciar ambos audífonos</string>
+    <string name="now_louder_both_cd">Subir volumen, ambos audífonos</string>
+    <string name="now_n_of_m_not_linked">%1$d DE %2$d SIN CONEXIÓN</string>
+    <string name="now_fix_bt_off">El Bluetooth está apagado. Enciéndalo y los audífonos se reconectarán solos.</string>
+    <string name="now_fix_bt_off_key">Bluetooth</string>
+    <string name="now_fix_rival_taken">ReSound Smart 3D está controlando los audífonos. Ciérrelo y recupere el control.</string>
+    <string name="now_fix_other_taken">Otra app está controlando los audífonos. Ciérrela y recupere el control.</string>
+    <string name="now_fix_take_back">Recuperar</string>
+    <string name="now_fix_take_back_cd">Volver a conectar con los audífonos</string>
+    <string name="now_fix_needs_pairing">Este teléfono aún no tiene la clave del audífono. Empárelo una vez en Ajustes.</string>
+    <string name="now_fix_pair_key">Emparejar</string>
+    <string name="now_fix_pair_cd">Abrir Ajustes para emparejar el audífono</string>
+    <string name="now_fix_blocked">El audífono ha rechazado el acceso por ahora. Apáguelo y vuelva a encenderlo, y espere un minuto.</string>
+    <string name="now_fix_open_setup_cd">Abrir Ajustes</string>
+    <string name="now_fix_rival">Solo una app puede controlar los audífonos a la vez. Si ReSound Smart 3D está abierta, fuerce su detención.</string>
+    <string name="now_fix_rival_cd">Abrir la información de la app Smart 3D para forzar su detención</string>
+    <string name="now_fix_reconnect_key">Reconectar</string>
+    <string name="now_fix_default">Sigue sin conectar tras varios intentos. Compruebe que el audífono está encendido y cerca; se sigue intentando en segundo plano.</string>
+    <string name="now_program">Programa</string>
+    <string name="now_no_programs">Aún no hay programas. El audífono los envía al conectarse.</string>
+    <string name="now_programs_split">Los dos audífonos están en programas distintos. Toque uno para ponerlos igual.</string>
+    <string name="now_programs_single">Solo hay un programa configurado. Su audioprotesista puede añadir más.</string>
+    <string name="now_start_here">Empiece aquí</string>
+    <string name="now_no_aids_yet">SIN AUDÍFONOS</string>
+    <string name="now_step1_title">Empareje el audífono con Android</string>
+    <string name="now_step1_body">Abra Ajustes, entre en Bluetooth y empareje el audífono.</string>
+    <string name="now_step2_title">Empárelo aquí una vez</string>
+    <string name="now_step2_body">El audífono se reinicia a mitad del proceso. Cuando se lo pidan, colóquelo en el cargador y sáquelo, o abra y cierre el compartimento de la pila.</string>
+    <string name="now_pair_new">Emparejar un audífono nuevo</string>
+
+    <!-- Pairing progress and errors (PairingManager) -->
+    <string name="pair_unknown_device">dispositivo desconocido %1$s</string>
+    <string name="pair_with_android">Emparejando con Android…</string>
+    <string name="pair_android_not_finished">El emparejamiento con Android no terminó. Acepte la solicitud de emparejamiento y vuelva a intentarlo.</string>
+    <string name="pair_connecting">Conectando…</string>
+    <string name="pair_passcode">Este audífono pide un código al emparejarse. I-Hear-You aún no puede hacerlo.</string>
+    <string name="pair_update_mode">Este audífono está en modo de actualización. Reinícielo e inténtelo de nuevo.</string>
+    <string name="pair_first_auth">Iniciando sesión en el audífono…</string>
+    <string name="pair_auth_failed">falló el inicio de sesión (código %1$d)</string>
+    <string name="pair_restart_aid">Reinicie ahora el audífono: colóquelo en el cargador unos 3 segundos, o abra y cierre el compartimento de la pila.</string>
+    <string name="pair_waiting">Esperando a que el audífono vuelva…</string>
+    <string name="pair_finalizing">Terminando el emparejamiento…</string>
+    <string name="pair_finalizing_try">Terminando el emparejamiento… (intento %1$d de 5)</string>
+    <string name="pair_not_accepted">El audífono no aceptó la nueva clave tras 5 intentos. Reinícielo y empiece de nuevo.</string>
+    <string name="pair_blocked">El audífono está bloqueado temporalmente. Apáguelo y vuelva a encenderlo, espere unos minutos e inténtelo otra vez.</string>
+    <string name="pair_rejected">El audífono rechazó la clave. Apáguelo y vuelva a encenderlo, y reintente.</string>
+    <string name="pair_auth_failed_code">Falló el inicio de sesión (código %1$d).</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Silenciar audífonos</string>
+    <string name="tile_not_linked">Sin conexión</string>
+    <string name="tile_muted">Silenciados</string>
+    <string name="tile_on">Activados</string>
+
+    <!-- Foreground service notification -->
+    <string name="notif_channel">Mando a distancia</string>
+    <string name="notif_listening">Atento a los botones de los audífonos</string>
+    <string name="notif_muted">%1$s · silenciado</string>
+    <string name="notif_looking">Buscando audífonos</string>
+    <string name="notif_aid_status">%1$s %2$s</string>
+
+    <!-- Link details and default program names (RemoteService) -->
+    <string name="link_detail_no_gn">Audífono no compatible</string>
+    <string name="link_detail_key_rejected">Clave rechazada (código %1$d)</string>
+    <string name="link_detail_blocked">Apague y encienda el audífono, y espere un minuto</string>
+    <string name="link_detail_taken_over">Otra app está controlando el audífono</string>
+    <string name="program_default_name">Programa %1$d</string>
+    <string name="program_kind_all_around">General</string>
+    <string name="program_kind_restaurant">Restaurante</string>
+    <string name="program_kind_music">Música</string>
+    <string name="program_kind_outdoor">Exterior</string>
+    <string name="program_kind_lecture">Lectura</string>
+    <string name="program_kind_hear_in_noise">Oír en ruido</string>
+    <string name="program_kind_traffic">Tráfico</string>
+
+</resources>

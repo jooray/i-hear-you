@@ -1,0 +1,36 @@
+repository: https://github.com/jooray/i-hear-you
+metadata_sources:
+    - github
+pubkey: npub1m2mvvpjugwdehtaskrcl7ksvdqnnhnjur9v6g9v266nss504q7mqvlr8p9
+
+name: I-Hear-You
+summary: Open-source remote for GN hearing aids (ReSound and sister brands), no account needed
+description: |
+  I-Hear-You controls GN hearing aids from your phone without an account or a cloud service. It
+  shows battery, signal and stream state for each aid and lets you change volume, mute and the
+  program.
+
+  The aid's own button can drive the phone: play/pause, next or previous track, phone volume, or a
+  voice note. Voice notes are recorded from the aids' microphones, transcribed on the phone with
+  Offline Speech to Text, and saved, shared, sent to a webhook or posted to a White Noise group.
+
+  Tested on a ReSound Nexia pair with the Nexia CROS transmitter. Other GN aids from ReSound,
+  Beltone, Jabra Enhance, Danalogic and Interton on a supported platform should work but are
+  untested. Aids from other makers are not supported.
+
+  Pair the aids in Android's Bluetooth settings first, then finish pairing in the app.
+website: https://jooray.github.io/i-hear-you/
+license: MIT
+tags:
+    - hearing-aid
+    - accessibility
+    - bluetooth
+    - resound
+    - remote
+    - voice-notes
+    - privacy
+icon: ./docs/icon/icon-512.png
+images:
+    - ./docs/screens/now-light.png
+    - ./docs/screens/now-dark.png
+    - ./docs/screens/buttons-dark.png

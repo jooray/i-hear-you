@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_voice">Sprache</string>
+    <string name="action_voice_note">Sprachnachricht</string>
+    <string name="action_voice_note_hint">Nimmt über die Hörgeräte auf. Der nächste Druck auf eines der Hörgeräte beendet sie. Wohin sie geht, legen Sie auf dem Bildschirm Sprache fest.</string>
+
+    <string name="voice_title">Sprachnachrichten</string>
+    <string name="voice_subtitle">Aufnahme über die Hörgeräte</string>
+    <string name="voice_intro">Legen Sie auf dem Bildschirm Tasten einen Druck auf Sprachnachricht. Dieser Druck startet die Aufnahme über die Mikrofone der Hörgeräte. Der nächste Druck auf eines der Hörgeräte beendet sie, und welcher Druck es ist, bestimmt, wohin die Nachricht geht. Jede Nachricht wird zuerst gespeichert, was auch danach passiert.</string>
+
+    <string name="voice_mic_title">Mikrofon nicht erlaubt</string>
+    <string name="voice_mic_body">Sprachnachrichten brauchen die Mikrofonberechtigung.</string>
+    <string name="voice_mic_allow">Mikrofon erlauben</string>
+    <string name="voice_bg_title">Für Aufnahmen im Hintergrund die App einmal öffnen</string>
+    <string name="voice_bg_body">Android erlaubt der App das Mikrofon im Hintergrund erst, wenn sie seit dem Einschalten des Handys einmal auf dem Bildschirm war. Lassen Sie diesen Bildschirm kurz offen, dann ist alles bereit.</string>
+    <string name="voice_unmapped_title">Noch startet kein Druck eine Sprachnachricht</string>
+    <string name="voice_unmapped_body">Legen Sie auf dem Bildschirm Tasten einen Druck, zum Beispiel lang drücken am linken Hörgerät, auf Sprachnachricht.</string>
+
+    <string name="voice_status_title">Aufnahme</string>
+    <string name="voice_recording">Aufnahme %1$d:%2$02d</string>
+    <string name="voice_mic_aid">MIKROFON DER HÖRGERÄTE</string>
+    <string name="voice_mic_phone">MIKROFON DES HANDYS</string>
+    <string name="voice_mic_bluetooth">BLUETOOTH-MIKROFON · %1$s</string>
+    <string name="voice_mic_opening">MIKROFON WIRD GEÖFFNET</string>
+    <string name="voice_idle">Bereit</string>
+    <string name="voice_idle_hint">Der Druck, der auf Sprachnachricht liegt, startet eine Aufnahme.</string>
+    <string name="voice_record_here">Hier aufnehmen</string>
+    <string name="voice_stop_save">Beenden und speichern</string>
+
+    <string name="voice_finish_title">Nachricht beenden</string>
+    <string name="voice_finish_body">Während eine Nachricht aufnimmt, beendet sie jeder Druck auf eines der Hörgeräte. Wählen Sie, wohin jeder Druck die Nachricht schickt. Gespeichert wird sie immer.</string>
+    <string name="voice_finish_choose">Wenn dieser Druck eine Nachricht beendet</string>
+    <string name="voice_finish_more">Webhook und White Noise erscheinen hier, sobald sie unter Erweitert eingerichtet sind.</string>
+
+    <string name="voice_dest_save">Nur speichern</string>
+    <string name="voice_dest_save_hint">Die Aufnahme bleibt auf dem Handy.</string>
+    <string name="voice_dest_white_noise">White Noise</string>
+    <string name="voice_dest_white_noise_hint">Speichern, dann an die gewählte White-Noise-Gruppe senden.</string>
+    <string name="voice_dest_webhook">Webhook</string>
+    <string name="voice_dest_webhook_hint">Speichern, dann an die Webhook-URL senden.</string>
+    <string name="voice_dest_share">Teilen</string>
+    <string name="voice_dest_share_hint">Speichern, dann das Teilen-Menü öffnen. Bei gesperrtem Handy wartet es in einer Benachrichtigung.</string>
+
+    <string name="voice_length_title">Längste Nachricht</string>
+    <string name="voice_minutes">%1$d Min.</string>
+    <string name="voice_length_hint">Eine Minute vor dem Limit ertönt eine Warnung. Am Limit endet die Nachricht wie mit einem kurzen Druck auf das Hörgerät, das sie gestartet hat.</string>
+
+    <string name="voice_tx_title">Transkription</string>
+    <string name="voice_tx_audio">Audio</string>
+    <string name="voice_tx_audio_hint">Sendet nur die Aufnahme. Nichts wird transkribiert.</string>
+    <string name="voice_tx_both">Audio + Text</string>
+    <string name="voice_tx_both_hint">Transkribiert auf dem Handy und sendet beides. Das Transkript wird neben der Aufnahme gespeichert.</string>
+    <string name="voice_tx_text">Text</string>
+    <string name="voice_tx_text_hint">Sendet nur das Transkript. Aufnahme und Transkript werden trotzdem gespeichert. Misslingt die Transkription, wird das Audio gesendet.</string>
+    <string name="voice_tx_provider">Transkribiert von</string>
+    <string name="voice_tx_none">Keine Transkriptions-App</string>
+    <string name="voice_tx_old_android">Benötigt Android 13 oder neuer</string>
+    <string name="voice_tx_install">Installieren Sie Offline Speech to Text (Zapstore) und laden Sie darin ein Modell. Die Transkription läuft auf dem Handy, offline.</string>
+
+    <string name="voice_saving_title">Mikrofon und Speichern</string>
+    <string name="voice_aid_mic">Mikrofone der Hörgeräte verwenden</string>
+    <string name="voice_aid_mic_hint">Solange ihre Mikrofone offen sind, wechseln die Hörgeräte in einen Modus wie beim Telefonieren. Musik klingt flacher, bis die Nachricht endet. Die Hörgeräte bieten ein Mikrofon nur, wenn sie das aktive Audiogerät des Handys sind. Sind andere Bluetooth-Kopfhörer aktiv, wird deren Mikrofon verwendet, ohne solche das des Handys.</string>
+    <string name="voice_folder">Ordner</string>
+    <string name="voice_folder_default">Documents/I Hear You</string>
+    <string name="voice_folder_choose">Ordner wählen</string>
+    <string name="voice_folder_reset">Standard</string>
+    <string name="voice_folder_hint">Aufnahmen (.m4a) und Transkripte (.txt) werden hier gespeichert, damit eine Sync-App wie Syncthing sie übernehmen kann.</string>
+
+    <string name="voice_recent_title">Letzte Nachrichten</string>
+    <string name="voice_recent_empty">Noch keine Nachrichten.</string>
+    <string name="voice_recent_hint">Eine Nachricht, deren Senden fehlschlug, behält ihre gespeicherte Kopie. Erneut versuchen sendet sie noch einmal.</string>
+    <string name="voice_state_recording">AUFNAHME</string>
+    <string name="voice_state_processing">WIRD GESPEICHERT</string>
+    <string name="voice_state_saved">GESPEICHERT</string>
+    <string name="voice_state_sent">GESPEICHERT · GESENDET: %1$s</string>
+    <string name="voice_state_failed">GESPEICHERT · %1$s FEHLGESCHLAGEN</string>
+    <string name="voice_state_transcript">TRANSKRIPT</string>
+    <string name="voice_retry">Erneut versuchen</string>
+    <string name="voice_delete">Löschen</string>
+
+    <string name="voice_advanced">Erweiterte Ziele</string>
+    <string name="voice_save_settings">Speichern</string>
+    <string name="voice_net_title">Netzwerkzugriff ist aus</string>
+    <string name="voice_net_body">Webhook und White Noise brauchen Netzwerkzugriff. Schalten Sie Netzwerk für I Hear You in den App-Einstellungen ein.</string>
+    <string name="voice_net_open">App-Einstellungen öffnen</string>
+    <string name="voice_net_error">I Hear You hat keinen Netzwerkzugriff (App-Einstellungen, Netzwerk).</string>
+    <string name="voice_webhook_title">Webhook</string>
+    <string name="voice_webhook_body">Sendet jede Nachricht als Multipart-Formular: metadata (JSON), transcript (Text) und audio (.m4a). Funktioniert mit n8n, Home Assistant oder dem eigenen Server. Jede 2xx-Antwort gilt als zugestellt.</string>
+    <string name="voice_webhook_url">URL</string>
+    <string name="voice_webhook_auth">Authorization-Header (optional)</string>
+
+    <string name="voice_wn_title">White Noise</string>
+    <string name="voice_wn_body">I Hear You bekommt eine eigene White-Noise-Identität. Laden Sie sie in eine Gruppe ein, zum Beispiel eine mit Ihrem KI-Agenten, dann gehen Nachrichten, die mit dem White-Noise-Druck enden, dorthin.</string>
+    <string name="voice_wn_enable">White Noise verwenden</string>
+    <string name="voice_wn_state">Status</string>
+    <string name="voice_wn_off">Aus</string>
+    <string name="voice_wn_starting">Startet…</string>
+    <string name="voice_wn_ready">Verbunden</string>
+    <string name="voice_wn_failed">Fehlgeschlagen: %1$s</string>
+    <string name="voice_wn_retry">Neu starten</string>
+    <string name="voice_wn_identity">IDENTITÄT DIESER APP (NPUB)</string>
+    <string name="voice_wn_copy">Kopieren</string>
+    <string name="voice_wn_invite_hint">Fügen Sie diesen npub in White Noise einer Gruppe hinzu. Die Einladung erscheint unten. Agenten wie Hermes müssen diesem npub außerdem erlauben, sie einzuladen und ihnen zu schreiben.</string>
+    <string name="voice_wn_invites">EINLADUNGEN</string>
+    <string name="voice_wn_accept">Annehmen</string>
+    <string name="voice_wn_decline">Ablehnen</string>
+    <string name="voice_wn_group">GRUPPE FÜR SPRACHNACHRICHTEN</string>
+    <string name="voice_wn_no_groups">Noch keine Gruppen. Nehmen Sie zuerst eine Einladung an.</string>
+    <string name="voice_replies_title">ANTWORTEN IN DEN HÖRGERÄTEN</string>
+    <string name="voice_replies_off">Aus</string>
+    <string name="voice_replies_off_hint">Antworten bleiben in der Gruppe, nichts wird abgespielt.</string>
+    <string name="voice_replies_after">Nach einer Nachricht</string>
+    <string name="voice_replies_after_hint">Nachrichten in der Gruppe werden %1$d Minuten nach Ihrer Nachricht in die Hörgeräte gespielt: Sprachantworten wie sie sind, Text vorgelesen. Ein kurzer Druck stoppt eine Antwort.</string>
+    <string name="voice_replies_always">Immer</string>
+    <string name="voice_replies_always_hint">Jede neue Nachricht in der Gruppe wird in die Hörgeräte gespielt. Ein kurzer Druck stoppt eine Antwort.</string>
+
+    <string name="voice_channel">Sprachnachrichten</string>
+    <string name="voice_notif_recording_title">Sprachnachricht wird aufgenommen</string>
+    <string name="voice_notif_recording_body">Zum Beenden eines der Hörgeräte drücken.</string>
+    <string name="voice_notif_mic_title">Sprachnachricht nicht aufgenommen</string>
+    <string name="voice_notif_mic_body">Öffnen Sie I Hear You einmal, damit die App das Mikrofon im Hintergrund nutzen kann.</string>
+    <string name="voice_notif_silent_title">Das Mikrofon nimmt nur Stille auf</string>
+    <string name="voice_notif_silent_body">Prüfen Sie den Mikrofonschalter, ob die Hörgeräte stummgeschaltet sind oder ob ein Anruf oder eine andere App das Mikrofon belegt. Die Aufnahme läuft weiter.</string>
+    <string name="voice_notif_micfail_title">Aufnahme gestoppt: Das Mikrofon ist ausgefallen</string>
+    <string name="voice_notif_micfail_body">Was bis dahin aufgenommen wurde, ist gespeichert.</string>
+    <string name="voice_notif_failed_title">%1$s: nicht gesendet</string>
+    <string name="voice_notif_failed_body">Die Aufnahme ist gespeichert (%1$s). Erneut versuchen sendet sie noch einmal.</string>
+    <string name="voice_notif_share_title">Sprachnachricht bereit zum Teilen</string>
+    <string name="voice_notif_share_body">Tippen, um eine App zu wählen.</string>
+    <string name="voice_share_title">Sprachnachricht teilen</string>
+    <string name="voice_key_title">SCHLÜSSELSICHERUNG (NSEC)</string>
+    <string name="voice_key_body">Der nsec ist der private Schlüssel der Identität dieser App: Wer ihn hat, kann in ihrem Namen schreiben. Bewahren Sie ihn in einem Passwortmanager auf. Ein Import stellt die Identität (denselben npub) wieder her, nicht die Gruppen: Nach einem Import müssen die Gruppen den npub erneut einladen.</string>
+    <string name="voice_key_show">nsec anzeigen</string>
+    <string name="voice_key_hide">Ausblenden</string>
+    <string name="voice_key_import">nsec importieren</string>
+    <string name="voice_key_import_go">Importieren</string>
+    <string name="voice_key_import_warn">Dies ersetzt die aktuelle Identität. Ihre Gruppen werden verworfen und die Gruppe für Sprachnachrichten zurückgesetzt; die Gruppen müssen den importierten npub erneut einladen.</string>
+    <string name="voice_key_import_confirm">Identität ersetzen</string>
+    <string name="voice_key_cancel">Abbrechen</string>
+    <string name="voice_key_imported">Identität importiert. Laden Sie ihren npub erneut in die Gruppen ein.</string>
+    <string name="voice_replies_read_text">Textantworten vorlesen</string>
+    <string name="voice_replies_read_text_on">Sprachantworten werden so abgespielt, wie sie sind, Textantworten liest die Stimme des Telefons vor.</string>
+    <string name="voice_replies_read_text_off">Nur Sprachantworten werden abgespielt; Textantworten bleiben in der Gruppe. Bitten Sie den Agenten, per Sprache zu antworten.</string>
+    <string name="voice_replies_ignore">Antworten ignorieren, die enthalten</string>
+    <string name="voice_replies_ignore_hint">Durch Kommas getrennt. Eine Antwort, die eines davon enthält, wird nicht abgespielt, zum Beispiel das 🎙️, das die Abschrift Ihrer eigenen Sprachnachricht kennzeichnet.</string>
+    <string name="voice_status_saving">Sprachnachricht wird gespeichert</string>
+    <string name="voice_status_transcribing">Wird transkribiert</string>
+    <string name="voice_status_sending">Wird gesendet: %1$s</string>
+    <string name="voice_status_transcribe_wait">Warten auf die Transkriptions-App</string>
+    <string name="voice_clip_label">Transkript der Sprachnachricht</string>
+    <string name="voice_status_body">Sprachnachricht, %1$d:%2$02d</string>
+    <plurals name="voice_status_queued">
+        <item quantity="one">%d weitere wartet</item>
+        <item quantity="other">%d weitere warten</item>
+    </plurals>
+    <string name="voice_ostt_hint">Sprachnotizen funktionieren viel besser mit Offline Speech to Text: einer kostenlosen App, die Sprache direkt auf dem Handy in Text umwandelt, ganz ohne Internet.</string>
+    <string name="voice_get_ostt">Offline Speech to Text holen</string>
+    <string name="voice_webhook_https">Die URL muss mit https:// beginnen. Android lässt I Hear You nicht an http:// senden, und die Notiz ginge unverschlüsselt hinaus.</string>
+    <string name="voice_wn_group_gone">I Hear You ist nicht mehr in dieser Gruppe. Wähle eine andere oder lass es neu einladen.</string>
+    <string name="voice_wn_name">Name in Gruppen</string>
+    <string name="voice_wn_name_hint">Gruppenmitglieder sehen diesen Namen bei deinen Notizen. Er sollte zeigen, wem es gehört, zum Beispiel \"I Hear You (Anna)\".</string>
+    <string name="voice_wn_name_published">Name veröffentlicht. Andere Apps zeigen ihn eventuell erst nach einer Weile.</string>
+    <string name="voice_no_speech_no_ostt">Keine Sprache erkannt. Die Spracherkennung auf diesem Handy kann keine Aufnahme umschreiben: installiere Offline Speech to Text (kostenlos, auf Zapstore).</string>
+</resources>

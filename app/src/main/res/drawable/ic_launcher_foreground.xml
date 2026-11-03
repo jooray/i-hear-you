@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- A two-channel meter window: frame, index hairline, two level bars, vermilion index. -->
+    <path
+        android:strokeColor="#ECE9DA"
+        android:strokeWidth="3"
+        android:fillColor="#00000000"
+        android:pathData="M28,32 L80,32 L80,74 L28,74 Z" />
+    <path
+        android:strokeColor="#8C9383"
+        android:strokeWidth="2"
+        android:fillColor="#00000000"
+        android:pathData="M28,53 L80,53" />
+    <path
+        android:fillColor="#ECE9DA"
+        android:pathData="M37,59 L43,59 L43,69 L37,69 Z" />
+    <path
+        android:fillColor="#ECE9DA"
+        android:pathData="M48,47 L54,47 L54,69 L48,69 Z" />
+    <path
+        android:fillColor="#ECE9DA"
+        android:pathData="M59,40 L65,40 L65,69 L59,69 Z" />
+    <path
+        android:fillColor="#E8633F"
+        android:pathData="M66,62 L76,62 L76,68 L66,68 Z" />
+</vector>

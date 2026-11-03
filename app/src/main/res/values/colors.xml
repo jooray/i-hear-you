@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="panel_ground">#E4E7DB</color>
+    <color name="panel_ink">#14170F</color>
+    <color name="ic_launcher_background">#14170F</color>
+</resources>

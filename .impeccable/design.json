@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-26T00:30:00Z",
+  "title": "Design System: I-Hear-You",
+  "extensions": {
+    "colorMeta": {
+      "panel-ground": {
+        "role": "neutral",
+        "displayName": "Enamel Ground",
+        "canonical": "#E4E7DB",
+        "tonalRamp": ["#1A1D16", "#343830", "#4F5349", "#6A6E64", "#858A80", "#A1A69C", "#C2C6BB", "#E4E7DB"]
+      },
+      "panel-plate": {
+        "role": "neutral",
+        "displayName": "Mounted Plate",
+        "canonical": "#EDEFE5",
+        "tonalRamp": ["#1B1E17", "#363A32", "#51554B", "#6C7066", "#878C82", "#A3A89E", "#C8CCC1", "#EDEFE5"]
+      },
+      "panel-recess": {
+        "role": "neutral",
+        "displayName": "Window Well",
+        "canonical": "#D2D6C7",
+        "tonalRamp": ["#191C15", "#33372E", "#4E5247", "#696D63", "#84887E", "#9FA39A", "#B8BCB1", "#D2D6C7"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Printed Ink",
+        "canonical": "#14170F",
+        "tonalRamp": ["#14170F", "#2E3129", "#494C43", "#64675E", "#7F8279", "#9A9D94", "#B5B8AF", "#D0D3CA"]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Faded Ink",
+        "canonical": "#4C5247",
+        "tonalRamp": ["#0F120B", "#292C24", "#43473D", "#5D6157", "#787C72", "#93978D", "#AEB2A8", "#C9CDC3"]
+      },
+      "seal": {
+        "role": "primary",
+        "displayName": "Sealing Vermilion",
+        "canonical": "#B23A1E",
+        "tonalRamp": ["#2A0C05", "#4F1A0D", "#752716", "#9A301C", "#B23A1E", "#CF5B41", "#DF8972", "#F0BBA9"]
+      },
+      "lamp-live": {
+        "role": "secondary",
+        "displayName": "Link Green",
+        "canonical": "#256B45",
+        "tonalRamp": ["#08160E", "#0F2C1D", "#16422B", "#1D5739", "#256B45", "#3F8E63", "#6FB08B", "#A8D2BA"]
+      },
+      "fault": {
+        "role": "tertiary",
+        "displayName": "Fault Oxide",
+        "canonical": "#A3221A",
+        "tonalRamp": ["#250604", "#460D09", "#68140E", "#891B14", "#A3221A", "#C8453C", "#DC8078", "#F0BDB8"]
+      },
+      "night-ground": {
+        "role": "neutral",
+        "displayName": "Meter Cupboard",
+        "canonical": "#15180F",
+        "tonalRamp": ["#15180F", "#262A1F", "#383C2F", "#4A4E40", "#5D6151", "#707463", "#9A9E8C", "#ECE9DA"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Counter Drum", "purpose": "Level reading inside the glass window; tabular figures." },
+      "wordmark": { "displayName": "Wordmark", "purpose": "I-HEAR-YOU, once per surface, top left." },
+      "label": { "displayName": "Engraved Capitals", "purpose": "Plate titles, units, and every state word." },
+      "data": { "displayName": "Panel Data", "purpose": "dBm, clock, hex and other small measured values." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "key-travel", "value": "180ms cubic-bezier(0.2, 0, 0, 1)", "purpose": "A pressed key moves down 2px; no other transform." },
+      { "name": "lamp-breathe", "value": "1400ms ease-in-out alternate infinite", "purpose": "Only while a link is coming up." },
+      { "name": "reading-roll", "value": "180ms cubic-bezier(0.2, 0, 0, 1)", "purpose": "The level figure slides in the direction of change, like a counter drum; disabled when system animations are off." }
+    ],
+    "breakpoints": [
+      { "name": "compact", "value": "0dp" },
+      { "name": "expanded", "value": "600dp" },
+      { "name": "stacked-type", "value": "144% font scale" }
+    ],
+    "platform": "android"
+  },
+  "components": [
+    {
+      "name": "Neutral Key",
+      "kind": "button",
+      "refersTo": "key-neutral",
+      "description": "The default machined press key for utility actions.",
+      "html": "<button class=\"ds-key\">Reconnect both</button>",
+      "css": ".ds-key{background:#EDEFE5;color:#14170F;border:1px solid #8C9383;border-radius:2px;padding:12px 14px;min-height:48px;font-family:Barlow,sans-serif;font-size:14px;font-weight:600;letter-spacing:.02em;position:relative;cursor:pointer;transition:transform 180ms cubic-bezier(.2,0,0,1),background 180ms}.ds-key::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:#8C9383}.ds-key:hover{background:#F4F6EC}.ds-key:active{transform:translateY(2px)}.ds-key:focus-visible{outline:2px solid #B23A1E;outline-offset:2px}"
+    },
+    {
+      "name": "Primary Key",
+      "kind": "button",
+      "refersTo": "key-primary",
+      "description": "The single action a surface exists for; sealing vermilion with bone text.",
+      "html": "<button class=\"ds-key-primary\">Pair a new aid</button>",
+      "css": ".ds-key-primary{background:#B23A1E;color:#F7F4E7;border:1px solid #7A2815;border-radius:2px;padding:12px 14px;min-height:48px;font-family:Barlow,sans-serif;font-size:14px;font-weight:600;letter-spacing:.02em;position:relative;cursor:pointer;transition:transform 180ms cubic-bezier(.2,0,0,1),background 180ms}.ds-key-primary::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:#7A2815}.ds-key-primary:hover{background:#C24628}.ds-key-primary:active{transform:translateY(2px)}.ds-key-primary:focus-visible{outline:2px solid #14170F;outline-offset:2px}"
+    },
+    {
+      "name": "Titled Plate",
+      "kind": "card",
+      "refersTo": "plate",
+      "description": "The base container: a bordered plate whose label interrupts the top rule.",
+      "html": "<section class=\"ds-plate\"><span class=\"ds-plate-title\">PROGRAM</span><p class=\"ds-plate-body\">Right · recall</p></section>",
+      "css": ".ds-plate{position:relative;background:#EDEFE5;border:1px solid #B0B6A6;border-radius:2px;padding:20px 14px 12px}.ds-plate-title{position:absolute;top:-8px;left:14px;background:#E4E7DB;padding:0 5px;font-family:Barlow,sans-serif;font-size:10px;font-weight:600;letter-spacing:.13em;color:#4C5247}.ds-plate-body{margin:0;font-family:Barlow,sans-serif;font-size:13px;color:#4C5247}"
+    },
+    {
+      "name": "Level Window",
+      "kind": "custom",
+      "refersTo": "level-window",
+      "description": "A recessed glass window with the label left and the counter-drum reading right.",
+      "html": "<div class=\"ds-level\"><span class=\"ds-level-label\">LEVEL<em>READ BACK</em></span><span class=\"ds-level-value\">67</span></div>",
+      "css": ".ds-level{background:#D2D6C7;border:1px solid #B0B6A6;border-radius:2px;padding:6px 10px;display:flex;align-items:flex-end;justify-content:space-between}.ds-level-label{display:flex;flex-direction:column;font-family:Barlow,sans-serif;font-size:8px;font-weight:600;letter-spacing:.13em;color:#4C5247}.ds-level-label em{font-style:normal;font-size:8px;letter-spacing:.08em;margin-top:2px}.ds-level-value{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:34px;line-height:1;color:#14170F;font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Program Recall Key",
+      "kind": "custom",
+      "description": "A chunky preset key; the active program inverts to ink with a vermilion index tick.",
+      "html": "<button class=\"ds-program is-active\"><span class=\"ds-program-index\">1</span><span class=\"ds-program-name\">All around</span></button>",
+      "css": ".ds-program{width:104px;min-height:54px;text-align:left;background:#DFE2D5;border:1px solid #B0B6A6;border-radius:2px;padding:6px 7px;cursor:pointer}.ds-program-index{display:flex;align-items:center;gap:5px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;color:#14170F}.ds-program-index::before{content:'';width:14px;height:2px;background:#8C9383}.ds-program-name{display:block;margin-top:2px;font-family:Barlow,sans-serif;font-size:9px;font-weight:600;letter-spacing:.04em;color:#4C5247}.ds-program.is-active{background:#14170F;border-color:#14170F}.ds-program.is-active .ds-program-index{color:#EDEFE5}.ds-program.is-active .ds-program-index::before{background:#B23A1E}.ds-program.is-active .ds-program-name{color:#EDEFE5}.ds-program:focus-visible{outline:2px solid #B23A1E;outline-offset:2px}"
+    },
+    {
+      "name": "Stamp",
+      "kind": "custom",
+      "description": "The promise mark: a bordered vermilion stamp reading NO NETWORK.",
+      "html": "<span class=\"ds-stamp\">NO NETWORK</span>",
+      "css": ".ds-stamp{display:inline-block;border:1px solid #B23A1E;border-radius:1px;padding:3px 6px;font-family:Barlow,sans-serif;font-size:9px;font-weight:600;letter-spacing:.12em;color:#B23A1E;background:transparent}"
+    },
+    {
+      "name": "Switch Plate Navigation",
+      "kind": "nav",
+      "description": "Three destinations on a bottom switch plate; the active one carries a vermilion bar.",
+      "html": "<nav class=\"ds-switch\"><button class=\"ds-switch-item is-active\">NOW</button><button class=\"ds-switch-item\">BUTTONS</button><button class=\"ds-switch-item\">SETUP</button></nav>",
+      "css": ".ds-switch{display:flex;background:#EDEFE5;border-top:1px solid #8C9383}.ds-switch-item{flex:1;min-height:62px;background:transparent;border:0;position:relative;font-family:Barlow,sans-serif;font-size:9px;font-weight:600;letter-spacing:.12em;color:#4C5247;cursor:pointer}.ds-switch-item.is-active{color:#14170F}.ds-switch-item.is-active::before{content:'';position:absolute;top:3px;left:50%;transform:translateX(-50%);width:30px;height:3px;border-radius:1px;background:#B23A1E}.ds-switch-item:focus-visible{outline:2px solid #B23A1E;outline-offset:-2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Sealed Meter",
+    "overview": "The interface is a calibrated domestic instrument: an enamel panel with a glass window, printed scale, a fader per ear, engraved labels, and one vermilion tamper seal. It comes from the utility meter and the audiometer — objects whose whole job is to be read correctly, once, by someone standing in a hallway or sitting in a clinic. The wearer does not admire it; they read it. Two channels, two lives, no cloud. The world is flat and printed: ground, plate, recess; no shadows, no floating cards, no pills. Every control is a machined key with a two-pixel bottom edge, and every value sits in a recessed window behind glass.",
+    "keyCharacteristics": [
+      "Two-channel composition: left and right are two plates on one panel, never a card stack.",
+      "Hairline and tonal depth: 1 px rules, recessed windows, no shadows anywhere.",
+      "Engraved capitals for labels; counter-drum condensed figures for values.",
+      "One accent, used as a seal, an engaged key, or an index mark — never as decoration.",
+      "Every write is shown as sent, then as read back."
+    ],
+    "rules": [
+      { "name": "The Seal Rule", "body": "Sealing vermilion appears on at most three things per screen: the tamper stamp, an engaged control, and the active index. Its rarity is the point.", "section": "colors" },
+      { "name": "The Two Truths Rule", "body": "No state is carried by colour or shape alone. A live link is a filled lamp and the word LINKED. Low battery is two cells and the word LOW.", "section": "colors" },
+      { "name": "The Engraved Capitals Rule", "body": "Anything that names a thing on the panel is tracked upper case; anything a person says out loud is sentence case at body size.", "section": "typography" },
+      { "name": "The Tabular Figure Rule", "body": "Every number that can change on screen is set with tabular figures.", "section": "typography" },
+      { "name": "The No Floating Rule", "body": "Nothing hovers. No shadow, no blur, no translucency except the modal scrim.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do read every state twice: a mark plus a word.",
+      "Do keep the panel flat: 1 dp rules and tonal steps carry all separation.",
+      "Do set changing numbers in tabular figures and keep the level reading the largest value on screen.",
+      "Do show SENT until the aid confirms, then READ BACK.",
+      "Do let a CROS read as a transmitter: no program strip, no tap control, no Sound Enhancer.",
+      "Do keep light and dark as two hand-set palettes."
+    ],
+    "donts": [
+      "Don't use pills, rounded cards above 4 dp, gradients, glass, blur, or drop shadows.",
+      "Don't use vermilion as an alarm colour.",
+      "Don't use a battery percentage or any invented unit for attenuation.",
+      "Don't put cards inside cards, or float a plate on a gradient.",
+      "Don't use an icon without a label for anything that changes the aids.",
+      "Don't animate a value the aid has not confirmed.",
+      "Don't introduce a second accent colour."
+    ]
+  }
+}

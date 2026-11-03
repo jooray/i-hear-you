@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_voice">Voz</string>
+    <string name="action_voice_note">Nota de voz</string>
+    <string name="action_voice_note_hint">Graba desde los audífonos. La siguiente pulsación en cualquiera de ellos la termina. A dónde va se elige en la pantalla Voz.</string>
+
+    <string name="voice_title">Notas de voz</string>
+    <string name="voice_subtitle">Grabar desde los audífonos</string>
+    <string name="voice_intro">En la pantalla Botones, asigne Nota de voz a una pulsación. Esa pulsación empieza a grabar con los micrófonos de los audífonos. La siguiente pulsación en cualquiera de ellos la detiene, y la pulsación que use decide a dónde va la nota. Cada nota se guarda primero, pase lo que pase después.</string>
+
+    <string name="voice_mic_title">Micrófono no permitido</string>
+    <string name="voice_mic_body">Las notas de voz necesitan el permiso de micrófono.</string>
+    <string name="voice_mic_allow">Permitir micrófono</string>
+    <string name="voice_bg_title">Abra la app una vez para grabar en segundo plano</string>
+    <string name="voice_bg_body">Android solo deja a la app usar el micrófono en segundo plano después de haber estado en pantalla desde que se encendió el teléfono. Deje esta pantalla abierta un momento y quedará lista.</string>
+    <string name="voice_unmapped_title">Ninguna pulsación inicia aún una nota de voz</string>
+    <string name="voice_unmapped_body">En la pantalla Botones, asigne una pulsación, por ejemplo una pulsación larga en el audífono izquierdo, a Nota de voz.</string>
+
+    <string name="voice_status_title">Grabadora</string>
+    <string name="voice_recording">Grabando %1$d:%2$02d</string>
+    <string name="voice_mic_aid">MICRÓFONO DE LOS AUDÍFONOS</string>
+    <string name="voice_mic_phone">MICRÓFONO DEL TELÉFONO</string>
+    <string name="voice_mic_bluetooth">MICRÓFONO BLUETOOTH · %1$s</string>
+    <string name="voice_mic_opening">ABRIENDO MICRÓFONO</string>
+    <string name="voice_idle">Lista</string>
+    <string name="voice_idle_hint">La pulsación asignada a Nota de voz inicia una grabación.</string>
+    <string name="voice_record_here">Grabar desde aquí</string>
+    <string name="voice_stop_save">Detener y guardar</string>
+
+    <string name="voice_finish_title">Terminar una nota</string>
+    <string name="voice_finish_body">Mientras se graba una nota, cualquier pulsación en cualquiera de los audífonos la termina. Elija a dónde envía la nota cada pulsación. Siempre se guarda también.</string>
+    <string name="voice_finish_choose">Cuando esta pulsación termina una nota</string>
+    <string name="voice_finish_more">Webhook y White Noise aparecen aquí cuando se configuran en Avanzado.</string>
+
+    <string name="voice_dest_save">Solo guardar</string>
+    <string name="voice_dest_save_hint">La grabación se queda en el teléfono.</string>
+    <string name="voice_dest_white_noise">White Noise</string>
+    <string name="voice_dest_white_noise_hint">Guarda y envía al grupo elegido de White Noise.</string>
+    <string name="voice_dest_webhook">Webhook</string>
+    <string name="voice_dest_webhook_hint">Guarda y envía a la URL del webhook.</string>
+    <string name="voice_dest_share">Compartir</string>
+    <string name="voice_dest_share_hint">Guarda y abre el menú de compartir. Con el teléfono bloqueado espera en una notificación.</string>
+
+    <string name="voice_length_title">Nota más larga</string>
+    <string name="voice_minutes">%1$d min</string>
+    <string name="voice_length_hint">Un minuto antes del límite suena un aviso. Al llegar al límite, la nota termina como con una pulsación corta en el audífono que la inició.</string>
+
+    <string name="voice_tx_title">Transcripción</string>
+    <string name="voice_tx_audio">Audio</string>
+    <string name="voice_tx_audio_hint">Envía solo la grabación. No se transcribe nada.</string>
+    <string name="voice_tx_both">Audio + texto</string>
+    <string name="voice_tx_both_hint">Transcribe en el teléfono y envía ambos. La transcripción se guarda junto a la grabación.</string>
+    <string name="voice_tx_text">Texto</string>
+    <string name="voice_tx_text_hint">Envía solo la transcripción. La grabación y la transcripción se guardan igualmente. Si la transcripción falla, se envía el audio.</string>
+    <string name="voice_tx_provider">Transcrito por</string>
+    <string name="voice_tx_none">Ninguna app de transcripción</string>
+    <string name="voice_tx_old_android">Requiere Android 13 o posterior</string>
+    <string name="voice_tx_install">Instale Offline Speech to Text (Zapstore) y descargue un modelo en ella. La transcripción se hace en el teléfono, sin conexión.</string>
+
+    <string name="voice_saving_title">Micrófono y guardado</string>
+    <string name="voice_aid_mic">Usar los micrófonos de los audífonos</string>
+    <string name="voice_aid_mic_hint">Mientras sus micrófonos están abiertos, los audífonos pasan a un modo como de llamada. La música suena más plana hasta que termina la nota. Los audífonos solo ofrecen micrófono cuando son el dispositivo de audio activo del teléfono. Si hay otros auriculares Bluetooth activos se usa su micrófono, y si no hay ninguno, el del teléfono.</string>
+    <string name="voice_folder">Carpeta</string>
+    <string name="voice_folder_default">Documents/I Hear You</string>
+    <string name="voice_folder_choose">Elegir carpeta</string>
+    <string name="voice_folder_reset">Predeterminada</string>
+    <string name="voice_folder_hint">Las grabaciones (.m4a) y transcripciones (.txt) se guardan aquí, para que una app de sincronización como Syncthing las recoja.</string>
+
+    <string name="voice_recent_title">Notas recientes</string>
+    <string name="voice_recent_empty">Aún no hay notas.</string>
+    <string name="voice_recent_hint">Una nota cuyo envío falló conserva su copia guardada. Reintentar la envía de nuevo.</string>
+    <string name="voice_state_recording">GRABANDO</string>
+    <string name="voice_state_processing">GUARDANDO</string>
+    <string name="voice_state_saved">GUARDADA</string>
+    <string name="voice_state_sent">GUARDADA · ENVIADA: %1$s</string>
+    <string name="voice_state_failed">GUARDADA · FALLÓ %1$s</string>
+    <string name="voice_state_transcript">TRANSCRIPCIÓN</string>
+    <string name="voice_retry">Reintentar</string>
+    <string name="voice_delete">Eliminar</string>
+
+    <string name="voice_advanced">Destinos avanzados</string>
+    <string name="voice_save_settings">Guardar</string>
+    <string name="voice_net_title">El acceso a la red está desactivado</string>
+    <string name="voice_net_body">Webhook y White Noise necesitan acceso a la red. Active Red para I Hear You en los ajustes de la app.</string>
+    <string name="voice_net_open">Abrir ajustes de la app</string>
+    <string name="voice_net_error">I Hear You no tiene acceso a la red (ajustes de la app, Red).</string>
+    <string name="voice_webhook_title">Webhook</string>
+    <string name="voice_webhook_body">Envía cada nota como formulario multipart: metadata (JSON), transcript (texto) y audio (.m4a). Funciona con n8n, Home Assistant o su propio servidor. Cualquier respuesta 2xx cuenta como entregada.</string>
+    <string name="voice_webhook_url">URL</string>
+    <string name="voice_webhook_auth">Cabecera Authorization (opcional)</string>
+
+    <string name="voice_wn_title">White Noise</string>
+    <string name="voice_wn_body">I Hear You recibe su propia identidad de White Noise. Invítela a un grupo, por ejemplo uno con su agente de IA, y las notas terminadas con la pulsación de White Noise se enviarán allí.</string>
+    <string name="voice_wn_enable">Usar White Noise</string>
+    <string name="voice_wn_state">Estado</string>
+    <string name="voice_wn_off">Desactivado</string>
+    <string name="voice_wn_starting">Iniciando…</string>
+    <string name="voice_wn_ready">Conectado</string>
+    <string name="voice_wn_failed">Falló: %1$s</string>
+    <string name="voice_wn_retry">Iniciar de nuevo</string>
+    <string name="voice_wn_identity">IDENTIDAD DE ESTA APP (NPUB)</string>
+    <string name="voice_wn_copy">Copiar</string>
+    <string name="voice_wn_invite_hint">En White Noise, añada este npub a un grupo. La invitación aparece abajo. Los agentes como Hermes también deben permitir que este npub los invite y les escriba.</string>
+    <string name="voice_wn_invites">INVITACIONES</string>
+    <string name="voice_wn_accept">Aceptar</string>
+    <string name="voice_wn_decline">Rechazar</string>
+    <string name="voice_wn_group">GRUPO PARA LAS NOTAS DE VOZ</string>
+    <string name="voice_wn_no_groups">Aún no hay grupos. Acepte primero una invitación.</string>
+    <string name="voice_replies_title">RESPUESTAS EN LOS AUDÍFONOS</string>
+    <string name="voice_replies_off">No</string>
+    <string name="voice_replies_off_hint">Las respuestas se quedan en el grupo; no se reproduce nada.</string>
+    <string name="voice_replies_after">Tras una nota</string>
+    <string name="voice_replies_after_hint">Los mensajes del grupo se reproducen en los audífonos durante %1$d minutos después de enviar una nota: las respuestas de voz tal cual, el texto leído en voz alta. Una pulsación corta detiene una respuesta.</string>
+    <string name="voice_replies_always">Siempre</string>
+    <string name="voice_replies_always_hint">Cada mensaje nuevo del grupo se reproduce en los audífonos. Una pulsación corta detiene una respuesta.</string>
+
+    <string name="voice_channel">Notas de voz</string>
+    <string name="voice_notif_recording_title">Grabando una nota de voz</string>
+    <string name="voice_notif_recording_body">Pulse cualquiera de los audífonos para terminar.</string>
+    <string name="voice_notif_mic_title">La nota de voz no se grabó</string>
+    <string name="voice_notif_mic_body">Abra I Hear You una vez para que pueda usar el micrófono en segundo plano.</string>
+    <string name="voice_notif_silent_title">El micrófono está grabando silencio</string>
+    <string name="voice_notif_silent_body">Revise el interruptor del micrófono, si los audífonos están silenciados, o si una llamada u otra app está usando el micrófono. La grabación continúa.</string>
+    <string name="voice_notif_micfail_title">Grabación detenida: falló el micrófono</string>
+    <string name="voice_notif_micfail_body">Lo grabado hasta entonces está guardado.</string>
+    <string name="voice_notif_failed_title">%1$s: no enviada</string>
+    <string name="voice_notif_failed_body">La grabación está guardada (%1$s). Reintentar la envía de nuevo.</string>
+    <string name="voice_notif_share_title">Nota de voz lista para compartir</string>
+    <string name="voice_notif_share_body">Toque para elegir una app.</string>
+    <string name="voice_share_title">Compartir nota de voz</string>
+    <string name="voice_key_title">COPIA DE LA CLAVE (NSEC)</string>
+    <string name="voice_key_body">El nsec es la clave privada de la identidad de esta app: quien lo tenga puede escribir en su nombre. Guárdelo en un gestor de contraseñas. Importarlo restaura la identidad (el mismo npub), no los grupos: tras importarlo, los grupos deben volver a invitar al npub.</string>
+    <string name="voice_key_show">Mostrar nsec</string>
+    <string name="voice_key_hide">Ocultar</string>
+    <string name="voice_key_import">Importar nsec</string>
+    <string name="voice_key_import_go">Importar</string>
+    <string name="voice_key_import_warn">Esto sustituye la identidad actual. Sus grupos se descartan y se borra el grupo de las notas de voz; los grupos deben volver a invitar al npub importado.</string>
+    <string name="voice_key_import_confirm">Sustituir identidad</string>
+    <string name="voice_key_cancel">Cancelar</string>
+    <string name="voice_key_imported">Identidad importada. Vuelva a invitar su npub a los grupos.</string>
+    <string name="voice_replies_read_text">Leer en voz alta las respuestas de texto</string>
+    <string name="voice_replies_read_text_on">Las respuestas de voz se reproducen tal cual; las de texto las lee la voz del teléfono.</string>
+    <string name="voice_replies_read_text_off">Solo se reproducen las respuestas de voz; las de texto se quedan en el grupo. Pida al agente que responda con voz.</string>
+    <string name="voice_replies_ignore">Ignorar respuestas que contengan</string>
+    <string name="voice_replies_ignore_hint">Separados por comas. Una respuesta que contenga alguno no se reproduce, por ejemplo el 🎙️ que marca la transcripción de su propia nota de voz.</string>
+    <string name="voice_status_saving">Guardando la nota de voz</string>
+    <string name="voice_status_transcribing">Transcribiendo</string>
+    <string name="voice_status_sending">Enviando a %1$s</string>
+    <string name="voice_status_transcribe_wait">Esperando a la app de transcripción</string>
+    <string name="voice_clip_label">Transcripción de la nota de voz</string>
+    <string name="voice_status_body">Nota de voz, %1$d:%2$02d</string>
+    <plurals name="voice_status_queued">
+        <item quantity="one">%d más en espera</item>
+        <item quantity="other">%d más en espera</item>
+    </plurals>
+    <string name="voice_ostt_hint">Las notas de voz funcionan mucho mejor con Offline Speech to Text: una app gratuita que convierte la voz en texto en el propio móvil, sin conexión.</string>
+    <string name="voice_get_ostt">Obtener Offline Speech to Text</string>
+    <string name="voice_webhook_https">La URL debe empezar por https://. Android no deja a I Hear You enviar a http://, y la nota viajaría sin cifrar.</string>
+    <string name="voice_wn_group_gone">I Hear You ya no está en este grupo. Elige otro o haz que lo inviten de nuevo.</string>
+    <string name="voice_wn_name">Nombre en los grupos</string>
+    <string name="voice_wn_name_hint">Los miembros del grupo ven este nombre junto a tus notas. Que diga de quién es, por ejemplo \"I Hear You (Ana)\".</string>
+    <string name="voice_wn_name_published">Nombre publicado. Otras apps pueden tardar un poco en mostrarlo.</string>
+    <string name="voice_no_speech_no_ostt">No se reconoció ninguna voz. El reconocedor de este teléfono no puede transcribir una grabación: instala Offline Speech to Text (gratis, en Zapstore).</string>
+</resources>

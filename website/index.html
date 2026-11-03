@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I Hear You: an offline remote for GN / ReSound hearing aids</title>
+<meta name="description" content="Independent, interoperable open-source Android remote for GN hearing aids; works with ReSound Nexia and CROS. No account, works offline. Button mapping, voice notes recorded through the aids, transcribed on the phone.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E4E7DB" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15180F" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="I Hear You: an offline remote for GN / ReSound hearing aids">
+<meta property="og:description" content="Independent, interoperable open-source Android remote for GN hearing aids; works with ReSound Nexia and CROS. No account, works offline. Button mapping, voice notes recorded through the aids, transcribed on the phone.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://jooray.github.io/i-hear-you/">
+<link rel="alternate" hreflang="en" href="https://jooray.github.io/i-hear-you/">
+<link rel="alternate" hreflang="sk" href="https://jooray.github.io/i-hear-you/sk/">
+<link rel="alternate" hreflang="cs" href="https://jooray.github.io/i-hear-you/cs/">
+<link rel="alternate" hreflang="de" href="https://jooray.github.io/i-hear-you/de/">
+<link rel="alternate" hreflang="es" href="https://jooray.github.io/i-hear-you/es/">
+<link rel="alternate" hreflang="x-default" href="https://jooray.github.io/i-hear-you/">
+<link rel="preload" href="fonts/barlow_condensed_bold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+<a class="wordmark" href="#top" id="top">I-Hear-You</a>
+<nav class="nav"><a href="#what">What it does</a><a href="#aids">Hearing aids</a><a href="#buttons">Buttons</a><a href="#voice">Voice notes</a><a href="#ostt">Transcription</a><a href="#whitenoise">White Noise</a><a href="#get">Get it</a></nav>
+<div class="lang" role="group" aria-label="Language"><span aria-current="true" lang="en">EN</span><a href="sk/index.html" hreflang="sk" lang="sk" title="Slovenčina">SK</a><a href="cs/index.html" hreflang="cs" lang="cs" title="Čeština">CS</a><a href="de/index.html" hreflang="de" lang="de" title="Deutsch">DE</a><a href="es/index.html" hreflang="es" lang="es" title="Español">ES</a></div>
+</div></header>
+<main id="main">
+<div class="hero"><div class="wrap">
+<div>
+<span class="stamp">Unofficial</span>
+<h1>A remote for your hearing aids that works offline.</h1>
+<p class="lead">I Hear You is an independent, interoperable open-source Android remote for GN hearing aids, tested with ReSound Nexia and CROS. It shows battery, program and volume, lets a press on an aid run an action on your phone, and uses the aids&#x27; microphones for voice notes.</p>
+<div class="keys">
+<a class="key primary" href="#get">Get the app</a>
+<a class="key" href="https://github.com/jooray/i-hear-you">Source code</a></div>
+</div>
+<figure class="shot" style="margin:0 auto"><picture><source srcset="img/now-dark.webp" media="(prefers-color-scheme: dark)"><img src="img/now-light.webp" width="720" height="1575" alt="The Now screen of I Hear You: two aid channels at levels 67 and 40, mute and plus/minus keys, a program strip." decoding="async"></picture><figcaption class="label shot-cap">The Now screen: one plate per aid.</figcaption></figure>
+</div></div>
+<div class="notice-wrap"><div class="wrap"><p class="notice" role="note"><strong>Not affiliated with GN Hearing.</strong> I Hear You is an independent, unofficial open-source project. ReSound, Nexia, Beltone and other names are trademarks of their owners.</p></div></div>
+
+<section id="what"><div class="wrap">
+<span class="label">What it does</span>
+<h2>Everyday control, offline</h2>
+<p class="intro">It covers everyday control of your aids without an account or a cloud connection, and adds a few things of its own.</p>
+<div class="grid two"><div class="plate"><span class="label">Now</span><h3>See and set each aid</h3><p>Battery, signal, stream state, program and volume for the left and right aid, with a mute key and a program strip. Every change shows as sent, then as read back from the aid.</p></div><div class="plate"><span class="label">Buttons</span><h3>Make the aid&#x27;s button do more</h3><p>A short, long or double press on each aid can have its own action on the phone.</p></div><div class="plate"><span class="label">Voice</span><h3>Talk to the phone through the aids</h3><p>Voice notes are recorded with the aids&#x27; own microphones and transcribed on the phone.</p></div><div class="plate"><span class="label">Offline</span><h3>No account, no cloud</h3><p>The app talks to the aids over Bluetooth LE. It has no account and no analytics. The network is used only by the voice-note destinations you set up.</p></div></div>
+</div></section>
+
+<section id="aids"><div class="wrap">
+<span class="label">Hearing aids</span>
+<h2>Which hearing aids it works with</h2>
+<p class="intro">I Hear You talks to GN hearing aids over Bluetooth LE. It has been tested with ReSound Nexia receivers NX560S (Nexia 5) and NX460S and the Nexia CROS transmitter CX160S.</p>
+<div class="grid three"><div class="plate"><span class="label">Tested</span><h3>ReSound Nexia with Nexia CROS</h3><p>NX560S (Nexia 5), NX460S and the CX160S CROS. Everything on this page was checked on these.</p></div><div class="plate"><span class="label">Should work, untested</span><h3>Other recent GN aids</h3><p>It supports several generations of GN hearing aids and recognises aids from the GN brands ReSound, Beltone, Jabra Enhance, Danalogic and Interton. None of these other aids has been tried yet. If you have one, tell us what works and what doesn&#x27;t.</p></div><div class="plate"><span class="label">Not supported</span><h3>Other makers, passcode aids</h3><p>Phonak, Oticon, Signia, Widex, Starkey and other brands outside GN use different protocols. GN aids that ask for a passcode to pair aren&#x27;t supported either.</p></div></div>
+<p style="margin-top:20px">If the app meets an aid generation it doesn&#x27;t know, it only reads from the aid: you see the battery and status, and it changes nothing.</p>
+</div></section>
+
+<section id="buttons"><div class="wrap split rev">
+<figure class="shot"><picture><source srcset="img/buttons-dark.webp" media="(prefers-color-scheme: dark)"><img src="img/buttons-light.webp" width="720" height="1575" alt="The Buttons screen: for the left and right aid, a short press mapped to play / pause, a long press to next track, a double press to previous track." loading="lazy" decoding="async"></picture></figure>
+<div>
+<span class="label">Buttons</span>
+<h2>Buttons that do something</h2>
+<p>A press on the aid can run an action on the phone instead of the aid&#x27;s own. You set it per aid and per gesture. The change the aid makes to its program or volume is undone right after the press, so it doesn&#x27;t get in the way of the action you chose.</p>
+<ul class="gestures"><li><b>Short press</b><span class="label">press once</span></li><li><b>Long press</b><span class="label">hold past 0.4 s</span></li><li><b>Double press</b><span class="label">press twice</span></li></ul>
+<p>Each gesture can run one of these:</p>
+<ul class="chips"><li>Play / pause</li><li>Next track</li><li>Previous track</li><li>Volume up</li><li>Volume down</li><li>Next program</li><li>Previous program</li><li>Voice note</li><li>Do nothing</li><li>Keep the aid&#x27;s action</li></ul>
+<p style="margin-top:16px">Play, pause and track keys need notification access, which you grant in Setup. The mappings stay on your phone and are never synced.</p>
+</div>
+</div></section>
+
+<section id="voice"><div class="wrap">
+<span class="label">Voice notes</span>
+<h2>Voice notes from the button on your aid</h2>
+<p class="intro">Map Voice note to a press on the aid. One press starts a recording, the next one ends it.</p>
+<ol class="rows"><li><span class="num" aria-hidden="true">1</span><h3>Press</h3><p>The sound comes from the aids&#x27; own LE Audio microphones. If they aren&#x27;t available, the app falls back to another headset and then to the phone&#x27;s microphone. A woman&#x27;s voice says &quot;go ahead&quot; once recording starts, in the app&#x27;s language. Music or anything else playing is paused, and resumes after the note.</p></li><li><span class="num" aria-hidden="true">2</span><h3>Talk</h3><p>A press on either aid ends the note, whatever that press is mapped to. Which aid and which gesture you press decides where the note goes, and a short spoken message says what was chosen, such as &quot;Saved, transcribing.&quot; A length limit of 2 to 60 minutes ends it as well.</p></li><li><span class="num" aria-hidden="true">3</span><h3>Transcribe</h3><p>The phone transcribes the recording on the device with Offline Speech to Text, even with the screen locked. You choose audio, audio and text, or text only.</p></li><li><span class="num" aria-hidden="true">4</span><h3>Deliver</h3><p>The audio is always saved first, as an .m4a file in Documents/I Hear You or a folder you pick. Then it goes where you chose.</p></li></ol>
+<ul class="dest"><li><b>Save only.</b> Nothing leaves the phone. The transcript is also copied to the clipboard.</li><li><b>Share.</b> The Android share sheet, with the audio and the transcript.</li><li><b>Webhook.</b> A POST with the audio, the transcript and a little metadata, to Home Assistant or your own server.</li><li><b>White Noise.</b> An encrypted message in a group, sent under the app&#x27;s own identity.</li></ul>
+<p style="margin-top:20px">There is no cancel key. A note you didn&#x27;t mean to end still gets saved.</p>
+</div></section>
+
+<section id="ostt" class="band"><div class="wrap band-grid">
+<div>
+<span class="label">Recommended app</span>
+<h2>Works best with Offline Speech to Text</h2>
+<p>Offline Speech to Text is a free app that turns speech into text on your phone, with no network. I Hear You uses it to transcribe your voice notes, so the words stay on the device unless you send them somewhere.</p>
+<p>Install it, download a speech model in it, and choose audio and text or text only for your voice notes. Transcription needs Android 13 or newer.</p>
+<div class="keys"><a class="key" href="https://zapstore.dev/apps/app.offlinespeechtotext">Offline Speech to Text on Zapstore</a></div>
+</div>
+<ul><li>Free</li><li>Runs on the phone</li><li>Works offline</li></ul>
+</div></section>
+
+<section id="whitenoise"><div class="wrap">
+<span class="label">White Noise</span>
+<h2>White Noise and AI agents</h2>
+<p class="intro">White Noise is a messenger with encrypted groups. I Hear You can post your voice notes to a White Noise group under an identity of its own, which it creates the first time you use it. Copy its npub into a group, accept the invite in the app and choose the group.</p>
+<p class="intro">Put an AI agent in that group, for example Hermes, and a press on your aid becomes a way to talk to it.</p>
+<ol class="rows"><li><span class="num" aria-hidden="true">1</span><h3>You speak</h3><p>Press the aid, say it, press again. The voice note arrives in the group as audio, with the transcript as its caption.</p></li><li><span class="num" aria-hidden="true">2</span><h3>The agent answers</h3><p>It replies in the group like any other member.</p></li><li><span class="num" aria-hidden="true">3</span><h3>You hear it</h3><p>The reply plays into your aids. Audio plays as it is, and text is read aloud by the phone&#x27;s text-to-speech. A short press stops it.</p></li></ol>
+<p style="margin-top:20px">Replies can be off, played for 15 minutes after you send a note (the default), or always. Music pauses while a reply plays. You can read text replies aloud or only play voice replies, and list words that keep a reply from being played, such as the microphone marker that tags the transcript of your own note.</p>
+<p>If your agent only accepts invites and messages from known keys, allow the app&#x27;s npub in its connector. You can back up the identity as an nsec and import it later. That brings back the npub, but the groups have to invite it again.</p>
+</div></section>
+
+<section id="privacy"><div class="wrap">
+<span class="label">Privacy and licence</span>
+<h2>Private, open and unofficial</h2>
+<div class="grid"><div class="plate"><span class="label">Privacy</span><p>No account. The app reaches the aids over Bluetooth LE. The network is used only by the voice-note destinations you set up, a webhook or a White Noise group. With Save only, nothing leaves the phone, and transcription runs on the phone.</p></div><div class="plate"><span class="label">Open source</span><p>The code is under the MIT licence. The Barlow typefaces are under the SIL Open Font License.</p></div><div class="plate"><span class="label">Unofficial</span><p>GN Hearing and ReSound did not make, endorse or support I Hear You. Its behaviour was verified on ReSound Nexia aids (NX560S, NX460S) and a Nexia CROS. Other GN models are untested.</p></div></div>
+</div></section>
+
+<section id="get"><div class="wrap">
+<span class="label">Download</span>
+<h2>Get I Hear You</h2>
+<p class="intro">Version 0.2.0 is early software. It needs Android 12 or newer.</p>
+<div class="grid three"><div class="plate pick"><span class="label">Recommended</span><h3>Zapstore</h3><p>Zapstore installs the app and keeps it updated on its own.</p><p><a class="key primary" href="https://zapstore.dev/apps/app.ihearyou">Get it on Zapstore</a></p></div><div class="plate"><span class="label">Updates from GitHub</span><h3>Obtainium</h3><p>Obtainium watches the GitHub releases and updates the app when a new one is out. If Obtainium is installed, this link adds I Hear You to it.</p><p><a class="key" href="obtainium://add/https://github.com/jooray/i-hear-you">Add to Obtainium</a></p></div><div class="plate"><span class="label">One file</span><h3>APK from GitHub</h3><p>Download the APK from the latest release and install it. You&#x27;ll have to update it by hand.</p><p><a class="key" href="https://github.com/jooray/i-hear-you/releases/latest">Latest release</a></p></div></div>
+<p class="fine">The APK is signed with a certificate whose SHA-256 fingerprint is <code>79750fb49349ec3729be5a3e825507a15e47c6d987e854ae91d5d50a20b3a24d</code>. Android installs an update only if it is signed with the same certificate. You can also build the app yourself; the steps are in the <a href="https://github.com/jooray/i-hear-you">repository on GitHub</a>.</p>
+</div></section>
+
+<section id="pair"><div class="wrap">
+<span class="label">First run</span>
+<h2>Pair your aids</h2>
+<p class="intro">Each aid is paired once. Have both aids and the charger at hand.</p>
+<ol class="rows"><li><span class="num" aria-hidden="true">1</span><h3>Pair in Android</h3><p>Take the aids out of the charger and pair both in the phone&#x27;s Bluetooth settings, as you would without this app.</p></li><li><span class="num" aria-hidden="true">2</span><h3>Open the app</h3><p>Your aids are listed under Setup → Pair an aid. You can also tap Pair on the Now screen.</p></li><li><span class="num" aria-hidden="true">3</span><h3>Tap one aid</h3><p>When the app asks, put that aid in the charger for about 3 seconds and take it out again. The aid restarts and the app finishes pairing.</p></li><li><span class="num" aria-hidden="true">4</span><h3>Then the other</h3><p>Do the same with the second aid. Both then show up on the Now screen.</p></li></ol>
+<p style="margin-top:20px">Aids with a battery instead of a charger: open and close the battery door instead.</p>
+</div></section>
+
+<section id="third"><div class="wrap">
+<span class="label">Sister app</span>
+<h2>Third Ear</h2>
+<p class="intro">Third Ear is a general voice recorder with the same Bluetooth and hearing-aid recording, transcription and White Noise features.</p>
+<div class="keys"><a class="key" href="https://jooray.github.io/third-ear/">Visit Third Ear</a></div>
+</div></section>
+<section id="support"><div class="wrap">
+<span class="label">Support</span>
+<h2>Time, talent or treasure</h2>
+<p class="intro">If you like this project, I would appreciate it if you contributed time, talent or treasure.</p>
+<div class="grid two"><div class="plate"><span class="label">Time and talent</span><h3>Test it, fix it</h3><p>Try the app with your aids and report what works and what doesn&#x27;t. Fix bugs and send pull requests. Reports from GN aids other than the Nexia help the most.</p><p><a class="key" href="https://github.com/jooray/i-hear-you">Project on GitHub</a></p></div><div class="plate"><span class="label">Treasure</span><h3>Send something back</h3><p>Treasure can be sent through my support page. It has a Bitcoin payment form and addresses for Lightning, Monero and Zcash, which you can also scan here.</p><p><a class="key primary" href="https://juraj.bednar.io/en/support-me/">Support page</a></p></div></div>
+<ul class="qr"><li><img src="img/qr-lightning-en.png" width="200" height="200" alt="QR code: Lightning BOLT-12 offer" loading="lazy" decoding="async"><b>Lightning (BOLT-12)</b><a href="lightning:lno1pg98xatswphhyapqg48pvggz7yjxhrlfqjju2xf4qnvqd9fjk8acdy4cf7e7kep33vspyw8kplcs">Open in wallet</a></li><li><img src="img/qr-monero.png" width="200" height="200" alt="QR code: Monero address" loading="lazy" decoding="async"><b>Monero</b><a href="monero:89jGcmA65CReki73oLFvxHUzyR45wMqTN8G93ZYRizWVF2XUQgYKbPLGQYgxj2YjX4fxAUPQ7tLr4ATP7fpR4dSeHH3r9iH">Open in wallet</a></li><li><img src="img/qr-zcash.png" width="200" height="200" alt="QR code: Zcash address" loading="lazy" decoding="async"><b>Zcash</b></li></ul>
+</div></section>
+</main>
+<footer><div class="wrap">
+<p><span class="tick" aria-hidden="true"></span>I Hear You is an independent open-source project, not affiliated with GN Hearing. ReSound, Beltone, Jabra Enhance, Danalogic, Interton, Nexia, Phonak, Oticon, Signia, Widex, Starkey are trademarks of their respective owners, used here only to say which aids the app works with. MIT licence. <a href="https://github.com/jooray/i-hear-you">Source code</a> · <a href="#support">Support the project</a></p>
+</div></footer>
+</body>
+</html>

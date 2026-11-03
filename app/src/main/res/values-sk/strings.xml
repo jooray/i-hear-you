@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App chrome -->
+    <string name="nav_now">Teraz</string>
+    <string name="nav_buttons">Tlačidlá</string>
+    <string name="nav_setup">Nastavenie</string>
+    <string name="back">Späť</string>
+
+    <!-- Side, role and status words -->
+    <string name="side_letter_left">Ľ</string>
+    <string name="side_letter_right">P</string>
+    <string name="side_letter_unknown">?</string>
+    <string name="side_left">ĽAVÝ</string>
+    <string name="side_right">PRAVÝ</string>
+    <string name="side_unknown">STRANA NEZNÁMA</string>
+    <string name="side_left_title">Ľavý</string>
+    <string name="side_right_title">Pravý</string>
+    <string name="side_aid_title">Prístroj</string>
+    <string name="role_hearing_aid">PRÍSTROJ</string>
+    <string name="role_cros_tx">CROS · TX</string>
+    <string name="role_receiver">PRIJÍMAČ</string>
+    <string name="role_long_hearing_aid">Načúvací prístroj</string>
+    <string name="role_long_cros">Vysielač CROS</string>
+    <string name="role_long_receiver">Prijímač</string>
+    <string name="battery_full">PLNÁ</string>
+    <string name="battery_charging">NABÍJA SA</string>
+    <string name="battery_in_charger">V NABÍJAČKE</string>
+    <string name="battery_empty">PRÁZDNA</string>
+    <string name="battery_low">SLABÁ</string>
+    <string name="battery_level">%1$d/10</string>
+    <string name="stream_idle">NEČINNÝ</string>
+    <string name="stream_searching">HĽADÁ</string>
+    <string name="stream_out_of_range">MIMO DOSAHU</string>
+    <string name="stream_not_found">NENÁJDENÝ</string>
+    <string name="stream_streaming">PRENOS</string>
+    <string name="stream_state">STAV %1$d</string>
+    <string name="stream_kind_spouse_mic">MIK. PARTNERA</string>
+    <string name="tap_calls_program">HOVORY + PROGRAM</string>
+    <string name="tap_calls">HOVORY</string>
+    <string name="tap_program">PROGRAM</string>
+    <string name="tap_off">VYPNUTÉ</string>
+    <string name="link_connecting">PRIPÁJA SA</string>
+    <string name="link_linked">PRIPOJENÝ</string>
+    <string name="link_needs_pairing">TREBA SPÁROVAŤ</string>
+    <string name="link_blocked">BLOKOVANÝ</string>
+    <string name="link_other_app">INÁ APPKA</string>
+    <string name="link_not_supported">NEPODPOROVANÝ</string>
+    <string name="link_bluetooth_off">BLUETOOTH VYP.</string>
+
+    <!-- Shared -->
+    <string name="sample">Ukážka</string>
+    <string name="aid_with_side">%1$s prístroj</string>
+
+    <!-- Aid detail screen -->
+    <string name="aid_detail_identification">Identifikácia</string>
+    <string name="aid_detail_side">Strana</string>
+    <string name="aid_detail_role">Úloha</string>
+    <string name="aid_detail_model">Model</string>
+    <string name="aid_detail_firmware">Firmvér</string>
+    <string name="aid_detail_serial">Sériové číslo · posledné 4</string>
+    <string name="aid_detail_address">Adresa</string>
+    <string name="aid_detail_session">Pripojenie</string>
+    <string name="aid_detail_session_sample">Ukážkové údaje</string>
+    <string name="aid_detail_session_open">Spárované · pripojené</string>
+    <string name="aid_detail_session_not_linked">Nepripojené</string>
+    <string name="aid_detail_readings">Namerané hodnoty</string>
+    <string name="aid_detail_attenuation">Útlm</string>
+    <string name="aid_detail_level_shown">Zobrazená úroveň</string>
+    <string name="aid_detail_level_of_99">%1$d / 99</string>
+    <string name="aid_detail_battery_state">Stav batérie</string>
+    <string name="aid_detail_battery_level">Úroveň batérie</string>
+    <string name="aid_detail_battery_of_10">%1$d z 10</string>
+    <string name="aid_detail_program_index">Index programu</string>
+    <string name="aid_detail_stream">Prenos zvuku</string>
+    <string name="aid_detail_signal">Signál</string>
+    <string name="aid_detail_tap_bits">Bity poklepania</string>
+    <string name="aid_detail_read_at">Načítané o</string>
+    <string name="aid_detail_tap_control">Ovládanie poklepaním</string>
+    <string name="aid_detail_tap_hint">Čo urobí dvojité poklepanie na samotný prístroj.</string>
+    <string name="aid_detail_tap_calls">Prijať a ukončiť hovor</string>
+    <string name="aid_detail_tap_program">Zmeniť program poklepaním</string>
+    <string name="aid_detail_enhancer">Vylepšenie zvuku</string>
+    <string name="aid_detail_enhancer_none">Zatiaľ žiadne hlásenie.</string>
+    <string name="aid_detail_enhancer_hint">Nastavuje audiológ. Tu len na čítanie.</string>
+    <string name="aid_detail_transmitter">Vysielač</string>
+    <string name="aid_detail_transmitter_hint">CROS zachytáva zvuk na tejto strane a posiela ho do druhého prístroja. Nemá vlastné programy.</string>
+    <string name="aid_detail_forget">Zabudnúť</string>
+    <string name="aid_detail_forget_confirm_hint">Kľúč k tomuto prístroju sa z telefónu vymaže. Ak ho chcete znova používať, spárujte ho v Nastavení.</string>
+    <string name="aid_detail_forget_hint">Vymaže z tohto telefónu kľúč k prístroju. Použite to pred odovzdaním prístroja inému človeku alebo na opätovné spárovanie.</string>
+    <string name="aid_detail_forget_now">Zabudnúť teraz</string>
+    <string name="aid_detail_forget_this">Zabudnúť tento prístroj</string>
+    <string name="aid_detail_forget_confirm_cd">Potvrdiť: zabudnúť tento prístroj</string>
+
+    <!-- Common labels -->
+    <string name="dismiss">Zavrieť</string>
+    <string name="close">Zatvoriť</string>
+
+    <!-- Button actions -->
+    <string name="action_aid_default">Ponechať akciu prístroja</string>
+    <string name="action_aid_default_hint">Prístroj urobí to, na čo je nastavený.</string>
+    <string name="action_play_pause">Prehrať / pozastaviť</string>
+    <string name="action_next_track">Ďalšia skladba</string>
+    <string name="action_previous_track">Predchádzajúca skladba</string>
+    <string name="action_restore_hint">Program a hlasitosť sa po stlačení vrátia späť.</string>
+    <string name="action_volume_up">Zvýšiť hlasitosť</string>
+    <string name="action_volume_up_hint">O jeden stupeň vyššie, než bol prístroj pred stlačením.</string>
+    <string name="action_volume_down">Znížiť hlasitosť</string>
+    <string name="action_volume_down_hint">O jeden stupeň nižšie, než bol prístroj pred stlačením.</string>
+    <string name="action_program_next">Ďalší program</string>
+    <string name="action_program_next_hint">O jeden program ďalej, než bol prístroj pred stlačením.</string>
+    <string name="action_program_previous">Predchádzajúci program</string>
+    <string name="action_program_previous_hint">O jeden program späť, než bol prístroj pred stlačením.</string>
+    <string name="action_none">Nerobiť nič</string>
+    <string name="action_none_hint">Nestane sa nič. Vlastná zmena prístroja sa vráti späť.</string>
+
+    <!-- Buttons screen -->
+    <string name="gesture_short">Krátke stlačenie</string>
+    <string name="gesture_long">Dlhé stlačenie</string>
+    <string name="gesture_double">Dvojité stlačenie</string>
+    <string name="gesture_short_hint">JEDNO STLAČENIE</string>
+    <string name="gesture_long_hint">DRŽAŤ NAD 0,4 S</string>
+    <string name="gesture_double_hint">DVE STLAČENIA</string>
+    <string name="buttons_title">Tlačidlá</string>
+    <string name="buttons_subtitle">Jedno stlačenie prístroja, jedna akcia telefónu</string>
+    <string name="buttons_intro">Stlačenie môže spustiť akciu telefónu namiesto vlastnej akcie prístroja. Zmena programu alebo hlasitosti na prístroji sa hneď vráti späť.</string>
+    <string name="buttons_media_title">Prístup k médiám nie je udelený</string>
+    <string name="buttons_media_body">Klávesy prehrávania, pozastavenia a skladieb potrebujú prístup k oznámeniam. Udeľte ho v Nastavení. Vaše voľby sa zachovajú tak či tak.</string>
+    <string name="buttons_mapping">Priradenie</string>
+    <string name="buttons_no_aids">Zatiaľ žiadne prístroje</string>
+    <string name="buttons_no_aids_hint">Najprv spárujte prístroj v Nastavení.</string>
+    <string name="not_linked">NEPRIPOJENÝ</string>
+    <string name="buttons_choose">Vyberte, čo tlačidlo urobí</string>
+    <string name="buttons_set">ZVOLENÉ</string>
+
+    <!-- Setup screen -->
+    <string name="setup_title">Nastavenie</string>
+    <string name="setup_subtitle">Pripojenie, párovanie, vzhľad</string>
+    <string name="setup_nearby_title">Chýba povolenie Zariadenia v okolí</string>
+    <string name="setup_nearby_body">Bez prístupu k Bluetooth sa aplikácia k prístrojom nedostane. Povoľte Zariadenia v okolí v nastaveniach aplikácie.</string>
+    <string name="setup_open_settings">Otvoriť nastavenia aplikácie</string>
+    <string name="setup_link">Pripojenie</string>
+    <string name="setup_no_aids_bonded">NIČ NESPÁROVANÉ</string>
+    <string name="setup_all_linked">VŠETKY PRIPOJENÉ</string>
+    <string name="n_of_m_linked">%1$d Z %2$d PRIPOJENÉ</string>
+    <string name="setup_link_hint">Aplikácia drží oba prístroje pripojené, aj keď je obrazovka vypnutá. Ak sa spojenie preruší, obnoví sa samo.</string>
+    <string name="setup_reconnect">Pripojiť oba znova</string>
+    <string name="setup_stop">Zastaviť</string>
+    <string name="setup_media">Médiá</string>
+    <string name="setup_access_granted">PRÍSTUP K OZNÁMENIAM UDELENÝ</string>
+    <string name="setup_access_missing">CHÝBA PRÍSTUP K OZNÁMENIAM</string>
+    <string name="setup_media_hint">Klávesy prehrávania, pozastavenia a skladieb fungujú cez tlačidlá v oznámení o médiách. Bez tohto prístupu nerobia nič. Hlasitosť a programy fungujú aj tak.</string>
+    <string name="setup_change_access">Zmeniť prístup</string>
+    <string name="setup_grant_access">Udeliť prístup</string>
+    <string name="setup_pair">Spárovať prístroj</string>
+    <string name="setup_pair_hint">Prístroj sa počas párovania reštartuje. Keď sa zobrazí výzva, vložte ho do nabíjačky a znova ho vyberte, alebo otvorte a zatvorte batériové dvierka.</string>
+    <string name="setup_scanning">Vyhľadávanie…</string>
+    <string name="setup_scan">Hľadať</string>
+    <string name="setup_pairing_failed">Párovanie zlyhalo</string>
+    <string name="setup_bonded">Spárované</string>
+    <string name="setup_bonded_body">Pripájam znova. Prístroj by sa mal objaviť o pár sekúnd.</string>
+    <string name="setup_ready_to_pair">Pripojené, ťuknutím spárujete</string>
+    <string name="setup_pair_this">Spárovať</string>
+    <string name="setup_unnamed_aid">Prístroj bez názvu</string>
+    <string name="setup_appearance">Vzhľad</string>
+    <string name="theme_system">Systém</string>
+    <string name="theme_light">Svetlý</string>
+    <string name="theme_dark">Tmavý</string>
+    <string name="setup_language">Jazyk</string>
+    <string name="setup_sample_pair">Ukážkový pár</string>
+    <string name="setup_sample_preview">Náhľad s ukážkovým párom</string>
+    <string name="setup_sample_hint">Zobrazí vymyslený pár Nexia 5 a CROS, aby ste mohli aplikáciu vyskúšať bez Bluetooth. Kým je zapnutý, je označený ako UKÁŽKA.</string>
+    <string name="setup_log">Záznam</string>
+    <plurals name="setup_log_lines">
+        <item quantity="one">%1$d RIADOK</item>
+        <item quantity="few">%1$d RIADKY</item>
+        <item quantity="many">%1$d RIADKA</item>
+        <item quantity="other">%1$d RIADKOV</item>
+    </plurals>
+    <string name="setup_scroll_newest">Prejsť na najnovšie</string>
+    <string name="setup_log_empty">Zatiaľ nič nezaznamenané.</string>
+    <string name="setup_about">O aplikácii</string>
+    <string name="setup_version">Verzia</string>
+
+    <!-- Now screen -->
+    <string name="now_sample_band">UKÁŽKOVÝ PÁR · VYMYSLENÉ ÚDAJE</string>
+    <string name="now_no_aids">ŽIADNY PRÍSTROJ</string>
+    <string name="now_both_linked">OBE UŠI PRIPOJENÉ</string>
+    <string name="now_read_at">NAČÍTANÉ %1$s</string>
+    <string name="now_sent">ODOSLANÉ</string>
+    <string name="now_waiting">ČAKÁ SA</string>
+    <string name="now_read_back">POTVRDENÉ</string>
+    <string name="now_stale">STARÉ %1$s</string>
+    <string name="now_stream">PRENOS</string>
+    <string name="now_level">ÚROVEŇ</string>
+    <string name="now_link">SPOJENIE</string>
+    <string name="now_read">NAČÍTANÉ</string>
+    <string name="now_both">OBE</string>
+    <string name="now_mute_reading">STLMENÉ</string>
+    <string name="mute">Stlmiť</string>
+    <string name="unmute">Zrušiť stlmenie</string>
+    <string name="quieter">Tichšie</string>
+    <string name="louder">Hlasnejšie</string>
+    <string name="open_bluetooth_settings">Otvoriť nastavenia Bluetooth</string>
+    <string name="now_details_cd">%1$s prístroj: podrobnosti</string>
+    <string name="now_level_cd">%1$s prístroj: úroveň</string>
+    <string name="now_quieter_cd">Tichšie, %1$s prístroj</string>
+    <string name="now_unmute_cd">Zrušiť stlmenie, %1$s prístroj</string>
+    <string name="now_mute_cd">Stlmiť, %1$s prístroj</string>
+    <string name="now_louder_cd">Hlasnejšie, %1$s prístroj</string>
+    <string name="now_quieter_both_cd">Tichšie, oba prístroje</string>
+    <string name="now_unmute_both_cd">Zrušiť stlmenie, oba prístroje</string>
+    <string name="now_mute_both_cd">Stlmiť oba prístroje</string>
+    <string name="now_louder_both_cd">Hlasnejšie, oba prístroje</string>
+    <string name="now_n_of_m_not_linked">%1$d Z %2$d NEPRIPOJENÉ</string>
+    <string name="now_fix_bt_off">Bluetooth je vypnutý. Zapnite ho a prístroje sa pripoja samy.</string>
+    <string name="now_fix_bt_off_key">Bluetooth</string>
+    <string name="now_fix_rival_taken">Prístroje ovláda ReSound Smart 3D. Zavrite ho a potom prístroje prevezmite späť.</string>
+    <string name="now_fix_other_taken">Prístroje ovláda iná aplikácia. Zavrite ju a potom prístroje prevezmite späť.</string>
+    <string name="now_fix_take_back">Prevziať</string>
+    <string name="now_fix_take_back_cd">Znova sa pripojiť k prístrojom</string>
+    <string name="now_fix_needs_pairing">Tento telefón zatiaľ nemá kľúč k prístroju. Spárujte ho raz v Nastavení.</string>
+    <string name="now_fix_pair_key">Spárovať</string>
+    <string name="now_fix_pair_cd">Otvoriť nastavenie a spárovať prístroj</string>
+    <string name="now_fix_blocked">Prístroj zatiaľ odmieta prihlásenie. Vypnite ho a zapnite, potom minútu počkajte.</string>
+    <string name="now_fix_open_setup_cd">Otvoriť nastavenie</string>
+    <string name="now_fix_rival">Prístroje môže naraz ovládať len jedna aplikácia. Ak beží ReSound Smart 3D, vynúťte jeho zastavenie.</string>
+    <string name="now_fix_rival_cd">Otvoriť informácie o aplikácii Smart 3D a vynútiť zastavenie</string>
+    <string name="now_fix_reconnect_key">Pripojiť</string>
+    <string name="now_fix_default">Ani po niekoľkých pokusoch sa nepripojilo. Skontrolujte, či je načúvadlo zapnuté a nablízku; v pozadí sa skúša ďalej.</string>
+    <string name="now_program">Program</string>
+    <string name="now_no_programs">Zatiaľ žiadne programy. Prístroj ich pošle po pripojení.</string>
+    <string name="now_programs_split">Prístroje majú nastavené rôzne programy. Klepnutím na jeden nastavíte oba.</string>
+    <string name="now_programs_single">Nastavený je len jeden program. Ďalšie vám môže pridať audiológ.</string>
+    <string name="now_start_here">Začnite tu</string>
+    <string name="now_no_aids_yet">ZATIAĽ ŽIADNY PRÍSTROJ</string>
+    <string name="now_step1_title">Spárujte prístroj s Androidom</string>
+    <string name="now_step1_body">Otvorte Nastavenia, potom Bluetooth a prístroj spárujte.</string>
+    <string name="now_step2_title">Spárujte ho aj tu, stačí raz</string>
+    <string name="now_step2_body">Prístroj sa počas párovania reštartuje. Keď sa zobrazí výzva, vložte ho do nabíjačky a znova ho vyberte, alebo otvorte a zatvorte batériové dvierka.</string>
+    <string name="now_pair_new">Spárovať nový prístroj</string>
+
+    <!-- Pairing progress and errors -->
+    <string name="pair_unknown_device">neznáme zariadenie %1$s</string>
+    <string name="pair_with_android">Párovanie s Androidom…</string>
+    <string name="pair_android_not_finished">Párovanie s Androidom sa nedokončilo. Potvrďte žiadosť o párovanie a skúste to znova.</string>
+    <string name="pair_connecting">Pripájanie…</string>
+    <string name="pair_passcode">Tento prístroj pri párovaní žiada prístupový kód. I-Hear-You to zatiaľ nevie.</string>
+    <string name="pair_update_mode">Prístroj je v režime aktualizácie. Reštartujte ho a skúste to znova.</string>
+    <string name="pair_first_auth">Prihlasovanie k prístroju…</string>
+    <string name="pair_auth_failed">prihlásenie zlyhalo (kód %1$d)</string>
+    <string name="pair_restart_aid">Reštartujte prístroj teraz: asi na 3 sekundy ho vložte do nabíjačky alebo otvorte a zatvorte batériové dvierka.</string>
+    <string name="pair_waiting">Čaká sa na návrat prístroja…</string>
+    <string name="pair_finalizing">Dokončovanie párovania…</string>
+    <string name="pair_finalizing_try">Dokončovanie párovania… (pokus %1$d z 5)</string>
+    <string name="pair_not_accepted">Prístroj neprijal nový kľúč ani na 5. pokus. Reštartujte ho a začnite odznova.</string>
+    <string name="pair_blocked">Prístroj je dočasne zablokovaný. Vypnite ho a zapnite, počkajte niekoľko minút a skúste to znova.</string>
+    <string name="pair_rejected">Prístroj kľúč odmietol. Vypnite ho a zapnite, potom to skúste znova.</string>
+    <string name="pair_auth_failed_code">Prihlásenie zlyhalo (kód %1$d).</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Stlmiť prístroje</string>
+    <string name="tile_not_linked">Nepripojené</string>
+    <string name="tile_muted">Stlmené</string>
+    <string name="tile_on">Zapnuté</string>
+
+    <!-- Foreground service notification -->
+    <string name="notif_channel">Diaľkové ovládanie</string>
+    <string name="notif_listening">Sleduje tlačidlá načúvacích prístrojov</string>
+    <string name="notif_muted">%1$s · stlmené</string>
+    <string name="notif_looking">Hľadajú sa načúvacie prístroje</string>
+    <string name="notif_aid_status">%1$s %2$s</string>
+
+    <!-- Link details and default program names -->
+    <string name="link_detail_no_gn">Nepodporovaný prístroj</string>
+    <string name="link_detail_key_rejected">Kľúč odmietnutý (kód %1$d)</string>
+    <string name="link_detail_blocked">Vypnite prístroj, zapnite ho a minútu počkajte</string>
+    <string name="link_detail_taken_over">Prístroj ovláda iná aplikácia</string>
+    <string name="program_default_name">Program %1$d</string>
+    <string name="program_kind_all_around">Všeobecný</string>
+    <string name="program_kind_restaurant">Reštaurácia</string>
+    <string name="program_kind_music">Hudba</string>
+    <string name="program_kind_outdoor">Vonku</string>
+    <string name="program_kind_lecture">Prednáška</string>
+    <string name="program_kind_hear_in_noise">Počuteľnosť v hluku</string>
+    <string name="program_kind_traffic">Doprava</string>
+
+</resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Voice-note working files, shared read-only to the app the user picks in the share sheet -->
+<paths>
+    <files-path name="voice" path="voice/" />
+</paths>

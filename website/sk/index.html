@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I Hear You: offline diaľkové ovládanie načúvacích prístrojov GN / ReSound</title>
+<meta name="description" content="Nezávislá, interoperabilná open-source aplikácia pre Android na ovládanie načúvacích prístrojov GN; funguje s ReSound Nexia a CROS. Bez účtu, funguje offline. Priradenie tlačidiel, hlasové správy cez mikrofóny prístrojov, prepis v telefóne.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E4E7DB" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15180F" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="I Hear You: offline diaľkové ovládanie načúvacích prístrojov GN / ReSound">
+<meta property="og:description" content="Nezávislá, interoperabilná open-source aplikácia pre Android na ovládanie načúvacích prístrojov GN; funguje s ReSound Nexia a CROS. Bez účtu, funguje offline. Priradenie tlačidiel, hlasové správy cez mikrofóny prístrojov, prepis v telefóne.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://jooray.github.io/i-hear-you/sk/">
+<link rel="alternate" hreflang="en" href="https://jooray.github.io/i-hear-you/">
+<link rel="alternate" hreflang="sk" href="https://jooray.github.io/i-hear-you/sk/">
+<link rel="alternate" hreflang="cs" href="https://jooray.github.io/i-hear-you/cs/">
+<link rel="alternate" hreflang="de" href="https://jooray.github.io/i-hear-you/de/">
+<link rel="alternate" hreflang="es" href="https://jooray.github.io/i-hear-you/es/">
+<link rel="alternate" hreflang="x-default" href="https://jooray.github.io/i-hear-you/">
+<link rel="preload" href="../fonts/barlow_condensed_bold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Preskočiť na obsah</a>
+<header class="top"><div class="wrap">
+<a class="wordmark" href="#top" id="top">I-Hear-You</a>
+<nav class="nav"><a href="#what">Čo robí</a><a href="#aids">Prístroje</a><a href="#buttons">Tlačidlá</a><a href="#voice">Hlasové správy</a><a href="#ostt">Prepis</a><a href="#whitenoise">White Noise</a><a href="#get">Stiahnuť</a></nav>
+<div class="lang" role="group" aria-label="Language"><a href="../index.html" hreflang="en" lang="en" title="English">EN</a><span aria-current="true" lang="sk">SK</span><a href="../cs/index.html" hreflang="cs" lang="cs" title="Čeština">CS</a><a href="../de/index.html" hreflang="de" lang="de" title="Deutsch">DE</a><a href="../es/index.html" hreflang="es" lang="es" title="Español">ES</a></div>
+</div></header>
+<main id="main">
+<div class="hero"><div class="wrap">
+<div>
+<span class="stamp">Neoficiálne</span>
+<h1>Diaľkové ovládanie načúvacích prístrojov, ktoré funguje offline.</h1>
+<p class="lead">I Hear You je nezávislá, interoperabilná open-source aplikácia pre Android na ovládanie načúvacích prístrojov GN, vyskúšaná s ReSound Nexia a CROS. Ukazuje batériu, program a hlasitosť, nechá stlačenie na prístroji spustiť akciu v telefóne a mikrofóny prístrojov využíva na hlasové správy.</p>
+<div class="keys">
+<a class="key primary" href="#get">Získať aplikáciu</a>
+<a class="key" href="https://github.com/jooray/i-hear-you">Zdrojový kód</a></div>
+</div>
+<figure class="shot" style="margin:0 auto"><picture><source srcset="../img/now-dark.webp" media="(prefers-color-scheme: dark)"><img src="../img/now-light.webp" width="720" height="1575" alt="Obrazovka Teraz v aplikácii I Hear You: dva kanály prístrojov s úrovňou 67 a 40, tlačidlá stlmenia a plus/mínus, pruh programov." decoding="async"></picture><figcaption class="label shot-cap">Obrazovka Teraz: jedna doštička pre každý prístroj.</figcaption></figure>
+</div></div>
+<div class="notice-wrap"><div class="wrap"><p class="notice" role="note"><strong>Nie je spojená s GN Hearing.</strong> I Hear You je nezávislý, neoficiálny open-source projekt. ReSound, Nexia, Beltone a ďalšie názvy sú ochranné známky ich vlastníkov.</p></div></div>
+
+<section id="what"><div class="wrap">
+<span class="label">Čo robí</span>
+<h2>Bežné ovládanie, offline</h2>
+<p class="intro">Zvláda bežné ovládanie prístrojov bez účtu a bez pripojenia na cloud a pridáva niekoľko vecí navyše.</p>
+<div class="grid two"><div class="plate"><span class="label">Teraz</span><h3>Pozrieť a nastaviť každý prístroj</h3><p>Batéria, signál, stav streamu, program a hlasitosť ľavého aj pravého prístroja, s tlačidlom stlmenia a pruhom programov. Každá zmena sa ukáže ako odoslaná a potom ako prečítaná späť z prístroja.</p></div><div class="plate"><span class="label">Tlačidlá</span><h3>Tlačidlo na prístroji, ktoré urobí viac</h3><p>Krátke, dlhé aj dvojité stlačenie na každom prístroji môže mať vlastnú akciu v telefóne.</p></div><div class="plate"><span class="label">Hlas</span><h3>Hovorte s telefónom cez prístroje</h3><p>Hlasové správy sa nahrávajú vlastnými mikrofónmi prístrojov a prepisujú sa v telefóne.</p></div><div class="plate"><span class="label">Offline</span><h3>Bez účtu a bez cloudu</h3><p>Aplikácia komunikuje s prístrojmi cez Bluetooth LE. Nemá účet ani analytiku. Sieť využívajú len ciele hlasových správ, ktoré si nastavíte.</p></div></div>
+</div></section>
+
+<section id="aids"><div class="wrap">
+<span class="label">Načúvacie prístroje</span>
+<h2>S ktorými prístrojmi funguje</h2>
+<p class="intro">I Hear You komunikuje s prístrojmi GN cez Bluetooth LE. Vyskúšaná je s prístrojmi ReSound Nexia NX560S (Nexia 5) a NX460S a s vysielačom Nexia CROS CX160S.</p>
+<div class="grid three"><div class="plate"><span class="label">Overené</span><h3>ReSound Nexia s Nexia CROS</h3><p>NX560S (Nexia 5), NX460S a CROS CX160S. Všetko, čo je na tejto stránke, sa overilo na nich.</p></div><div class="plate"><span class="label">Mali by fungovať, neoverené</span><h3>Ďalšie novšie prístroje GN</h3><p>Aplikácia podporuje viacero generácií prístrojov GN a rozpozná prístroje značiek GN: ReSound, Beltone, Jabra Enhance, Danalogic a Interton. Žiadny z týchto ďalších prístrojov sa zatiaľ neskúšal. Ak taký máte, napíšte, čo funguje a čo nie.</p></div><div class="plate"><span class="label">Nepodporované</span><h3>Iní výrobcovia, prístroje s kódom</h3><p>Phonak, Oticon, Signia, Widex, Starkey a ďalšie značky mimo GN používajú iné protokoly. Nepodporované sú ani prístroje GN, ktoré pri párovaní pýtajú kód (passcode).</p></div></div>
+<p style="margin-top:20px">Ak aplikácia narazí na generáciu prístroja, ktorú nepozná, z prístroja len číta: uvidíte batériu a stav, ale nič nezmení.</p>
+</div></section>
+
+<section id="buttons"><div class="wrap split rev">
+<figure class="shot"><picture><source srcset="../img/buttons-dark.webp" media="(prefers-color-scheme: dark)"><img src="../img/buttons-light.webp" width="720" height="1575" alt="Obrazovka Tlačidlá: pre ľavý aj pravý prístroj krátke stlačenie priradené k prehrať / pozastaviť, dlhé k ďalšej skladbe, dvojité k predchádzajúcej skladbe." loading="lazy" decoding="async"></picture></figure>
+<div>
+<span class="label">Tlačidlá</span>
+<h2>Tlačidlá, ktoré niečo robia</h2>
+<p>Stlačenie na prístroji môže namiesto vlastnej akcie prístroja spustiť akciu v telefóne. Nastavuje sa zvlášť pre každý prístroj a každé gesto. Zmenu programu alebo hlasitosti, ktorú prístroj urobí sám, aplikácia hneď po stlačení vráti, aby neprekážala akcii, ktorú ste zvolili.</p>
+<ul class="gestures"><li><b>Krátke stlačenie</b><span class="label">stlačiť raz</span></li><li><b>Dlhé stlačenie</b><span class="label">držať nad 0,4 s</span></li><li><b>Dvojité stlačenie</b><span class="label">stlačiť dvakrát</span></li></ul>
+<p>Každé gesto môže spustiť jednu z týchto akcií:</p>
+<ul class="chips"><li>Prehrať / pozastaviť</li><li>Ďalšia skladba</li><li>Predchádzajúca skladba</li><li>Zvýšiť hlasitosť</li><li>Znížiť hlasitosť</li><li>Ďalší program</li><li>Predchádzajúci program</li><li>Hlasová správa</li><li>Nerobiť nič</li><li>Ponechať akciu prístroja</li></ul>
+<p style="margin-top:16px">Tlačidlá na prehrávanie, pozastavenie a skladby potrebujú prístup k oznámeniam, ktorý udelíte v Nastavení. Priradenia ostávajú v telefóne a nikam sa nesynchronizujú.</p>
+</div>
+</div></section>
+
+<section id="voice"><div class="wrap">
+<span class="label">Hlasové správy</span>
+<h2>Hlasové správy tlačidlom na prístroji</h2>
+<p class="intro">Priraďte Hlasovú správu niektorému stlačeniu na prístroji. Jedno stlačenie spustí nahrávanie, ďalšie ho ukončí.</p>
+<ol class="rows"><li><span class="num" aria-hidden="true">1</span><h3>Stlačte</h3><p>Zvuk prichádza z vlastných mikrofónov prístrojov (LE Audio). Ak nie sú dostupné, aplikácia sa vráti k inému headsetu a potom k mikrofónu telefónu. Keď nahrávanie začne, ženský hlas v jazyku aplikácie povie, že môžete hovoriť. Hudba alebo čokoľvek iné, čo hrá, sa pozastaví a po správe pokračuje.</p></li><li><span class="num" aria-hidden="true">2</span><h3>Hovorte</h3><p>Správu ukončí stlačenie na ktoromkoľvek prístroji, nech je priradené čomukoľvek. O tom, kam správa pôjde, rozhoduje prístroj a gesto, ktoré použijete, a krátke hlásenie povie, čo sa vybralo, napríklad že sa správa uložila a prepisuje. Ukončí ju aj časový limit od 2 do 60 minút.</p></li><li><span class="num" aria-hidden="true">3</span><h3>Prepíšte</h3><p>Telefón nahrávku prepíše priamo v zariadení cez Offline Speech to Text, aj so zamknutou obrazovkou. Vyberiete si zvuk, zvuk a text, alebo len text.</p></li><li><span class="num" aria-hidden="true">4</span><h3>Doručte</h3><p>Zvuk sa vždy najprv uloží ako súbor .m4a do Documents/I Hear You alebo do priečinka, ktorý vyberiete. Potom ide tam, kam ste určili.</p></li></ol>
+<ul class="dest"><li><b>Iba uložiť.</b> Nič neopustí telefón. Prepis sa navyše skopíruje do schránky.</li><li><b>Zdieľať.</b> Ponuka zdieľania Androidu so zvukom a prepisom.</li><li><b>Webhook.</b> POST so zvukom, prepisom a trochou metadát, napríklad do Home Assistantu alebo na váš server.</li><li><b>White Noise.</b> Šifrovaná správa v skupine, odoslaná pod vlastnou identitou aplikácie.</li></ul>
+<p style="margin-top:20px">Tlačidlo na zrušenie neexistuje. Správa, ktorú ste nechceli ukončiť, sa aj tak uloží.</p>
+</div></section>
+
+<section id="ostt" class="band"><div class="wrap band-grid">
+<div>
+<span class="label">Odporúčaná aplikácia</span>
+<h2>Najlepšie funguje s Offline Speech to Text</h2>
+<p>Offline Speech to Text je bezplatná aplikácia, ktorá mení reč na text priamo v telefóne, bez siete. I Hear You ju používa na prepis hlasových správ, takže slová zostanú v zariadení, kým ich niekam nepošlete.</p>
+<p>Nainštalujte ju, stiahnite si v nej model reči a pre hlasové správy zvoľte zvuk a text, alebo len text. Prepis vyžaduje Android 13 alebo novší.</p>
+<div class="keys"><a class="key" href="https://zapstore.dev/apps/app.offlinespeechtotext">Offline Speech to Text na Zapstore</a></div>
+</div>
+<ul><li>Bezplatná</li><li>Beží v telefóne</li><li>Funguje offline</li></ul>
+</div></section>
+
+<section id="whitenoise"><div class="wrap">
+<span class="label">White Noise</span>
+<h2>White Noise a AI agenti</h2>
+<p class="intro">White Noise je komunikátor so šifrovanými skupinami. I Hear You vie posielať hlasové správy do skupiny vo White Noise pod vlastnou identitou, ktorú si pri prvom použití vytvorí. Skopírujte jej npub do skupiny, prijmite pozvánku v aplikácii a vyberte skupinu.</p>
+<p class="intro">Dajte do tej skupiny AI agenta, napríklad Hermesa, a stlačenie na prístroji sa zmení na spôsob, ako sa s ním rozprávať.</p>
+<ol class="rows"><li><span class="num" aria-hidden="true">1</span><h3>Hovoríte</h3><p>Stlačíte prístroj, poviete to, stlačíte znova. Hlasová správa príde do skupiny ako zvuk a prepis je jej popis.</p></li><li><span class="num" aria-hidden="true">2</span><h3>Agent odpovie</h3><p>Odpovie v skupine ako ktorýkoľvek iný člen.</p></li><li><span class="num" aria-hidden="true">3</span><h3>Počujete to</h3><p>Odpoveď sa prehrá do prístrojov. Zvuk sa prehrá tak, ako je, text prečíta nahlas hlas telefónu. Krátke stlačenie ju zastaví.</p></li></ol>
+<p style="margin-top:20px">Odpovede môžu byť vypnuté, prehrávané 15 minút po odoslaní správy (predvolené), alebo vždy. Počas odpovede sa hudba pozastaví. Textové odpovede môžete čítať nahlas, alebo prehrávať len hlasové, a môžete zadať texty, pri ktorých sa odpoveď neprehrá, napríklad značku mikrofónu, ktorá označuje prepis vašej vlastnej správy.</p>
+<p>Ak váš agent prijíma pozvánky a správy len od známych kľúčov, povoľte npub aplikácie v jeho konektore. Identitu si môžete zálohovať ako nsec a neskôr ju importovať. Vráti sa tým npub, ale skupiny ho musia pozvať znova.</p>
+</div></section>
+
+<section id="privacy"><div class="wrap">
+<span class="label">Súkromie a licencia</span>
+<h2>Súkromná, otvorená a neoficiálna</h2>
+<div class="grid"><div class="plate"><span class="label">Súkromie</span><p>Bez účtu. Aplikácia sa k prístrojom pripája cez Bluetooth LE. Sieť využívajú len ciele hlasových správ, ktoré si nastavíte, webhook alebo skupina vo White Noise. S voľbou Iba uložiť nič neopustí telefón a prepis beží v telefóne.</p></div><div class="plate"><span class="label">Open source</span><p>Kód je pod licenciou MIT. Písma Barlow sú pod licenciou SIL Open Font License.</p></div><div class="plate"><span class="label">Neoficiálna</span><p>GN Hearing ani ReSound I Hear You nevytvorili, neschválili ani nepodporujú. Správanie sa overilo na prístrojoch ReSound Nexia (NX560S, NX460S) a Nexia CROS. Ostatné modely GN nie sú otestované.</p></div></div>
+</div></section>
+
+<section id="get"><div class="wrap">
+<span class="label">Stiahnuť</span>
+<h2>Získajte I Hear You</h2>
+<p class="intro">Verzia 0.2.0 je ranný softvér. Vyžaduje Android 12 alebo novší.</p>
+<div class="grid three"><div class="plate pick"><span class="label">Odporúčané</span><h3>Zapstore</h3><p>Zapstore aplikáciu nainštaluje a sám ju aktualizuje.</p><p><a class="key primary" href="https://zapstore.dev/apps/app.ihearyou">Stiahnuť zo Zapstore</a></p></div><div class="plate"><span class="label">Aktualizácie z GitHubu</span><h3>Obtainium</h3><p>Obtainium sleduje vydania na GitHube a aplikáciu aktualizuje, keď vyjde nové. Ak ho máte nainštalovaný, tento odkaz doň I Hear You pridá.</p><p><a class="key" href="obtainium://add/https://github.com/jooray/i-hear-you">Pridať do Obtainium</a></p></div><div class="plate"><span class="label">Jeden súbor</span><h3>APK z GitHubu</h3><p>Stiahnite si APK z najnovšieho vydania a nainštalujte ho. Aktualizovať ho budete musieť ručne.</p><p><a class="key" href="https://github.com/jooray/i-hear-you/releases/latest">Najnovšie vydanie</a></p></div></div>
+<p class="fine">APK je podpísané certifikátom s odtlačkom SHA-256 <code>79750fb49349ec3729be5a3e825507a15e47c6d987e854ae91d5d50a20b3a24d</code>. Android nainštaluje aktualizáciu, len ak je podpísaná tým istým certifikátom. Aplikáciu si môžete zostaviť aj sami, postup je v <a href="https://github.com/jooray/i-hear-you">repozitári na GitHube</a>.</p>
+</div></section>
+
+<section id="pair"><div class="wrap">
+<span class="label">Prvé spustenie</span>
+<h2>Spárujte prístroje</h2>
+<p class="intro">Každý prístroj sa páruje len raz. Majte po ruke oba prístroje aj nabíjačku.</p>
+<ol class="rows"><li><span class="num" aria-hidden="true">1</span><h3>Spárujte v Androide</h3><p>Vyberte prístroje z nabíjačky a spárujte oba v nastaveniach Bluetooth v telefóne, tak ako by ste to robili bez tejto aplikácie.</p></li><li><span class="num" aria-hidden="true">2</span><h3>Otvorte aplikáciu</h3><p>Prístroje nájdete v Nastavení → Spárovať prístroj. Môžete aj ťuknúť na Spárovať na obrazovke Teraz.</p></li><li><span class="num" aria-hidden="true">3</span><h3>Ťuknite na jeden prístroj</h3><p>Keď vás aplikácia vyzve, vložte ten prístroj asi na 3 sekundy do nabíjačky a znova ho vyberte. Prístroj sa reštartuje a aplikácia párovanie dokončí.</p></li><li><span class="num" aria-hidden="true">4</span><h3>Potom druhý</h3><p>To isté zopakujte s druhým prístrojom. Potom sa oba objavia na obrazovke Teraz.</p></li></ol>
+<p style="margin-top:20px">Prístroje na batérie namiesto nabíjačky: otvorte a zatvorte batériové dvierka.</p>
+</div></section>
+
+<section id="third"><div class="wrap">
+<span class="label">Súrodenecká aplikácia</span>
+<h2>Third Ear</h2>
+<p class="intro">Third Ear je všeobecný hlasový záznamník s rovnakým nahrávaním cez Bluetooth a načúvacie prístroje, prepisom a funkciami White Noise.</p>
+<div class="keys"><a class="key" href="https://jooray.github.io/third-ear/">Otvoriť Third Ear</a></div>
+</div></section>
+<section id="support"><div class="wrap">
+<span class="label">Podpora</span>
+<h2>Čas, talent alebo peniaze</h2>
+<p class="intro">Ak sa vám tento projekt páči, budem rád, keď doň prispejete časom, talentom alebo peniazmi.</p>
+<div class="grid two"><div class="plate"><span class="label">Čas a talent</span><h3>Testujte a opravujte</h3><p>Vyskúšajte aplikáciu so svojimi prístrojmi a napíšte, čo funguje a čo nie. Opravte chybu, pošlite pull request. Najviac pomôžu skúsenosti s inými prístrojmi GN ako Nexia.</p><p><a class="key" href="https://github.com/jooray/i-hear-you">Projekt na GitHube</a></p></div><div class="plate"><span class="label">Peniaze</span><h3>Pošlite niečo späť</h3><p>Peniaze môžete poslať cez moju stránku s podporou. Je tam platobný formulár pre bitcoin a adresy pre Lightning, Monero a Zcash, ktoré si môžete naskenovať aj tu.</p><p><a class="key primary" href="https://juraj.bednar.io/podporte-ma/">Stránka s podporou</a></p></div></div>
+<ul class="qr"><li><img src="../img/qr-lightning-sk.png" width="200" height="200" alt="QR kód: Lightning BOLT-12 offer" loading="lazy" decoding="async"><b>Lightning (BOLT-12)</b><a href="lightning:lno1pg98xatswphhyapq2d93vggz7yjxhrlfqjju2xf4qnvqd9fjk8acdy4cf7e7kep33vspyw8kplcs">Otvoriť v peňaženke</a></li><li><img src="../img/qr-monero.png" width="200" height="200" alt="QR kód: Monero adresa" loading="lazy" decoding="async"><b>Monero</b><a href="monero:89jGcmA65CReki73oLFvxHUzyR45wMqTN8G93ZYRizWVF2XUQgYKbPLGQYgxj2YjX4fxAUPQ7tLr4ATP7fpR4dSeHH3r9iH">Otvoriť v peňaženke</a></li><li><img src="../img/qr-zcash.png" width="200" height="200" alt="QR kód: Zcash adresa" loading="lazy" decoding="async"><b>Zcash</b></li></ul>
+</div></section>
+</main>
+<footer><div class="wrap">
+<p><span class="tick" aria-hidden="true"></span>I Hear You je nezávislý open-source projekt, nie je spojený s GN Hearing. ReSound, Beltone, Jabra Enhance, Danalogic, Interton, Nexia, Phonak, Oticon, Signia, Widex, Starkey sú ochranné známky ich vlastníkov a uvádzajú sa tu len preto, aby bolo jasné, s ktorými prístrojmi aplikácia funguje. Licencia MIT. <a href="https://github.com/jooray/i-hear-you">Zdrojový kód</a> · <a href="#support">Podporte projekt</a></p>
+</div></footer>
+</body>
+</html>

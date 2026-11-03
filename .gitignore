@@ -1,0 +1,21 @@
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+.DS_Store
+captures/
+
+.impeccable/review/
+.kotlin/
+
+# MarmotKit (MDK bindings + native libs), fetched by tools/marmotkit/fetch.sh, never committed
+app/src/marmotkit/
+
+# Signing material and secrets never belong in the repository
+*.jks
+*.keystore
+*.p12
+signing.properties
+.env
+.env.*

@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App chrome -->
+    <string name="app_name" translatable="false">I-Hear-You</string>
+    <string name="nav_now">Now</string>
+    <string name="nav_buttons">Buttons</string>
+    <string name="nav_setup">Setup</string>
+    <string name="nav_wordmark" translatable="false">I·H·Y</string>
+    <string name="back">Back</string>
+
+    <!-- Side, role and status words (Format.kt) -->
+    <string name="side_letter_left">L</string>
+    <string name="side_letter_right">R</string>
+    <!-- Single character for an unknown side. -->
+    <string name="side_letter_unknown">?</string>
+    <string name="side_left">LEFT</string>
+    <string name="side_right">RIGHT</string>
+    <string name="side_unknown">SIDE UNKNOWN</string>
+    <string name="side_left_title">Left</string>
+    <string name="side_right_title">Right</string>
+    <string name="side_aid_title">Aid</string>
+    <string name="role_hearing_aid">HEARING AID</string>
+    <!-- Short label: CROS transmitter (a device that sends sound from one ear to the other aid). TX = transmitter. -->
+    <string name="role_cros_tx">CROS · TX</string>
+    <string name="role_receiver">RECEIVER</string>
+    <string name="role_long_hearing_aid">Hearing aid</string>
+    <string name="role_long_cros">CROS transmitter</string>
+    <string name="role_long_receiver">Receiver</string>
+    <string name="battery_full">FULL</string>
+    <string name="battery_charging">CHARGING</string>
+    <string name="battery_in_charger">IN CHARGER</string>
+    <string name="battery_empty">EMPTY</string>
+    <string name="battery_low">LOW</string>
+    <!-- Battery level on a 0 to 10 scale. -->
+    <string name="battery_level">%1$d/10</string>
+    <string name="stream_idle">IDLE</string>
+    <string name="stream_searching">SEARCHING</string>
+    <string name="stream_out_of_range">OUT OF RANGE</string>
+    <string name="stream_not_found">NOT FOUND</string>
+    <string name="stream_streaming">STREAMING</string>
+    <!-- Fallback label for an unknown streaming state. %1$d is a code number. -->
+    <string name="stream_state">STATE %1$d</string>
+    <string name="stream_kind_le_audio" translatable="false">LE AUDIO</string>
+    <string name="stream_kind_btb" translatable="false">BTB</string>
+    <string name="stream_kind_sas" translatable="false">SAS</string>
+    <string name="stream_kind_spouse_mic">SPOUSE MIC</string>
+    <string name="stream_kind_le_broadcast" translatable="false">LE BROADCAST</string>
+    <string name="tap_calls_program">CALLS + PROGRAM</string>
+    <string name="tap_calls">CALLS</string>
+    <string name="tap_program">PROGRAM</string>
+    <string name="tap_off">OFF</string>
+    <string name="link_connecting">CONNECTING</string>
+    <string name="link_linked">LINKED</string>
+    <string name="link_needs_pairing">NEEDS PAIRING</string>
+    <string name="link_blocked">BLOCKED</string>
+    <string name="link_other_app">OTHER APP</string>
+    <string name="link_not_supported">NOT SUPPORTED</string>
+    <string name="link_bluetooth_off">BLUETOOTH OFF</string>
+
+    <!-- Shared -->
+    <!-- Badge: the data shown is demo data. -->
+    <string name="sample">Sample</string>
+    <string name="join_dot" translatable="false">%1$s · %2$s</string>
+    <!-- %1$s is Left or Right, e.g. "Left aid". -->
+    <string name="aid_with_side">%1$s aid</string>
+    <string name="program_short" translatable="false">P%1$d</string>
+    <string name="dbm" translatable="false">%1$d dBm</string>
+
+    <!-- Aid detail screen -->
+    <string name="aid_detail_identification">Identification</string>
+    <string name="aid_detail_side">Side</string>
+    <string name="aid_detail_role">Role</string>
+    <string name="aid_detail_model">Model</string>
+    <string name="aid_detail_firmware">Firmware</string>
+    <!-- Only the last 4 characters of the serial number are shown. -->
+    <string name="aid_detail_serial">Serial · last 4</string>
+    <string name="aid_detail_address">Address</string>
+    <!-- Heading of a row: the state of the phone-to-aid connection. -->
+    <string name="aid_detail_session">Connection</string>
+    <string name="aid_detail_session_sample">Sample data</string>
+    <string name="aid_detail_session_open">Paired · connected</string>
+    <string name="aid_detail_session_not_linked">Not linked</string>
+    <string name="aid_detail_readings">Readings</string>
+    <string name="aid_detail_attenuation">Attenuation</string>
+    <!-- Volume level as displayed in the app (0 to 99). Technical reading row. -->
+    <string name="aid_detail_level_shown">Level shown</string>
+    <string name="aid_detail_level_of_99">%1$d / 99</string>
+    <string name="aid_detail_battery_state">Battery state</string>
+    <string name="aid_detail_battery_level">Battery level</string>
+    <string name="aid_detail_battery_of_10">%1$d of 10</string>
+    <!-- Technical reading row: the aid\'s internal program number. -->
+    <string name="aid_detail_program_index">Program index</string>
+    <string name="aid_detail_stream">Stream</string>
+    <string name="aid_detail_signal">Signal</string>
+    <!-- Technical reading row: raw tap-control value. -->
+    <string name="aid_detail_tap_bits">Tap bits</string>
+    <string name="aid_detail_read_at">Read at</string>
+    <string name="aid_detail_tap_control">Tap control</string>
+    <string name="aid_detail_tap_hint">What a double tap on the aid itself does.</string>
+    <string name="aid_detail_tap_calls">Answer and end calls</string>
+    <string name="aid_detail_tap_program">Change program on tap</string>
+    <string name="aid_detail_enhancer">Sound enhancer</string>
+    <string name="aid_detail_enhancer_none">Nothing reported yet.</string>
+    <string name="aid_detail_enhancer_hint">Set by your audiologist. Read-only here.</string>
+    <string name="aid_detail_transmitter">Transmitter</string>
+    <string name="aid_detail_transmitter_hint">The CROS picks up sound on this side and sends it to the other aid. It has no programs of its own.</string>
+    <!-- Heading of a section, not a button. The action is "Forget this aid". -->
+    <string name="aid_detail_forget">Forget</string>
+    <string name="aid_detail_forget_confirm_hint">The key for this aid is deleted from this phone. To use it again, pair it in Setup.</string>
+    <string name="aid_detail_forget_hint">Removes this phone\'s key for the aid. Use it before giving the aid away, or to pair it again.</string>
+    <string name="aid_detail_forget_now">Forget now</string>
+    <!-- Button. -->
+    <string name="aid_detail_forget_this">Forget this aid</string>
+    <string name="aid_detail_forget_confirm_cd">Confirm: forget this aid</string>
+
+    <!-- Common labels -->
+    <string name="dismiss">Dismiss</string>
+    <string name="close">Close</string>
+
+    <!-- Button actions (domain/MappingStore.kt) -->
+    <string name="action_aid_default">Keep aid\'s action</string>
+    <string name="action_aid_default_hint">The aid does what it was set up to do.</string>
+    <string name="action_play_pause">Play / pause</string>
+    <string name="action_next_track">Next track</string>
+    <string name="action_previous_track">Previous track</string>
+    <string name="action_restore_hint">Program and volume are put back after the press.</string>
+    <string name="action_volume_up">Volume up</string>
+    <string name="action_volume_up_hint">One step up from where the aid was before the press.</string>
+    <string name="action_volume_down">Volume down</string>
+    <string name="action_volume_down_hint">One step down from where the aid was before the press.</string>
+    <string name="action_program_next">Next program</string>
+    <string name="action_program_next_hint">One program on from where the aid was before the press.</string>
+    <string name="action_program_previous">Previous program</string>
+    <string name="action_program_previous_hint">One program back from where the aid was before the press.</string>
+    <string name="action_none">Do nothing</string>
+    <string name="action_none_hint">Nothing happens. The aid\'s own change is undone.</string>
+
+    <!-- Buttons screen -->
+    <string name="gesture_short">Short press</string>
+    <string name="gesture_long">Long press</string>
+    <string name="gesture_double">Double press</string>
+    <!-- Short uppercase hint under the gesture name. -->
+    <string name="gesture_short_hint">PRESS ONCE</string>
+    <string name="gesture_long_hint">HOLD PAST 0.4 S</string>
+    <string name="gesture_double_hint">PRESS TWICE</string>
+    <string name="buttons_title">Buttons</string>
+    <string name="buttons_subtitle">One aid press, one phone action</string>
+    <string name="buttons_intro">A press can run a phone action instead of the aid\'s own. The aid\'s program or volume change is undone straight after.</string>
+    <string name="buttons_media_title">Media access not granted</string>
+    <string name="buttons_media_body">Play, pause and track keys need notification access. Grant it in Setup. Your choices are kept either way.</string>
+    <!-- Heading: which phone action each aid button press triggers. -->
+    <string name="buttons_mapping">Mapping</string>
+    <string name="buttons_no_aids">No aids yet</string>
+    <string name="buttons_no_aids_hint">Pair an aid first, in Setup.</string>
+    <string name="not_linked">NOT LINKED</string>
+    <string name="buttons_choose">Choose what the button does</string>
+    <!-- Status badge on a button gesture row: an action has been chosen. Keep very short. -->
+    <string name="buttons_set">SET</string>
+
+    <!-- Setup screen -->
+    <string name="setup_title">Setup</string>
+    <string name="setup_subtitle">Connection, pairing, appearance</string>
+    <string name="setup_nearby_title">Nearby devices permission missing</string>
+    <string name="setup_nearby_body">The app cannot reach your aids without Bluetooth access. Allow Nearby devices in app settings.</string>
+    <string name="setup_open_settings">Open app settings</string>
+    <!-- Heading: the Bluetooth connection between phone and aids. -->
+    <string name="setup_link">Link</string>
+    <string name="setup_no_aids_bonded">NO AIDS PAIRED</string>
+    <string name="setup_all_linked">ALL AIDS LINKED</string>
+    <string name="n_of_m_linked">%1$d OF %2$d LINKED</string>
+    <string name="setup_link_hint">The app keeps both aids connected, even with the screen off. If a connection drops, it reconnects on its own.</string>
+    <string name="setup_reconnect">Reconnect both</string>
+    <string name="setup_stop">Stop</string>
+    <string name="setup_media">Media</string>
+    <string name="setup_access_granted">NOTIFICATION ACCESS GRANTED</string>
+    <string name="setup_access_missing">NOTIFICATION ACCESS MISSING</string>
+    <string name="setup_media_hint">Play, pause and track keys work through the media notification\'s buttons. Without this access they do nothing. Volume and program still work.</string>
+    <string name="setup_change_access">Change access</string>
+    <string name="setup_grant_access">Grant access</string>
+    <string name="setup_pair">Pair an aid</string>
+    <string name="setup_pair_hint">The aid restarts partway through. When asked, put it in the charger and take it out, or open and close the battery door.</string>
+    <string name="setup_scanning">Scanning…</string>
+    <string name="setup_scan">Scan</string>
+    <string name="setup_pairing_failed">Pairing failed</string>
+    <!-- Title shown after pairing succeeded. -->
+    <string name="setup_bonded">Paired</string>
+    <string name="setup_bonded_body">Reconnecting. The aid should show up in a few seconds.</string>
+    <string name="setup_ready_to_pair">Connected, tap to pair</string>
+    <string name="setup_pair_this">Pair</string>
+    <string name="setup_unnamed_aid">Unnamed aid</string>
+    <string name="setup_appearance">Appearance</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="setup_language">Language</string>
+    <!-- Heading of a section. -->
+    <string name="setup_sample_pair">Sample pair</string>
+    <string name="setup_sample_preview">Preview with a sample pair</string>
+    <string name="setup_sample_hint">Shows a made-up Nexia 5 and CROS pair so you can try the app without Bluetooth. Marked SAMPLE while on.</string>
+    <!-- Heading: a technical event log, for troubleshooting. -->
+    <string name="setup_log">Log</string>
+    <!-- Number of lines in the log. Short uppercase label. -->
+    <plurals name="setup_log_lines">
+        <item quantity="one">%1$d LINE</item>
+        <item quantity="other">%1$d LINES</item>
+    </plurals>
+    <string name="setup_scroll_newest">Scroll to newest</string>
+    <string name="setup_log_empty">Nothing logged yet.</string>
+    <string name="setup_about">About</string>
+    <string name="setup_version">Version</string>
+    <string name="setup_version_value" translatable="false">%1$s · MIT</string>
+
+    <!-- Now screen -->
+    <string name="now_wordmark" translatable="false">I-HEAR-YOU</string>
+    <!-- Banner shown while the demo pair is on. Keep short. -->
+    <string name="now_sample_band">SAMPLE PAIR · MADE-UP DATA</string>
+    <!-- Status badge. Keep short. -->
+    <string name="now_no_aids">NO AIDS</string>
+    <string name="now_both_linked">BOTH EARS LINKED</string>
+    <!-- Status badge: time of the last reading from the aid. %1$s is a time. -->
+    <string name="now_read_at">READ %1$s</string>
+    <!-- Status badge: the command was sent to the aid. Keep short. -->
+    <string name="now_sent">SENT</string>
+    <!-- Status badge: waiting for the aid to confirm. Keep short. -->
+    <string name="now_waiting">WAITING</string>
+    <!-- Status badge: the aid confirmed the new value. Keep short. -->
+    <string name="now_read_back">READ BACK</string>
+    <!-- Status badge: the reading is old. %1$s is how long ago. -->
+    <string name="now_stale">STALE %1$s</string>
+    <!-- Small label above the audio streaming state of an aid. -->
+    <string name="now_stream">STREAM</string>
+    <!-- Small label above the volume level of an aid. -->
+    <string name="now_level">LEVEL</string>
+    <!-- Small label above the connection state of an aid. -->
+    <string name="now_link">LINK</string>
+    <!-- Small label above the time of the last reading. -->
+    <string name="now_read">READ</string>
+    <!-- Label for controls that act on both aids at once. -->
+    <string name="now_both">BOTH</string>
+    <!-- Shown in place of the volume number when the aid is muted. -->
+    <string name="now_mute_reading">MUTE</string>
+    <string name="mute">Mute</string>
+    <string name="unmute">Unmute</string>
+    <string name="quieter">Quieter</string>
+    <string name="louder">Louder</string>
+    <string name="open_bluetooth_settings">Open Bluetooth settings</string>
+    <string name="now_details_cd">Details for the %1$s aid</string>
+    <string name="now_level_cd">Level, %1$s aid</string>
+    <string name="now_quieter_cd">Quieter, %1$s aid</string>
+    <string name="now_unmute_cd">Unmute %1$s aid</string>
+    <string name="now_mute_cd">Mute %1$s aid</string>
+    <string name="now_louder_cd">Louder, %1$s aid</string>
+    <string name="now_quieter_both_cd">Quieter, both aids</string>
+    <string name="now_unmute_both_cd">Unmute both aids</string>
+    <string name="now_mute_both_cd">Mute both aids</string>
+    <string name="now_louder_both_cd">Louder, both aids</string>
+    <string name="now_n_of_m_not_linked">%1$d OF %2$d NOT LINKED</string>
+    <string name="now_fix_bt_off">Bluetooth is off. Turn it on and the aids reconnect by themselves.</string>
+    <!-- Button label: opens Bluetooth settings. -->
+    <string name="now_fix_bt_off_key">Bluetooth</string>
+    <string name="now_fix_rival_taken">ReSound Smart 3D is controlling the aids. Close it, then take them back.</string>
+    <string name="now_fix_other_taken">Another app is controlling the aids. Close it, then take them back.</string>
+    <!-- Button: make this app the one controlling the aids again. -->
+    <string name="now_fix_take_back">Take back</string>
+    <string name="now_fix_take_back_cd">Reconnect to the aids</string>
+    <string name="now_fix_needs_pairing">This phone has no key for the aid yet. Pair it once in Setup.</string>
+    <!-- Button label. -->
+    <string name="now_fix_pair_key">Pair</string>
+    <string name="now_fix_pair_cd">Open setup to pair the aid</string>
+    <string name="now_fix_blocked">The aid refused the login for now. Turn it off and on, then wait a minute.</string>
+    <string name="now_fix_open_setup_cd">Open setup</string>
+    <string name="now_fix_rival">Only one app can control the aids at a time. If ReSound Smart 3D is running, force-stop it.</string>
+    <string name="now_fix_rival_key" translatable="false">Smart 3D</string>
+    <string name="now_fix_rival_cd">Open Smart 3D app info to force-stop it</string>
+    <string name="now_fix_reconnect_key">Reconnect</string>
+    <string name="now_fix_default">Still not linked after several tries. Check the aid is on and in range; it keeps trying in the background.</string>
+    <!-- Heading: the hearing program (listening situation, e.g. Restaurant, Music) selected on the aid. -->
+    <string name="now_program">Program</string>
+    <string name="now_no_programs">No programs yet. The aid sends them once connected.</string>
+    <string name="now_programs_split">The two aids are on different programs. Tap one to set both.</string>
+    <string name="now_programs_single">Only one program is set up. Your audiologist can add more.</string>
+    <!-- Heading of the first-run steps. -->
+    <string name="now_start_here">Start here</string>
+    <string name="now_no_aids_yet">NO AIDS YET</string>
+    <string name="now_step1_title">Pair the aid with Android</string>
+    <string name="now_step1_body">Open Settings, then Bluetooth, and pair the aid.</string>
+    <string name="now_step2_title">Pair it here once</string>
+    <string name="now_step2_body">The aid restarts partway through. When asked, put it in the charger and take it out, or open and close the battery door.</string>
+    <string name="now_pair_new">Pair a new aid</string>
+
+    <!-- Pairing progress and errors (PairingManager) -->
+    <!-- Shown in place of a name; lowercase on purpose. %1$s is a Bluetooth address. -->
+    <string name="pair_unknown_device">unknown device %1$s</string>
+    <string name="pair_with_android">Pairing with Android…</string>
+    <string name="pair_android_not_finished">Android pairing did not finish. Accept the pairing request, then retry.</string>
+    <string name="pair_connecting">Connecting…</string>
+    <string name="pair_passcode">This aid asks for a passcode when pairing. I-Hear-You cannot do that yet.</string>
+    <string name="pair_update_mode">This aid is in update mode. Restart it and try again.</string>
+    <string name="pair_first_auth">Signing in to the aid…</string>
+    <!-- Lowercase on purpose: inserted into a longer message. -->
+    <string name="pair_auth_failed">sign-in failed (code %1$d)</string>
+    <string name="pair_restart_aid">Restart the aid now: put it in the charger for about 3 seconds, or open and close the battery door.</string>
+    <string name="pair_waiting">Waiting for the aid to come back…</string>
+    <string name="pair_finalizing">Finishing pairing…</string>
+    <string name="pair_finalizing_try">Finishing pairing… (try %1$d of 5)</string>
+    <string name="pair_not_accepted">The aid did not accept the new key after 5 tries. Restart it and start again.</string>
+    <string name="pair_blocked">The aid is temporarily blocked. Turn it off and on, wait a few minutes, then retry.</string>
+    <string name="pair_rejected">The aid refused the key. Turn it off and on, then retry.</string>
+    <string name="pair_auth_failed_code">Sign-in failed (code %1$d).</string>
+
+    <!-- Quick Settings tile -->
+    <!-- Quick Settings tile title. -->
+    <string name="tile_label">Mute aids</string>
+    <string name="tile_not_linked">Not linked</string>
+    <string name="tile_muted">Muted</string>
+    <string name="tile_on">On</string>
+
+    <!-- Foreground service notification -->
+    <!-- Name of the notification channel in Android settings. -->
+    <string name="notif_channel">Remote</string>
+    <string name="notif_listening">Listening for hearing-aid buttons</string>
+    <string name="notif_muted">%1$s · muted</string>
+    <string name="notif_looking">Looking for hearing aids</string>
+    <string name="notif_aid_status">%1$s %2$s</string>
+
+    <!-- Link details and default program names (RemoteService) -->
+    <!-- Link problem: the device is not a supported ReSound aid. -->
+    <string name="link_detail_no_gn">Not a supported aid</string>
+    <string name="link_detail_key_rejected">Key rejected (code %1$d)</string>
+    <string name="link_detail_blocked">Turn the aid off and on, then wait a minute</string>
+    <string name="link_detail_taken_over">Another app is controlling the aid</string>
+    <!-- Used when the aid gives a program no name. -->
+    <string name="program_default_name">Program %1$d</string>
+    <!-- Names of standard hearing program types. Use the stock program names the aids carry in each language. -->
+    <string name="program_kind_all_around">All-Around</string>
+    <string name="program_kind_restaurant">Restaurant</string>
+    <string name="program_kind_music">Music</string>
+    <string name="program_kind_outdoor">Outdoor</string>
+    <string name="program_kind_lecture">Lecture</string>
+    <string name="program_kind_hear_in_noise">Hear in noise</string>
+    <string name="program_kind_traffic">Traffic</string>
+
+</resources>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_voice">Voice</string>
+    <string name="action_voice_note">Voice note</string>
+    <string name="action_voice_note_hint">Records from the aids. The next press on either aid ends it. Set where it goes on the Voice screen.</string>
+
+    <string name="voice_title">Voice notes</string>
+    <string name="voice_subtitle">Record from the aids</string>
+    <string name="voice_intro">Map Voice note to a press on the Buttons screen. That press starts recording from the aids\' microphones. The next press on either aid stops it, and which press you use decides where the note goes. Every note is saved first, whatever happens after.</string>
+
+    <string name="voice_mic_title">Microphone not allowed</string>
+    <string name="voice_mic_body">Voice notes need the microphone permission.</string>
+    <string name="voice_mic_allow">Allow microphone</string>
+    <string name="voice_bg_title">Open the app once to record in the background</string>
+    <string name="voice_bg_body">Android only lets the app use the microphone in the background after it has been on screen since the phone started. Keep this screen open for a moment and it is ready.</string>
+    <string name="voice_unmapped_title">No press starts a voice note yet</string>
+    <string name="voice_unmapped_body">On the Buttons screen, set a press, for example a long press on the left aid, to Voice note.</string>
+
+    <string name="voice_status_title">Recorder</string>
+    <string name="voice_recording">Recording %1$d:%2$02d</string>
+    <string name="voice_mic_aid">HEARING-AID MICROPHONE</string>
+    <string name="voice_mic_phone">PHONE MICROPHONE</string>
+    <string name="voice_mic_bluetooth">BLUETOOTH MICROPHONE · %1$s</string>
+    <string name="voice_mic_opening">OPENING MICROPHONE</string>
+    <string name="voice_idle">Ready</string>
+    <string name="voice_idle_hint">The press mapped to Voice note starts a recording.</string>
+    <string name="voice_record_here">Record from here</string>
+    <string name="voice_stop_save">Stop and save</string>
+
+    <string name="voice_finish_title">Ending a note</string>
+    <string name="voice_finish_body">While a note records, any press on either aid ends it. Pick where each press sends the note. It is always saved too.</string>
+    <string name="voice_finish_choose">When this press ends a note</string>
+    <string name="voice_finish_more">Webhook and White Noise appear here once they are set up under Advanced.</string>
+
+    <string name="voice_dest_save">Save only</string>
+    <string name="voice_dest_save_hint">Keep the recording on the phone.</string>
+    <string name="voice_dest_white_noise">White Noise</string>
+    <string name="voice_dest_white_noise_hint">Save, then send to your chosen White Noise group.</string>
+    <string name="voice_dest_webhook">Webhook</string>
+    <string name="voice_dest_webhook_hint">Save, then post to your webhook URL.</string>
+    <string name="voice_dest_share">Share</string>
+    <string name="voice_dest_share_hint">Save, then open the share sheet. With the phone locked it waits behind a notification.</string>
+
+    <string name="voice_length_title">Longest note</string>
+    <string name="voice_minutes">%1$d min</string>
+    <string name="voice_length_hint">A minute before the limit you hear a warning. At the limit the note ends as a short press on the aid that started it would.</string>
+
+    <string name="voice_tx_title">Transcription</string>
+    <string name="voice_tx_audio">Audio</string>
+    <string name="voice_tx_audio_hint">Sends the recording only. Nothing is transcribed.</string>
+    <string name="voice_tx_both">Audio + text</string>
+    <string name="voice_tx_both_hint">Transcribes on the phone and sends both. The transcript is saved next to the recording.</string>
+    <string name="voice_tx_text">Text</string>
+    <string name="voice_tx_text_hint">Sends only the transcript. The recording and transcript are still saved. If transcription fails, the audio is sent instead.</string>
+    <string name="voice_tx_provider">Transcribed by</string>
+    <string name="voice_tx_none">No transcription app</string>
+    <string name="voice_tx_old_android">Needs Android 13 or later</string>
+    <string name="voice_tx_install">Install Offline Speech to Text (Zapstore) and download a model in it. Transcription runs on the phone, offline.</string>
+
+    <string name="voice_saving_title">Microphone and saving</string>
+    <string name="voice_aid_mic">Use the aids\' microphones</string>
+    <string name="voice_aid_mic_hint">While their microphones are open the aids switch to a call-like mode. Music sounds flatter until the note ends. The aids offer a microphone only while they are the phone\'s active audio device. If other Bluetooth headphones are active, their microphone is used, and with none, the phone\'s.</string>
+    <string name="voice_folder">Folder</string>
+    <string name="voice_folder_default">Documents/I Hear You</string>
+    <string name="voice_folder_choose">Choose folder</string>
+    <string name="voice_folder_reset">Use default</string>
+    <string name="voice_folder_hint">Recordings (.m4a) and transcripts (.txt) are saved here, so a sync app like Syncthing can pick them up.</string>
+
+    <string name="voice_recent_title">Recent notes</string>
+    <string name="voice_recent_empty">No notes yet.</string>
+    <string name="voice_recent_hint">A note whose sending failed keeps its saved copy. Retry sends it again.</string>
+    <string name="voice_state_recording">RECORDING</string>
+    <string name="voice_state_processing">SAVING</string>
+    <string name="voice_state_saved">SAVED</string>
+    <string name="voice_state_sent">SAVED · SENT: %1$s</string>
+    <string name="voice_state_failed">SAVED · %1$s FAILED</string>
+    <string name="voice_state_transcript">TRANSCRIPT</string>
+    <string name="voice_retry">Retry</string>
+    <string name="voice_delete">Delete</string>
+
+    <string name="voice_advanced">Advanced destinations</string>
+    <string name="voice_save_settings">Save</string>
+    <string name="voice_net_title">Network access is off</string>
+    <string name="voice_net_body">Webhook and White Noise need network access. Turn on Network for I Hear You in its app settings.</string>
+    <string name="voice_net_open">Open app settings</string>
+    <string name="voice_net_error">Network access is off for I Hear You (app settings, Network).</string>
+    <string name="voice_webhook_title">Webhook</string>
+    <string name="voice_webhook_body">Posts each note as multipart form data: metadata (JSON), transcript (text) and audio (.m4a). Works with n8n, Home Assistant or your own server. Any 2xx reply counts as delivered.</string>
+    <string name="voice_webhook_url">URL</string>
+    <string name="voice_webhook_auth">Authorization header (optional)</string>
+
+    <string name="voice_wn_title">White Noise</string>
+    <string name="voice_wn_body">I Hear You gets its own White Noise identity. Invite it into a group, for example one with your AI agent, and notes ended with the White Noise press are sent there.</string>
+    <string name="voice_wn_enable">Use White Noise</string>
+    <string name="voice_wn_state">Status</string>
+    <string name="voice_wn_off">Off</string>
+    <string name="voice_wn_starting">Starting…</string>
+    <string name="voice_wn_ready">Connected</string>
+    <string name="voice_wn_failed">Failed: %1$s</string>
+    <string name="voice_wn_retry">Start again</string>
+    <string name="voice_wn_identity">THIS APP\'S IDENTITY (NPUB)</string>
+    <string name="voice_wn_copy">Copy</string>
+    <string name="voice_wn_invite_hint">In White Noise, add this npub to a group. The invite appears below. Agents such as Hermes must also allow this npub to invite and message them.</string>
+    <string name="voice_wn_invites">INVITES</string>
+    <string name="voice_wn_accept">Accept</string>
+    <string name="voice_wn_decline">Decline</string>
+    <string name="voice_wn_group">GROUP FOR VOICE NOTES</string>
+    <string name="voice_wn_no_groups">No groups yet. Accept an invite first.</string>
+    <string name="voice_replies_title">REPLIES IN THE AIDS</string>
+    <string name="voice_replies_off">Off</string>
+    <string name="voice_replies_off_hint">Replies stay in the group; nothing is played.</string>
+    <string name="voice_replies_after">After a note</string>
+    <string name="voice_replies_after_hint">Messages in the group are played into the aids for %1$d minutes after you send a note: voice replies as they are, text read aloud. A short press stops a reply.</string>
+    <string name="voice_replies_always">Always</string>
+    <string name="voice_replies_always_hint">Every new message in the group is played into the aids. A short press stops a reply.</string>
+
+    <string name="voice_channel">Voice notes</string>
+    <string name="voice_notif_recording_title">Recording a voice note</string>
+    <string name="voice_notif_recording_body">Press either aid to finish.</string>
+    <string name="voice_notif_mic_title">Voice note not recorded</string>
+    <string name="voice_notif_mic_body">Open I Hear You once so it can use the microphone in the background.</string>
+    <string name="voice_notif_silent_title">Microphone is recording silence</string>
+    <string name="voice_notif_silent_body">Check the microphone toggle, whether the aids are muted, or whether a call or another app has the microphone. Recording continues.</string>
+    <string name="voice_notif_micfail_title">Recording stopped: the microphone failed</string>
+    <string name="voice_notif_micfail_body">What was recorded until then is saved.</string>
+    <string name="voice_notif_failed_title">%1$s: not sent</string>
+    <string name="voice_notif_failed_body">The recording is saved (%1$s). Retry sends it again.</string>
+    <string name="voice_notif_share_title">Voice note ready to share</string>
+    <string name="voice_notif_share_body">Tap to choose an app.</string>
+    <string name="voice_share_title">Share voice note</string>
+    <string name="voice_key_title">KEY BACKUP (NSEC)</string>
+    <string name="voice_key_body">The nsec is the private key of this app\'s identity: whoever has it can write as this app. Keep it in a password manager. Importing it restores the identity (the same npub), not the groups: after an import, the groups have to invite the npub again.</string>
+    <string name="voice_key_show">Show nsec</string>
+    <string name="voice_key_hide">Hide</string>
+    <string name="voice_key_import">Import nsec</string>
+    <string name="voice_key_import_go">Import</string>
+    <string name="voice_key_import_warn">This replaces the current identity. Its groups are dropped and the voice-note group is cleared; the groups have to invite the imported npub again.</string>
+    <string name="voice_key_import_confirm">Replace identity</string>
+    <string name="voice_key_cancel">Cancel</string>
+    <string name="voice_key_imported">Identity imported. Invite its npub to the groups again.</string>
+    <string name="voice_replies_read_text">Read text replies aloud</string>
+    <string name="voice_replies_read_text_on">Voice replies play as they are, text replies are read by the phone\'s voice.</string>
+    <string name="voice_replies_read_text_off">Only voice replies play; text replies stay in the group. Ask the agent to answer in voice.</string>
+    <string name="voice_replies_ignore">Ignore replies containing</string>
+    <string name="voice_replies_ignore_hint">Comma-separated. A reply containing any of these is not played, for example the 🎙️ that marks the transcript of your own voice note.</string>
+    <string name="voice_status_saving">Saving the voice note</string>
+    <string name="voice_status_transcribing">Transcribing</string>
+    <string name="voice_status_sending">Sending to %1$s</string>
+    <string name="voice_status_transcribe_wait">Waiting for the transcription app</string>
+    <string name="voice_clip_label">Voice note transcript</string>
+    <string name="voice_status_body">Voice note, %1$d:%2$02d</string>
+    <plurals name="voice_status_queued">
+        <item quantity="one">%d more waiting</item>
+        <item quantity="other">%d more waiting</item>
+    </plurals>
+    <string name="voice_ostt_hint">Voice notes work much better with Offline Speech to Text: a free app that turns speech into text on the phone, offline.</string>
+    <string name="voice_get_ostt">Get Offline Speech to Text</string>
+    <string name="voice_webhook_https">The URL must start with https://. Android does not let I Hear You send to http://, and the note would travel unencrypted.</string>
+    <string name="voice_wn_group_gone">I Hear You is no longer in this group. Pick another one, or have it invited again.</string>
+    <string name="voice_wn_name">Name in groups</string>
+    <string name="voice_wn_name_hint">Group members see this name next to your notes. Make it say whose it is, for example \"I Hear You (Anna)\".</string>
+    <string name="voice_wn_name_published">Name published. Other apps may take a while to show it.</string>
+    <string name="voice_no_speech_no_ostt">No speech recognised. The recognizer on this phone cannot transcribe a recording: install Offline Speech to Text (free, on Zapstore).</string>
+</resources>

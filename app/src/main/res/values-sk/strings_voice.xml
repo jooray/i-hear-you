@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_voice">Hlas</string>
+    <string name="action_voice_note">Hlasová správa</string>
+    <string name="action_voice_note_hint">Nahráva z prístrojov. Ďalšie stlačenie na ktoromkoľvek prístroji ju ukončí. Kam pôjde, nastavíte na obrazovke Hlas.</string>
+
+    <string name="voice_title">Hlasové správy</string>
+    <string name="voice_subtitle">Nahrávanie z prístrojov</string>
+    <string name="voice_intro">Na obrazovke Tlačidlá priraďte niektorému stlačeniu Hlasovú správu. Tým stlačením sa spustí nahrávanie z mikrofónov prístrojov. Ďalšie stlačenie na ktoromkoľvek prístroji ho zastaví a podľa toho, ktoré stlačenie použijete, sa rozhodne, kam správa pôjde. Každá správa sa najprv uloží, nech sa potom stane čokoľvek.</string>
+
+    <string name="voice_mic_title">Mikrofón nie je povolený</string>
+    <string name="voice_mic_body">Hlasové správy potrebujú povolenie na mikrofón.</string>
+    <string name="voice_mic_allow">Povoliť mikrofón</string>
+    <string name="voice_bg_title">Na nahrávanie na pozadí raz otvorte aplikáciu</string>
+    <string name="voice_bg_body">Android dovolí aplikácii používať mikrofón na pozadí, až keď bola od zapnutia telefónu aspoň raz na obrazovke. Nechajte túto obrazovku chvíľu otvorenú a bude pripravená.</string>
+    <string name="voice_unmapped_title">Hlasovú správu zatiaľ nespúšťa žiadne stlačenie</string>
+    <string name="voice_unmapped_body">Na obrazovke Tlačidlá nastavte niektoré stlačenie, napríklad dlhé stlačenie ľavého prístroja, na Hlasovú správu.</string>
+
+    <string name="voice_status_title">Nahrávanie</string>
+    <string name="voice_recording">Nahráva sa %1$d:%2$02d</string>
+    <string name="voice_mic_aid">MIKROFÓN PRÍSTROJOV</string>
+    <string name="voice_mic_phone">MIKROFÓN TELEFÓNU</string>
+    <string name="voice_mic_bluetooth">BLUETOOTH MIKROFÓN · %1$s</string>
+    <string name="voice_mic_opening">OTVÁRA SA MIKROFÓN</string>
+    <string name="voice_idle">Pripravené</string>
+    <string name="voice_idle_hint">Stlačenie priradené Hlasovej správe spustí nahrávanie.</string>
+    <string name="voice_record_here">Nahrať odtiaľto</string>
+    <string name="voice_stop_save">Zastaviť a uložiť</string>
+
+    <string name="voice_finish_title">Ukončenie správy</string>
+    <string name="voice_finish_body">Kým sa správa nahráva, ukončí ju ktorékoľvek stlačenie na ktoromkoľvek prístroji. Vyberte, kam ktoré stlačenie správu pošle. Uloží sa vždy.</string>
+    <string name="voice_finish_choose">Keď toto stlačenie ukončí správu</string>
+    <string name="voice_finish_more">Webhook a White Noise sa tu objavia, keď ich nastavíte v časti Rozšírené.</string>
+
+    <string name="voice_dest_save">Iba uložiť</string>
+    <string name="voice_dest_save_hint">Nahrávka zostane v telefóne.</string>
+    <string name="voice_dest_white_noise">White Noise</string>
+    <string name="voice_dest_white_noise_hint">Uloží a pošle do vybranej skupiny vo White Noise.</string>
+    <string name="voice_dest_webhook">Webhook</string>
+    <string name="voice_dest_webhook_hint">Uloží a pošle na adresu webhooku.</string>
+    <string name="voice_dest_share">Zdieľať</string>
+    <string name="voice_dest_share_hint">Uloží a otvorí ponuku zdieľania. Pri zamknutom telefóne počká v oznámení.</string>
+
+    <string name="voice_length_title">Najdlhšia správa</string>
+    <string name="voice_minutes">%1$d min</string>
+    <string name="voice_length_hint">Minútu pred limitom zaznie upozornenie. Pri limite sa správa ukončí, akoby ste krátko stlačili prístroj, ktorým ste ju spustili.</string>
+
+    <string name="voice_tx_title">Prepis</string>
+    <string name="voice_tx_audio">Zvuk</string>
+    <string name="voice_tx_audio_hint">Pošle iba nahrávku. Nič sa neprepisuje.</string>
+    <string name="voice_tx_both">Zvuk + text</string>
+    <string name="voice_tx_both_hint">Prepíše v telefóne a pošle oboje. Prepis sa uloží vedľa nahrávky.</string>
+    <string name="voice_tx_text">Text</string>
+    <string name="voice_tx_text_hint">Pošle iba prepis. Nahrávka aj prepis sa aj tak uložia. Ak sa prepis nepodarí, pošle sa zvuk.</string>
+    <string name="voice_tx_provider">Prepisuje</string>
+    <string name="voice_tx_none">Žiadna aplikácia na prepis</string>
+    <string name="voice_tx_old_android">Potrebuje Android 13 alebo novší</string>
+    <string name="voice_tx_install">Nainštalujte Offline Speech to Text (Zapstore) a stiahnite v ňom model. Prepis beží v telefóne, offline.</string>
+
+    <string name="voice_saving_title">Mikrofón a ukladanie</string>
+    <string name="voice_aid_mic">Používať mikrofóny prístrojov</string>
+    <string name="voice_aid_mic_hint">Kým sú ich mikrofóny otvorené, prístroje prejdú do režimu ako pri hovore. Hudba znie plochšie, kým sa správa neukončí. Prístroje ponúkajú mikrofón len vtedy, keď sú aktívnym zvukovým zariadením telefónu. Ak sú aktívne iné bluetooth slúchadlá, použije sa ich mikrofón, a ak žiadne, tak mikrofón telefónu.</string>
+    <string name="voice_folder">Priečinok</string>
+    <string name="voice_folder_default">Documents/I Hear You</string>
+    <string name="voice_folder_choose">Vybrať priečinok</string>
+    <string name="voice_folder_reset">Predvolený</string>
+    <string name="voice_folder_hint">Nahrávky (.m4a) a prepisy (.txt) sa ukladajú sem, takže ich môže vziať synchronizačná aplikácia ako Syncthing.</string>
+
+    <string name="voice_recent_title">Posledné správy</string>
+    <string name="voice_recent_empty">Zatiaľ žiadne správy.</string>
+    <string name="voice_recent_hint">Správa, ktorú sa nepodarilo poslať, má uloženú kópiu. Skúsiť znova ju pošle ešte raz.</string>
+    <string name="voice_state_recording">NAHRÁVA SA</string>
+    <string name="voice_state_processing">UKLADÁ SA</string>
+    <string name="voice_state_saved">ULOŽENÉ</string>
+    <string name="voice_state_sent">ULOŽENÉ · ODOSLANÉ: %1$s</string>
+    <string name="voice_state_failed">ULOŽENÉ · %1$s ZLYHAL</string>
+    <string name="voice_state_transcript">PREPIS</string>
+    <string name="voice_retry">Skúsiť znova</string>
+    <string name="voice_delete">Vymazať</string>
+
+    <string name="voice_advanced">Rozšírené ciele</string>
+    <string name="voice_save_settings">Uložiť</string>
+    <string name="voice_net_title">Prístup na sieť je vypnutý</string>
+    <string name="voice_net_body">Webhook a White Noise potrebujú prístup na sieť. Zapnite Sieť pre I Hear You v nastaveniach aplikácie.</string>
+    <string name="voice_net_open">Otvoriť nastavenia aplikácie</string>
+    <string name="voice_net_error">I Hear You nemá prístup na sieť (nastavenia aplikácie, Sieť).</string>
+    <string name="voice_webhook_title">Webhook</string>
+    <string name="voice_webhook_body">Každú správu pošle ako multipart formulár: metadata (JSON), transcript (text) a audio (.m4a). Funguje s n8n, Home Assistantom alebo vlastným serverom. Akákoľvek odpoveď 2xx sa počíta ako doručenie.</string>
+    <string name="voice_webhook_url">URL</string>
+    <string name="voice_webhook_auth">Hlavička Authorization (nepovinné)</string>
+
+    <string name="voice_wn_title">White Noise</string>
+    <string name="voice_wn_body">I Hear You dostane vlastnú identitu vo White Noise. Pozvite ju do skupiny, napríklad s vaším AI agentom, a správy ukončené stlačením pre White Noise pôjdu tam.</string>
+    <string name="voice_wn_enable">Používať White Noise</string>
+    <string name="voice_wn_state">Stav</string>
+    <string name="voice_wn_off">Vypnuté</string>
+    <string name="voice_wn_starting">Spúšťa sa…</string>
+    <string name="voice_wn_ready">Pripojené</string>
+    <string name="voice_wn_failed">Zlyhalo: %1$s</string>
+    <string name="voice_wn_retry">Spustiť znova</string>
+    <string name="voice_wn_identity">IDENTITA TEJTO APLIKÁCIE (NPUB)</string>
+    <string name="voice_wn_copy">Kopírovať</string>
+    <string name="voice_wn_invite_hint">Vo White Noise pridajte tento npub do skupiny. Pozvánka sa objaví nižšie. Agenti ako Hermes musia tomuto npub tiež povoliť pozývať ich a písať im.</string>
+    <string name="voice_wn_invites">POZVÁNKY</string>
+    <string name="voice_wn_accept">Prijať</string>
+    <string name="voice_wn_decline">Odmietnuť</string>
+    <string name="voice_wn_group">SKUPINA PRE HLASOVÉ SPRÁVY</string>
+    <string name="voice_wn_no_groups">Zatiaľ žiadne skupiny. Najprv prijmite pozvánku.</string>
+    <string name="voice_replies_title">ODPOVEDE V PRÍSTROJOCH</string>
+    <string name="voice_replies_off">Vypnuté</string>
+    <string name="voice_replies_off_hint">Odpovede zostanú v skupine, nič sa neprehrá.</string>
+    <string name="voice_replies_after">Po správe</string>
+    <string name="voice_replies_after_hint">Správy v skupine sa %1$d minút po odoslaní vašej správy prehrajú do prístrojov: hlasové odpovede tak, ako sú, text nahlas. Krátke stlačenie odpoveď zastaví.</string>
+    <string name="voice_replies_always">Vždy</string>
+    <string name="voice_replies_always_hint">Každá nová správa v skupine sa prehrá do prístrojov. Krátke stlačenie odpoveď zastaví.</string>
+
+    <string name="voice_channel">Hlasové správy</string>
+    <string name="voice_notif_recording_title">Nahráva sa hlasová správa</string>
+    <string name="voice_notif_recording_body">Ukončíte stlačením ktoréhokoľvek prístroja.</string>
+    <string name="voice_notif_mic_title">Hlasová správa sa nenahrala</string>
+    <string name="voice_notif_mic_body">Raz otvorte I Hear You, aby mohla používať mikrofón na pozadí.</string>
+    <string name="voice_notif_silent_title">Mikrofón nahráva ticho</string>
+    <string name="voice_notif_silent_body">Skontrolujte prepínač mikrofónu, či nie sú načúvacie prístroje stlmené, alebo či mikrofón nepoužíva hovor či iná aplikácia. Nahrávanie pokračuje.</string>
+    <string name="voice_notif_micfail_title">Nahrávanie sa zastavilo: mikrofón zlyhal</string>
+    <string name="voice_notif_micfail_body">Čo sa dovtedy nahralo, je uložené.</string>
+    <string name="voice_notif_failed_title">%1$s: neodoslané</string>
+    <string name="voice_notif_failed_body">Nahrávka je uložená (%1$s). Skúsiť znova ju pošle ešte raz.</string>
+    <string name="voice_notif_share_title">Hlasová správa je pripravená na zdieľanie</string>
+    <string name="voice_notif_share_body">Ťuknite a vyberte aplikáciu.</string>
+    <string name="voice_share_title">Zdieľať hlasovú správu</string>
+    <string name="voice_key_title">ZÁLOHA KĽÚČA (NSEC)</string>
+    <string name="voice_key_body">nsec je súkromný kľúč identity tejto aplikácie: kto ho má, môže písať v jej mene. Uložte ho do správcu hesiel. Import obnoví identitu (ten istý npub), nie skupiny: po importe treba npub do skupín pozvať znova.</string>
+    <string name="voice_key_show">Zobraziť nsec</string>
+    <string name="voice_key_hide">Skryť</string>
+    <string name="voice_key_import">Importovať nsec</string>
+    <string name="voice_key_import_go">Importovať</string>
+    <string name="voice_key_import_warn">Toto nahradí súčasnú identitu. Jej skupiny sa zahodia a skupina pre hlasové správy sa zruší; skupiny musia importovaný npub pozvať znova.</string>
+    <string name="voice_key_import_confirm">Nahradiť identitu</string>
+    <string name="voice_key_cancel">Zrušiť</string>
+    <string name="voice_key_imported">Identita importovaná. Pozvite jej npub do skupín znova.</string>
+    <string name="voice_replies_read_text">Čítať textové odpovede nahlas</string>
+    <string name="voice_replies_read_text_on">Hlasové odpovede sa prehrajú, ako sú, textové prečíta hlas telefónu.</string>
+    <string name="voice_replies_read_text_off">Prehrajú sa len hlasové odpovede; textové ostanú v skupine. Požiadajte agenta, nech odpovedá hlasom.</string>
+    <string name="voice_replies_ignore">Ignorovať odpovede obsahujúce</string>
+    <string name="voice_replies_ignore_hint">Oddelené čiarkou. Odpoveď, ktorá obsahuje niečo z toho, sa neprehrá, napríklad 🎙️, ktorým je označený prepis vašej hlasovej správy.</string>
+    <string name="voice_status_saving">Ukladá sa hlasová správa</string>
+    <string name="voice_status_transcribing">Prepisuje sa</string>
+    <string name="voice_status_sending">Odosiela sa: %1$s</string>
+    <string name="voice_status_transcribe_wait">Čaká sa na aplikáciu na prepis</string>
+    <string name="voice_clip_label">Prepis hlasovej správy</string>
+    <string name="voice_status_body">Hlasová správa, %1$d:%2$02d</string>
+    <plurals name="voice_status_queued">
+        <item quantity="one">čaká ešte %d</item>
+        <item quantity="few">čakajú ešte %d</item>
+        <item quantity="many">čaká ešte %d</item>
+        <item quantity="other">čaká ešte %d</item>
+    </plurals>
+    <string name="voice_ostt_hint">Hlasové poznámky fungujú oveľa lepšie s Offline Speech to Text: bezplatnou aplikáciou, ktorá prevádza reč na text priamo v telefóne, bez internetu.</string>
+    <string name="voice_get_ostt">Stiahnuť Offline Speech to Text</string>
+    <string name="voice_webhook_https">URL musí začínať https://. Android nedovolí I Hear You posielať na http:// a poznámka by išla nešifrovaná.</string>
+    <string name="voice_wn_group_gone">I Hear You už v tejto skupine nie je. Vyber inú alebo ho nechaj znova pozvať.</string>
+    <string name="voice_wn_name">Meno v skupinách</string>
+    <string name="voice_wn_name_hint">Členovia skupiny vidia toto meno pri tvojich poznámkach. Nech je z neho jasné, čí je, napríklad \"I Hear You (Anna)\".</string>
+    <string name="voice_wn_name_published">Meno je zverejnené. Iným aplikáciám môže chvíľu trvať, kým ho ukážu.</string>
+    <string name="voice_no_speech_no_ostt">Nerozpoznala sa žiadna reč. Rozpoznávač v tomto telefóne nevie prepísať nahrávku: nainštaluj Offline Speech to Text (zadarmo, na Zapstore).</string>
+</resources>
