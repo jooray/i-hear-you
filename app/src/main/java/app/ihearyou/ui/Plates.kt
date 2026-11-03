@@ -751,3 +751,121 @@ fun Screw(color: Color = LocalPanel.current.ruleStrong) {
         )
     }
 }
+
+/**
+ * A horizontal trim control with a centre detent: integer steps from [min] to [max], a printed
+ * tick per step with the zero tick long, and a machined cap. Drag anywhere on the channel; the
+ * value is only sent on release. A screen reader can set it directly.
+ */
+@Composable
+fun TrimSlider(
+    label: String,
+    value: Int?,
+    onCommit: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    min: Int = -6,
+    max: Int = 6,
+    enabled: Boolean = true,
+    valueText: (Int) -> String = { if (it > 0) "+$it" else "$it" },
+    contentDescription: (Int) -> String = { "$label, ${valueText(it)}" },
+) {
+    val p = LocalPanel.current
+    var draft by remember { mutableIntStateOf(value ?: 0) }
+    var dragging by remember { mutableStateOf(false) }
+    LaunchedEffect(value, dragging) {
+        if (!dragging && value != null) draft = value
+    }
+    val steps = max - min
+    val active = enabled && value != null
+    val fraction = ((draft - min).toFloat() / steps).coerceIn(0f, 1f)
+    Row(
+        modifier = modifier.fillMaxWidth().heightIn(min = 48.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            label.uppercase(),
+            style = InstrumentType.plate,
+            color = p.inkMuted,
+            modifier = Modifier.width(64.dp),
+        )
+        Box(
+            Modifier
+                .weight(1f)
+                .height(44.dp)
+                .semantics {
+                    this.contentDescription = contentDescription(draft)
+                    if (value != null) {
+                        progressBarRangeInfo = ProgressBarRangeInfo(
+                            current = draft.toFloat(), range = min.toFloat()..max.toFloat(), steps = steps - 1,
+                        )
+                        if (active) setProgress { target ->
+                            val v = target.roundToInt().coerceIn(min, max)
+                            draft = v
+                            onCommit(v)
+                            true
+                        }
+                    }
+                }
+                .pointerInput(active, min, max) {
+                    if (!active) return@pointerInput
+                    val inset = 12.dp.toPx()
+                    fun stepAt(x: Float): Int {
+                        val usable = size.width - inset * 2
+                        val f = ((x - inset) / usable).coerceIn(0f, 1f)
+                        return min + (f * steps).roundToInt()
+                    }
+                    awaitEachGesture {
+                        val down = awaitFirstDown()
+                        dragging = true
+                        draft = stepAt(down.position.x)
+                        down.consume()
+                        while (true) {
+                            val event = awaitPointerEvent()
+                            val change = event.changes.firstOrNull { it.id == down.id } ?: break
+                            if (!change.pressed) break
+                            draft = stepAt(change.position.x)
+                            change.consume()
+                        }
+                        dragging = false
+                        if (draft != value) onCommit(draft)
+                    }
+                },
+        ) {
+            Canvas(Modifier.fillMaxWidth().height(44.dp)) {
+                val inset = 12.dp.toPx()
+                val cy = size.height / 2f
+                val channel = 8.dp.toPx()
+                val left = inset
+                val right = size.width - inset
+                val alpha = if (active) 1f else 0.38f
+                drawRect(p.recess, topLeft = Offset(left, cy - channel / 2f), size = Size(right - left, channel))
+                drawRect(
+                    p.ruleStrong.copy(alpha = alpha), topLeft = Offset(left, cy - channel / 2f),
+                    size = Size(right - left, channel), style = Stroke(1.dp.toPx()),
+                )
+                for (i in 0..steps) {
+                    val x = left + (right - left) * (i / steps.toFloat())
+                    val zero = min + i == 0
+                    val len = if (zero) 8.dp.toPx() else 4.dp.toPx()
+                    val gap = channel / 2f + 2.dp.toPx()
+                    drawLine(p.ruleStrong.copy(alpha = alpha), Offset(x, cy - gap - len), Offset(x, cy - gap), 1.dp.toPx())
+                    drawLine(p.ruleStrong.copy(alpha = alpha), Offset(x, cy + gap), Offset(x, cy + gap + len), 1.dp.toPx())
+                }
+                if (value != null) {
+                    val capW = 16.dp.toPx()
+                    val capH = 28.dp.toPx()
+                    val cx = left + (right - left) * fraction
+                    drawRect(p.ink.copy(alpha = alpha), topLeft = Offset(cx - capW / 2f, cy - capH / 2f), size = Size(capW, capH))
+                    drawRect(p.seal.copy(alpha = alpha), topLeft = Offset(cx - 1.dp.toPx(), cy - capH / 2f), size = Size(2.dp.toPx(), capH))
+                }
+            }
+        }
+        Text(
+            if (value == null) "—" else valueText(draft),
+            style = InstrumentType.mono,
+            color = if (draft != 0 && value != null) p.ink else p.inkMuted,
+            textAlign = TextAlign.End,
+            modifier = Modifier.width(52.dp),
+        )
+    }
+}

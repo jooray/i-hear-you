@@ -340,4 +340,24 @@
     <string name="program_kind_hear_in_noise">Hear in noise</string>
     <string name="program_kind_traffic">Traffic</string>
 
+
+    <string name="sound_noise_filter">Noise filter</string>
+    <string name="sound_speech_clarity">Speech clarity</string>
+    <string name="sound_speech_focus">Focus on speech</string>
+    <string name="sound_hear_everyone">Hear everyone</string>
+    <string name="sound_bass_boost">Bass boost</string>
+    <string name="sound_treble_boost">Treble boost</string>
+    <string name="sound_bass">Bass</string>
+    <string name="sound_middle">Middle</string>
+    <string name="sound_treble">Treble</string>
+    <string name="sound_db">%1$s dB</string>
+    <string name="sound_reset">Back to fitted sound</string>
+    <string name="sound_hint">Program %1$d, both aids. Sent when you let go of a slider.</string>
+    <string name="sound_presets_hint">Tap again to switch off.</string>
+    <string name="sound_failed">A hearing aid did not confirm the change. Nothing more was sent.</string>
+    <string name="sound_open">Bass · middle · treble</string>
+    <string name="sound_preset_on_cd">%1$s, on. Tap to switch off.</string>
+    <string name="sound_preset_off_cd">%1$s, off</string>
+    <string name="sound_slider_cd">%1$s, %2$s dB</string>
+    <string name="sound_features">Fitted features</string>
 </resources>

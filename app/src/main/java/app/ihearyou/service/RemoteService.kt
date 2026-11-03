@@ -71,6 +71,8 @@ data class AidUiState(
     val features: List<StandardFeatures.Feature> = emptyList(),
     /** Wall clock of the last value the aid itself confirmed, for the READ line on the panel. */
     val confirmedAt: Long = 0L,
+    /** Active program's bass/middle/treble and presets; null where the app cannot change them. */
+    val sound: SoundState? = null,
 )
 
 sealed class Cmd {
@@ -99,6 +101,12 @@ sealed class Cmd {
     data class AcceptInvite(val groupId: String, val accept: Boolean) : Cmd()
     /** Debug builds: act as if [side] ("left"/"right") made [gesture]. */
     data class SimulateGesture(val side: String, val gesture: String) : Cmd()
+    /** A preset key on [program] (the active one): on, or off when it is already the active preset. */
+    data class SoundPreset(val program: Int, val kind: app.ihearyou.protocol.SoundPresets.Kind) : Cmd()
+    /** Bass/middle/treble in dB for [program] (the active one), on every aid that has a gain record. */
+    data class SoundEq(val program: Int, val eq: app.ihearyou.protocol.Eq) : Cmd()
+    /** [program] back to its fitted sound. */
+    data class SoundReset(val program: Int) : Cmd()
 }
 
 /** Where each aid's link stands, for status words and recovery hints in the UI. */
@@ -208,6 +216,7 @@ class RemoteService : Service() {
     /** Last non-zero level per aid, restored on unmute. */
     private val lastAudible = ConcurrentHashMap<String, Int>()
     private lateinit var mapping: MappingStore
+    private lateinit var sound: SoundControl
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(app.ihearyou.domain.Language.wrap(newBase))
@@ -217,6 +226,7 @@ class RemoteService : Service() {
         super.onCreate()
         app.ihearyou.util.EventLog.init(this)
         mapping = MappingStore(this)
+        sound = SoundControl(this, scope, sessions, ::addLog)
         voice = app.ihearyou.voice.VoiceNotes(this, scope, ::addLog)
         voice.recover()
         if (app.ihearyou.voice.VoiceSettings(this).whiteNoise) scope.launch { app.ihearyou.marmot.MarmotHost.start(this@RemoteService) }
@@ -647,6 +657,10 @@ class RemoteService : Service() {
             if (buttonHandle != null) addLog("$address: subscribed to button events")
             else addLog("$address: no button handle on this platform")
             runCatching { refreshState(address, session, gatt) }
+            runCatching {
+                val i = info.value[address]
+                sound.onConnect(address, session, i?.serial, i?.cros == true)
+            }.onFailure { addLog("$address: sound read failed: ${it.message}") }
 
             collector = launch {
                 session.events.collect { (type, body) ->
@@ -675,6 +689,7 @@ class RemoteService : Service() {
                                         confirmedAt = System.currentTimeMillis(),
                                     ))
                                 } ?: m }
+                                sound.programChanged(address)
                                 maybeRevert(address)
                             }
                             Handles.STREAM_STATUS -> {
@@ -734,6 +749,7 @@ class RemoteService : Service() {
             pendingUntil.remove(address)
             if (counted) connected.update { (it - 1).coerceAtLeast(0) }
             ui.update { it - address }
+            sound.forget(address)
             gatt.close()
         }
     }
@@ -834,8 +850,10 @@ class RemoteService : Service() {
                 streamType = streamType,
                 features = features,
                 confirmedAt = System.currentTimeMillis(),
+                sound = previous?.sound,
             ))
         }
+        sound.publish()
     }
 
     private suspend fun handleCommand(c: Cmd) {
@@ -844,6 +862,7 @@ class RemoteService : Service() {
                 val session = sessions[c.address] ?: return
                 changeProgram(session, c.address, c.delta)
                 gatts[c.address]?.let { g -> refreshState(c.address, session, g) }
+                sound.programChanged(c.address)
             }
             is Cmd.SelectProgram -> {
                 val session = sessions[c.address] ?: return
@@ -853,6 +872,7 @@ class RemoteService : Service() {
                     m + (c.address to st.copy(program = c.index,
                         programName = st.programs.firstOrNull { it.first == c.index }?.second))
                 } ?: m }
+                sound.programChanged(c.address)
             }
             is Cmd.Volume -> {
                 val session = sessions[c.address] ?: return
@@ -909,6 +929,9 @@ class RemoteService : Service() {
                 addLog("${c.address}: key forgotten")
                 gatts[c.address]?.close()
             }
+            is Cmd.SoundPreset -> sound.applyPreset(c.program, c.kind)
+            is Cmd.SoundEq -> sound.setEq(c.program, c.eq)
+            is Cmd.SoundReset -> sound.reset(c.program)
             is Cmd.Tap -> {
                 val session = sessions[c.address] ?: return
                 val tapHandle = session.platform?.tapConfig ?: return
@@ -1113,6 +1136,7 @@ class RemoteService : Service() {
         ui.update { m -> m[address]?.let { u ->
             m + (address to u.copy(program = program, programName = u.programs.firstOrNull { it.first == program }?.second))
         } ?: m }
+        sound.programChanged(address)
     }
 
 }

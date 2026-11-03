@@ -283,4 +283,24 @@
     <string name="program_kind_hear_in_noise">Oír en ruido</string>
     <string name="program_kind_traffic">Tráfico</string>
 
+
+    <string name="sound_noise_filter">Filtro de ruido</string>
+    <string name="sound_speech_clarity">Claridad del habla</string>
+    <string name="sound_speech_focus">Enfoque en el habla</string>
+    <string name="sound_hear_everyone">Oír a todos</string>
+    <string name="sound_bass_boost">Más graves</string>
+    <string name="sound_treble_boost">Más agudos</string>
+    <string name="sound_bass">Graves</string>
+    <string name="sound_middle">Medios</string>
+    <string name="sound_treble">Agudos</string>
+    <string name="sound_db">%1$s dB</string>
+    <string name="sound_reset">Volver al ajuste del audioprotesista</string>
+    <string name="sound_hint">Programa %1$d, ambos audífonos. Se envía al soltar el control.</string>
+    <string name="sound_presets_hint">Toque de nuevo para apagarlo.</string>
+    <string name="sound_failed">Un audífono no confirmó el cambio. No se envió nada más.</string>
+    <string name="sound_open">Graves · medios · agudos</string>
+    <string name="sound_preset_on_cd">%1$s, activado. Toque para apagarlo.</string>
+    <string name="sound_preset_off_cd">%1$s, apagado</string>
+    <string name="sound_slider_cd">%1$s, %2$s dB</string>
+    <string name="sound_features">Funciones ajustadas</string>
 </resources>

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0 (unreleased)
+
+### Added
+
+- Sound buttons on the program card: Noise filter and Speech clarity (and, depending on the
+  program, Hear everyone, Bass boost or Treble boost). One can be on at a time; pressing it again
+  restores the sound from before. Bass, middle and treble sliders (−6 to +6 dB) with a reset to
+  the audiologist's settings. On top-tier aids the buttons also set noise reduction, speech focus
+  and wind noise. GN protocol 5 only; every change is read back from the aid, and nothing is
+  written while an aid is charging.
+
 ## 0.2.2 (2026-11-03)
 
 ### Fixed

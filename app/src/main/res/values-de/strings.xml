@@ -282,4 +282,24 @@
     <string name="program_kind_hear_in_noise">Sprachfokus</string>
     <string name="program_kind_traffic">Verkehr</string>
 
+
+    <string name="sound_noise_filter">Lärmfilter</string>
+    <string name="sound_speech_clarity">Klare Sprache</string>
+    <string name="sound_speech_focus">Fokus auf Sprache</string>
+    <string name="sound_hear_everyone">Alle hören</string>
+    <string name="sound_bass_boost">Mehr Bass</string>
+    <string name="sound_treble_boost">Mehr Höhen</string>
+    <string name="sound_bass">Bass</string>
+    <string name="sound_middle">Mitten</string>
+    <string name="sound_treble">Höhen</string>
+    <string name="sound_db">%1$s dB</string>
+    <string name="sound_reset">Zurück zur Anpassung</string>
+    <string name="sound_hint">Programm %1$d, beide Hörgeräte. Wird gesendet, wenn Sie den Regler loslassen.</string>
+    <string name="sound_presets_hint">Noch einmal tippen zum Ausschalten.</string>
+    <string name="sound_failed">Ein Hörgerät hat die Änderung nicht bestätigt. Es wurde nichts weiter gesendet.</string>
+    <string name="sound_open">Bass · Mitten · Höhen</string>
+    <string name="sound_preset_on_cd">%1$s, an. Tippen zum Ausschalten.</string>
+    <string name="sound_preset_off_cd">%1$s, aus</string>
+    <string name="sound_slider_cd">%1$s, %2$s dB</string>
+    <string name="sound_features">Angepasste Funktionen</string>
 </resources>

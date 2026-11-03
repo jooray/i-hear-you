@@ -10,7 +10,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import app.ihearyou.domain.SettingsStore
+import app.ihearyou.protocol.Eq
+import app.ihearyou.protocol.PriceTier
+import app.ihearyou.protocol.SoundPresets
 import app.ihearyou.protocol.StandardFeatures
+import app.ihearyou.service.SoundState
 import app.ihearyou.service.AidInfo
 import app.ihearyou.service.AidUiState
 import app.ihearyou.service.Cmd
@@ -45,6 +49,24 @@ class DemoPanel {
 
     val sides = MutableStateFlow(mapOf(leftAddress to "Left", rightAddress to "Right"))
 
+    // sound presets: the sample receiver's programs are all-around, restaurant, music, outdoor
+    private val environments = listOf(1, 2, 3, 4)
+    private val eqs = mutableMapOf<Int, Eq>()
+    private val before = mutableMapOf<Int, Eq>()
+
+    private fun soundFor(program: Int?): SoundState? {
+        val p = program ?: return null
+        val presets = SoundPresets.forProgram(environments.getOrNull(p), 10, PriceTier.PLUS, false)
+        val eq = eqs[p] ?: Eq.FLAT
+        return SoundState(
+            program = p,
+            eq = eq,
+            presets = presets.map { it.kind },
+            active = SoundPresets.active(presets, listOf(eq to null), false)?.kind,
+            canReset = eq != Eq.FLAT,
+        )
+    }
+
     val states = MutableStateFlow(
         mapOf(
             leftAddress to AidUiState(
@@ -77,6 +99,11 @@ class DemoPanel {
                     StandardFeatures.Feature("Wind noise", "Mild"),
                 ),
                 confirmedAt = System.currentTimeMillis(),
+                sound = SoundState(
+                    program = 0,
+                    eq = Eq.FLAT,
+                    presets = listOf(SoundPresets.Kind.NOISE_FILTER, SoundPresets.Kind.SPEECH_CLARITY),
+                ),
             ),
         ),
     )
@@ -87,14 +114,37 @@ class DemoPanel {
         }
     }
 
+    /** Sample pair only: sets the receiver's EQ in memory, nothing is sent anywhere. */
+    private fun setEq(program: Int, eq: Eq) {
+        eqs[program] = eq.clamped()
+        update(rightAddress) { it.copy(sound = soundFor(it.program), confirmedAt = System.currentTimeMillis()) }
+    }
+
     fun send(cmd: Cmd) {
         val now = System.currentTimeMillis()
         when (cmd) {
+            is Cmd.SoundEq -> setEq(cmd.program, cmd.eq)
+            is Cmd.SoundReset -> {
+                before.remove(cmd.program)
+                setEq(cmd.program, Eq.FLAT)
+            }
+            is Cmd.SoundPreset -> {
+                val state = soundFor(cmd.program) ?: return
+                val preset = SoundPresets.forProgram(environments.getOrNull(cmd.program), 10, PriceTier.PLUS, false)
+                    .firstOrNull { it.kind == cmd.kind } ?: return
+                if (state.active == cmd.kind) {
+                    setEq(cmd.program, before.remove(cmd.program) ?: Eq.FLAT)
+                } else {
+                    if (state.active == null) before[cmd.program] = state.eq
+                    setEq(cmd.program, preset.eq)
+                }
+            }
             is Cmd.SelectProgram -> update(cmd.address) {
                 it.copy(
                     program = cmd.index,
                     programName = it.programs.firstOrNull { p -> p.first == cmd.index }?.second,
                     confirmedAt = now,
+                    sound = if (it.sound != null) soundFor(cmd.index) else null,
                 )
             }
             is Cmd.Program -> update(cmd.address) { state ->
@@ -106,6 +156,7 @@ class DemoPanel {
                     program = next,
                     programName = state.programs.firstOrNull { it.first == next }?.second,
                     confirmedAt = now,
+                    sound = if (state.sound != null) soundFor(next) else null,
                 )
             }
             is Cmd.SetVolume -> update(cmd.address) { it.copy(volume = cmd.value.coerceIn(0, 255), confirmedAt = now) }

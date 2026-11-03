@@ -130,7 +130,7 @@ fun NowScreen(
                         }
                         Spacer(Modifier.height(12.dp))
                         PairKeys(scope = scope, aids = aids)
-                        ProgramsPlate(scope = scope, aids = aids)
+                        ProgramsPlate(scope = scope, aids = aids, onOpenAid = onOpenAid)
                         if (aids.isNotEmpty()) {
                             Spacer(Modifier.height(4.dp))
                             ConditionsRuler(scope = scope, aids = aids)
@@ -150,7 +150,7 @@ fun NowScreen(
                     }
                     Spacer(Modifier.height(12.dp))
                     PairKeys(scope = scope, aids = aids)
-                    ProgramsPlate(scope = scope, aids = aids)
+                    ProgramsPlate(scope = scope, aids = aids, onOpenAid = onOpenAid)
                     Spacer(Modifier.height(10.dp))
                     ConditionsRuler(scope = scope, aids = aids)
                 }
@@ -594,7 +594,7 @@ private fun PairKeys(scope: AidScope, aids: List<Pair<String, AidUiState?>>) {
 }
 
 @Composable
-private fun ProgramsPlate(scope: AidScope, aids: List<Pair<String, AidUiState?>>) {
+private fun ProgramsPlate(scope: AidScope, aids: List<Pair<String, AidUiState?>>, onOpenAid: (String) -> Unit) {
     val p = LocalPanel.current
     // Programs belong to the pair: a CROS transmitter has none, and a binaural pair is
     // switched together, so one row of keys drives every receiving aid.
@@ -649,6 +649,57 @@ private fun ProgramsPlate(scope: AidScope, aids: List<Pair<String, AidUiState?>>
                 modifier = Modifier.padding(top = 8.dp),
             )
         }
+        val sound = pairSound(aids, scope.infos)
+        if (sound != null && !split && sound.program == lead?.program) {
+            val soundAddress = receivers.firstOrNull { it.second?.sound != null }?.first
+                ?: aids.firstOrNull { it.second?.sound != null }?.first
+            SoundKeys(scope = scope, sound = sound, onOpen = { soundAddress?.let(onOpenAid) })
+        }
+    }
+}
+
+/**
+ * The active program's quick presets, side by side; the engaged one carries the seal. A second
+ * tap on it switches it off again.
+ */
+@Composable
+private fun SoundKeys(scope: AidScope, sound: app.ihearyou.service.SoundState, onOpen: () -> Unit) {
+    val p = LocalPanel.current
+    val context = LocalContext.current
+    Spacer(Modifier.height(10.dp))
+    if (sound.presets.isNotEmpty()) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            sound.presets.forEach { kind ->
+                val label = soundPresetLabel(context, kind)
+                val on = sound.active == kind
+                Key(
+                    text = label,
+                    onClick = { scope.send(Cmd.SoundPreset(sound.program, kind)) },
+                    tone = if (on) KeyTone.Primary else KeyTone.Neutral,
+                    enabled = !sound.busy,
+                    contentDescription = if (on) stringResource(R.string.sound_preset_on_cd, label)
+                    else stringResource(R.string.sound_preset_off_cd, label),
+                    modifier = Modifier.weight(1f),
+                )
+            }
+        }
+        Spacer(Modifier.height(6.dp))
+    }
+    Key(
+        text = stringResource(R.string.sound_open),
+        onClick = onOpen,
+        tone = KeyTone.Ghost,
+        glyph = GlyphKind.Chevron,
+        dense = true,
+        modifier = Modifier.fillMaxWidth(),
+    )
+    if (sound.failed) {
+        Text(
+            stringResource(R.string.sound_failed),
+            style = MaterialTheme.typography.bodySmall,
+            color = p.fault,
+            modifier = Modifier.padding(top = 6.dp),
+        )
     }
 }
 

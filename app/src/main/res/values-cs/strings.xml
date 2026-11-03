@@ -270,4 +270,24 @@
     <string name="program_kind_lecture">Přednáška</string>
     <string name="program_kind_hear_in_noise">V hluku</string>
     <string name="program_kind_traffic">Ulice</string>
+
+    <string name="sound_noise_filter">Filtr hluku</string>
+    <string name="sound_speech_clarity">Srozumitelnost řeči</string>
+    <string name="sound_speech_focus">Zaměření na řeč</string>
+    <string name="sound_hear_everyone">Slyšet všechny</string>
+    <string name="sound_bass_boost">Zesílit basy</string>
+    <string name="sound_treble_boost">Zesílit výšky</string>
+    <string name="sound_bass">Basy</string>
+    <string name="sound_middle">Středy</string>
+    <string name="sound_treble">Výšky</string>
+    <string name="sound_db">%1$s dB</string>
+    <string name="sound_reset">Zpět na nastavení od audiologa</string>
+    <string name="sound_hint">Program %1$d, obě sluchadla. Odešle se, až posuvník pustíte.</string>
+    <string name="sound_presets_hint">Dalším klepnutím se vypne.</string>
+    <string name="sound_failed">Sluchadlo změnu nepotvrdilo. Nic dalšího se neodeslalo.</string>
+    <string name="sound_open">Basy · středy · výšky</string>
+    <string name="sound_preset_on_cd">%1$s, zapnuto. Klepnutím vypnete.</string>
+    <string name="sound_preset_off_cd">%1$s, vypnuto</string>
+    <string name="sound_slider_cd">%1$s, %2$s dB</string>
+    <string name="sound_features">Funkce od audiologa</string>
 </resources>

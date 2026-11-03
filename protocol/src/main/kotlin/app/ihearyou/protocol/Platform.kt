@@ -26,12 +26,23 @@ enum class Platform(
     ;
 
     /**
+     * Protocol 5 only: handle 27 sets the active program's gain record and handle 35 its feature
+     * slice. On earlier generations these numbers mean other things (on protocols 1 to 3, 36 is
+     * the feature write and 37 the blob), so they stay read-only there.
+     */
+    val programSound: Boolean get() = this == V5_0 || this == V5_1
+
+    /**
      * The only handles the app ever writes: microphone attenuation, active program, program-name
-     * selector and (where it exists) the tap configuration. Everything else is read-only, so no
-     * firmware, DFU or fitting handle can be reached through [app.ihearyou.protocol] users.
+     * selector, (where it exists) the tap configuration, and on protocol 5 the active program's
+     * gain record and feature slice. Everything else is read-only, so no firmware, DFU or fitting
+     * handle, and no whole-blob gain or feature handle, can be reached through [app.ihearyou.protocol] users.
      */
     val writable: Set<Int>
-        get() = setOfNotNull(Handles.MIC_ATTENUATION, Handles.ACTIVE_PROGRAM, Handles.PROGRAM_NAME_SELECTOR, tapConfig)
+        get() = setOfNotNull(
+            Handles.MIC_ATTENUATION, Handles.ACTIVE_PROGRAM, Handles.PROGRAM_NAME_SELECTOR, tapConfig,
+            Handles.GAIN_DATA.takeIf { programSound }, Handles.STANDARD_FEATURES.takeIf { programSound },
+        )
 
     companion object {
         /** Null for generations the app does not know; callers must then stay read-only. */

@@ -147,3 +147,34 @@ fun programLabel(context: android.content.Context, state: app.ihearyou.service.A
         app.ihearyou.protocol.ProgramNames.Kind.HEAR_IN_NOISE -> context.getString(app.ihearyou.R.string.program_kind_hear_in_noise)
         app.ihearyou.protocol.ProgramNames.Kind.TRAFFIC -> context.getString(app.ihearyou.R.string.program_kind_traffic)
     }
+
+/** The aid reports charging or sitting in the charger: the sound controls stay hidden then. */
+fun isCharging(hiState: Int?): Boolean = hiState != null && hiState and 0x22 != 0
+
+fun soundPresetLabel(context: android.content.Context, kind: app.ihearyou.protocol.SoundPresets.Kind): String =
+    context.getString(
+        when (kind) {
+            app.ihearyou.protocol.SoundPresets.Kind.NOISE_FILTER -> app.ihearyou.R.string.sound_noise_filter
+            app.ihearyou.protocol.SoundPresets.Kind.SPEECH_CLARITY -> app.ihearyou.R.string.sound_speech_clarity
+            app.ihearyou.protocol.SoundPresets.Kind.SPEECH_FOCUS -> app.ihearyou.R.string.sound_speech_focus
+            app.ihearyou.protocol.SoundPresets.Kind.HEAR_EVERYONE -> app.ihearyou.R.string.sound_hear_everyone
+            app.ihearyou.protocol.SoundPresets.Kind.BASS_BOOST -> app.ihearyou.R.string.sound_bass_boost
+            app.ihearyou.protocol.SoundPresets.Kind.TREBLE_BOOST -> app.ihearyou.R.string.sound_treble_boost
+        },
+    )
+
+/**
+ * The pair's sound state for the Now screen and the detail plate: the first receiver's, and only
+ * while no linked aid is charging.
+ */
+fun pairSound(
+    aids: List<Pair<String, app.ihearyou.service.AidUiState?>>,
+    infos: Map<String, app.ihearyou.service.AidInfo>,
+): app.ihearyou.service.SoundState? {
+    val linked = aids.mapNotNull { it.second }
+    if (linked.any { isCharging(it.hiState) }) return null
+    val lead = aids.filter { it.second?.sound != null }
+        .sortedBy { if (infos[it.first]?.cros == true) 1 else 0 }
+        .firstOrNull()?.second ?: return null
+    return lead.sound
+}
