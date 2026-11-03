@@ -9,7 +9,15 @@
   restores the sound from before. Bass, middle and treble sliders (−6 to +6 dB) with a reset to
   the audiologist's settings. On top-tier aids the buttons also set noise reduction, speech focus
   and wind noise. GN protocol 5 only; every change is read back from the aid, and nothing is
-  written while an aid is charging.
+  written while an aid is charging. Works on GN protocols 4 and 5.
+
+### Fixed
+
+- Bottom sheets (Buttons action choice, voice-note destination, sound) no longer put their last
+  row under the navigation bar, and close on a swipe down.
+- The mute key's label is no longer cut off on narrow screens.
+- With an aid in the charger the Now screen says so, instead of claiming only one program is
+  fitted (an aid in the charger offers only its first program).
 
 ## 0.2.2 (2026-11-03)
 
