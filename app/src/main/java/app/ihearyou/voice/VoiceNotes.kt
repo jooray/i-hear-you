@@ -166,6 +166,11 @@ class VoiceNotes(
                 log("voice: 5 s of digital silence from the microphone")
                 warnSilence()
             }
+            is VoiceRecorder.Event.FellBack -> {
+                log("voice: ${e.reason}, recording from the phone microphone now")
+                clearSilence()
+                scope.launch(Dispatchers.IO) { Tones.play(Tones.Cue.PHONE_MIC) }
+            }
             VoiceRecorder.Event.SoundBack -> {
                 log("voice: sound from the microphone again")
                 clearSilence()

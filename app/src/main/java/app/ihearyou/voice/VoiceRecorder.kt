@@ -70,12 +70,21 @@ class VoiceRecorder(private val context: Context) {
         data object SoundBack : Event
         /** The input broke; recording has stopped, what was captured is in the file. */
         data class Failed(val reason: String) : Event
+        /**
+         * The Bluetooth microphone never delivered sound or went away mid-recording (an aid
+         * switched off); the recording continues on the phone's microphone in the same file.
+         */
+        data class FellBack(val reason: String) : Event
     }
 
     private val audio = context.getSystemService(AudioManager::class.java)
     private val main = Handler(Looper.getMainLooper())
     @Volatile private var record: AudioRecord? = null
     @Volatile private var running = false
+    /** Guards swapping [record] (fallback) against [stop]. */
+    private val lock = Any()
+    /** Recording from a Bluetooth microphone that may still fall back to the phone's. */
+    @Volatile private var onBluetooth = false
     private var thread: Thread? = null
     private var commSet = false
     private var file: RandomAccessFile? = null
@@ -186,6 +195,30 @@ class VoiceRecorder(private val context: Context) {
             if (comm == null && routeNote == "phone microphone") routeNote = "no Bluetooth microphone offered"
         }
         val input = comm?.let(::inputFor)
+        out.parentFile?.mkdirs()
+        val f = RandomAccessFile(out, "rw").apply { setLength(0); write(ByteArray(WAV_HEADER)) }
+        file = f
+        bytes = 0
+        val r = try {
+            open(comm, input)
+        } catch (t: Throwable) {
+            f.close()
+            release()
+            throw t
+        }
+        watch(r)
+        record = r
+        onBluetooth = comm != null
+        running = true
+        thread = Thread({ pump(f) }, "voice-record").apply { start() }
+        if (comm != null && isLe(comm.type)) Thread(::prime, "voice-prime").start()
+        val routed = r.routedDevice ?: input
+        return Started(micOf(routed), routed?.productName?.toString(), routeNote)
+    }
+
+    /** Builds and starts an AudioRecord: on [comm]'s microphone when given, else the phone's. */
+    @SuppressLint("MissingPermission")
+    private fun open(comm: AudioDeviceInfo?, input: AudioDeviceInfo?): AudioRecord {
         val minBuf = AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT)
         val r = AudioRecord.Builder()
             // VOICE_COMMUNICATION follows the communication device, which is what opens the aids' mics
@@ -201,35 +234,55 @@ class VoiceRecorder(private val context: Context) {
             .build()
         if (r.state != AudioRecord.STATE_INITIALIZED) {
             r.release()
-            release()
             error("microphone unavailable")
         }
         if (input != null) r.preferredDevice = input
-        out.parentFile?.mkdirs()
-        val f = RandomAccessFile(out, "rw").apply { setLength(0); write(ByteArray(WAV_HEADER)) }
-        file = f
-        bytes = 0
         try {
             r.startRecording()
         } catch (t: Throwable) {
             r.release()
-            f.close()
-            release()
             throw t
         }
         if (r.recordingState != AudioRecord.RECORDSTATE_RECORDING) {
             r.release()
-            f.close()
-            release()
             error("microphone refused (another app or no permission)")
         }
-        watch(r)
-        record = r
-        running = true
-        thread = Thread({ pump(r, f) }, "voice-record").apply { start() }
-        if (comm != null && isLe(comm.type)) Thread(::prime, "voice-prime").start()
-        val routed = r.routedDevice ?: input
-        return Started(micOf(routed), routed?.productName?.toString(), routeNote)
+        return r
+    }
+
+    private fun unwatch(r: AudioRecord) {
+        routing?.let { runCatching { r.removeOnRoutingChangedListener(it) } }
+        recordingCallback?.let { runCatching { r.unregisterAudioRecordingCallback(it) } }
+        routing = null
+        recordingCallback = null
+    }
+
+    /**
+     * Gives up on the Bluetooth microphone once: releases it and the aids' call-mode route and
+     * continues on the phone's microphone, appending to the same file. False when that failed.
+     */
+    private fun fallBack(reason: MicFallback.Reason): Boolean {
+        val next = synchronized(lock) {
+            if (!running || !onBluetooth) return false
+            onBluetooth = false
+            record?.let { old ->
+                unwatch(old)
+                runCatching { old.stop() }
+                runCatching { old.release() }
+            }
+            record = null
+            release()
+            val r = runCatching { open(null, null) }.getOrElse {
+                events(Event.Failed("${reason.log}; phone microphone unavailable: ${it.message}"))
+                return false
+            }
+            watch(r)
+            record = r
+            r
+        }
+        events(Event.FellBack(reason.log))
+        events(Event.Routed(micOf(next.routedDevice), next.routedDevice?.productName?.toString()))
+        return true
     }
 
     /** Where the input really went, and whether Android is silencing us. */
@@ -258,45 +311,63 @@ class VoiceRecorder(private val context: Context) {
         recordingCallback = cb
     }
 
-    private fun pump(r: AudioRecord, f: RandomAccessFile) {
+    private fun pump(f: RandomAccessFile) {
         Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO)
         val buf = ByteArray(SAMPLE_RATE / 5 * 2)
+        val samplesPerMs = SAMPLE_RATE / 1000
+        val t0 = SystemClock.elapsedRealtime()
+        var lastData = t0
+        var soundSeen = false
         var zeros = 0
         var silent = false
         var empty = 0
         try {
             while (running) {
+                val r = record ?: break
                 val n = r.read(buf, 0, buf.size)
                 if (!running) break
-                when {
-                    n > 0 -> {
-                        empty = 0
-                        f.write(buf, 0, n)
-                        bytes += n
-                        var i = 0
-                        while (i + 1 < n) {
-                            if (buf[i].toInt() == 0 && buf[i + 1].toInt() == 0) zeros++ else zeros = 0
-                            i += 2
-                        }
-                        if (!silent && zeros >= SILENCE_SAMPLES) {
-                            silent = true
-                            events(Event.Silence)
-                        } else if (silent && zeros < n / 2) {
-                            // the zero run is shorter than this block: sound came back in it
-                            silent = false
-                            events(Event.SoundBack)
-                        }
+                if (record !== r) continue // swapped by a fallback while this read was blocked
+                val now = SystemClock.elapsedRealtime()
+                if (n > 0) {
+                    empty = 0
+                    lastData = now
+                    f.write(buf, 0, n)
+                    bytes += n
+                    var i = 0
+                    while (i + 1 < n) {
+                        if (buf[i].toInt() == 0 && buf[i + 1].toInt() == 0) zeros++ else { zeros = 0; soundSeen = true }
+                        i += 2
                     }
-                    n == 0 -> {
-                        if (++empty > MAX_EMPTY_READS) {
-                            events(Event.Failed("no audio from the microphone"))
-                            return
-                        }
-                        Thread.sleep(100)
-                    }
-                    else -> {
-                        events(Event.Failed("microphone read error ${readError(n)}"))
+                } else if (n == 0) {
+                    // normal while an LE Audio input is still coming up; a failure on the phone mic
+                    if (!onBluetooth && ++empty > MAX_EMPTY_READS) {
+                        events(Event.Failed("no audio from the microphone"))
                         return
+                    }
+                    Thread.sleep(100)
+                } else {
+                    if (onBluetooth && fallBack(MicFallback.Reason.ERROR)) {
+                        soundSeen = false; zeros = 0; lastData = SystemClock.elapsedRealtime()
+                        continue
+                    }
+                    events(Event.Failed("microphone read error ${readError(n)}"))
+                    return
+                }
+                if (onBluetooth) {
+                    val reason = MicFallback.check(now - t0, soundSeen, zeros.toLong() / samplesPerMs, now - lastData)
+                    if (reason != null) {
+                        if (!fallBack(reason)) return
+                        // judge the phone microphone afresh
+                        soundSeen = false; zeros = 0; silent = false; lastData = SystemClock.elapsedRealtime()
+                    }
+                } else if (n > 0) {
+                    if (!silent && zeros >= SILENCE_SAMPLES) {
+                        silent = true
+                        events(Event.Silence)
+                    } else if (silent && zeros < n / 2) {
+                        // the zero run is shorter than this block: sound came back in it
+                        silent = false
+                        events(Event.SoundBack)
                     }
                 }
             }
@@ -350,17 +421,18 @@ class VoiceRecorder(private val context: Context) {
 
     fun stop(): Long {
         running = false
-        record?.let { r ->
-            routing?.let { runCatching { r.removeOnRoutingChangedListener(it) } }
-            recordingCallback?.let { runCatching { r.unregisterAudioRecordingCallback(it) } }
+        synchronized(lock) {
+            record?.let { r ->
+                unwatch(r)
+                runCatching { r.stop() }
+            }
         }
-        routing = null
-        recordingCallback = null
-        runCatching { record?.stop() }
         thread?.join(2_000)
         thread = null
-        runCatching { record?.release() }
-        record = null
+        synchronized(lock) {
+            runCatching { record?.release() }
+            record = null
+        }
         file?.let { f ->
             runCatching {
                 f.seek(0)

@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.1 (2026-11-03)
+
+### Fixed
+
+- A voice note no longer records silence when the hearing aids' microphone fails. If the aids
+  deliver no sound within 8 seconds, or go silent mid-recording (for example an aid switched off
+  by holding its button too long), the recording moves to the phone's microphone and continues in
+  the same file. Three falling notes tell you it happened. Before, the app only warned and kept
+  recording silence.
+- While the aids' microphone is still coming up (it takes 2 to 3.5 seconds on LE Audio), an empty
+  read no longer ends the recording as "no audio from the microphone".
+
 ## 0.2.0 (2026-11-03)
 
 First public release.

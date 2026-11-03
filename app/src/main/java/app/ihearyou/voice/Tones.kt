@@ -32,6 +32,8 @@ object Tones {
         REPLY(listOf(880.0 to 90)),
         /** one minute left before the length limit */
         WARN(listOf(440.0 to 90, 0.0 to 60, 440.0 to 90)),
+        /** three falling notes: the aids' microphone failed, now recording from the phone */
+        PHONE_MIC(listOf(880.0 to 110, 0.0 to 40, 660.0 to 110, 0.0 to 40, 440.0 to 160)),
     }
 
     private const val RATE = 24_000
