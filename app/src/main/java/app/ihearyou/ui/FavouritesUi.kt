@@ -126,10 +126,17 @@ fun FavouritesStrip(
     scope: AidScope,
     aids: List<Pair<String, AidUiState?>>,
     onOpen: (save: Boolean) -> Unit,
+    /** False when the sound panel offers saving, so an empty strip takes no room. */
+    saveHere: Boolean = true,
 ) {
     val p = LocalPanel.current
     val context = LocalContext.current
     if (aids.none { it.second != null }) return
+    // saving lives in the sound panel; the strip appears once there is something to recall
+    if (scope.favourites.isEmpty() && !saveHere) {
+        FavouriteRunLine(scope.favouriteRun)
+        return
+    }
     val snapshot = pairSnapshot(scope, aids)
     val run = scope.favouriteRun
     val busy = run?.running == true

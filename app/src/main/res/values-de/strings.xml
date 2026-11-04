@@ -66,7 +66,7 @@
     <string name="aid_detail_readings">Messwerte</string>
     <string name="aid_detail_attenuation">Dämpfung</string>
     <string name="aid_detail_level_shown">Angezeigte Stufe</string>
-    <string name="aid_detail_level_of_99">%1$d / 99</string>
+    <string name="aid_detail_level_of_99">%1$d / 13</string>
     <string name="aid_detail_battery_state">Akkustatus</string>
     <string name="aid_detail_battery_level">Akkustand</string>
     <string name="aid_detail_battery_of_10">%1$d von 10</string>
@@ -190,6 +190,8 @@
     <string name="now_stale">ALT %1$s</string>
     <string name="now_stream">STREAMING</string>
     <string name="now_level">STUFE</string>
+    <string name="now_start_level">START %1$d</string>
+    <string name="now_start_level_cd">Startstufe dieses Programms: %1$d</string>
     <string name="now_link">VERB.</string>
     <string name="now_read">GELESEN</string>
     <string name="now_both">BEIDE</string>
@@ -300,6 +302,7 @@
     <string name="sound_failed">Ein Hörgerät hat die Änderung nicht bestätigt. Es wurde nichts weiter gesendet.</string>
     <string name="sound_sheet_heading">Programm %1$d · beide Hörgeräte</string>
     <string name="sound_open">Bass · Mitten · Höhen</string>
+    <string name="sound_open_short">Klang</string>
     <string name="sound_preset_on_cd">%1$s, an. Tippen zum Ausschalten.</string>
     <string name="sound_preset_off_cd">%1$s, aus</string>
     <string name="sound_slider_cd">%1$s, %2$s dB</string>

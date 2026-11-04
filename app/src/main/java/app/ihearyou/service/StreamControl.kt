@@ -89,6 +89,12 @@ class StreamControl(
     suspend fun reread(address: String) {
         val session = sessions[address] ?: return
         if (session.platform?.streamVolume != true) return
+        // the fitted start levels belong to the program: read them again after every switch
+        runCatching { session.readHandle(Handles.ATTENUATION_DEFAULTS) }.onSuccess { d ->
+            val st = RemoteService.ui.value[address]
+            log("${who(address)}: P${(st?.program ?: 0) + 1} start level ${SoundControl.hex(d)} (now ${st?.volume?.let { "%02X".format(it) } ?: "?"})")
+            set(address) { it.copy(micDefault = StreamVolume.micDefault(d), streamDefault = StreamVolume.streamDefault(d)) }
+        }
         runCatching { session.readHandle(Handles.STREAMER_ATTENUATION) }.onSuccess { level(address, it) }
     }
 

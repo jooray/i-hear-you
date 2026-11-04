@@ -52,6 +52,18 @@ object StreamVolume {
 
     /** The lowest attenuation on slider position 1..13 (position 1 is 1, never mute), so [step] reads it back. */
     fun attenuationOf(step: Int): Int = ((step.coerceIn(1, STEPS) - 1) * 255 + 11).div(12).coerceIn(1, 255)
+
+    /**
+     * The level [steps] positions away from [attenuation] on the 1..13 scale, as the aid's own
+     * button moves it. Landing on the position that holds the program's fitted [default] gives the
+     * default itself, so stepping back always finds the audiologist's level again. Muted (0)
+     * counts as position 1; the result is never mute.
+     */
+    fun stepped(attenuation: Int, steps: Int, default: Int? = null): Int {
+        val target = (step(attenuation) + steps).coerceIn(1, STEPS)
+        val d = default?.takeIf { it in 1..255 }
+        return if (d != null && step(d) == target) d else attenuationOf(target)
+    }
 }
 
 /**

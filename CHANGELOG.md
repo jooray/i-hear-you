@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.3.1 (2026-11-04)
+
+### Changed
+
+- The level reads on the aid's own 1 to 13 scale: one press of the aid's button is one step, and
+  the −/+ keys (per aid, for both, and in the notification) move a whole step.
+- The audiologist's start level for the current program is shown under the level ("START 9") and
+  as a notch beside the fader. It is read again after every program change and written to the
+  log, so a fitted difference between the ears (one ear a step louder in some programs) shows as
+  intended rather than as a fault. The app never evens the ears out on its own.
+- The Now screen fits a 360 dp phone: the fader keeps a usable height and the panel scrolls
+  instead of squeezing it; the link status sits under the wordmark; the duplicate
+  stream/link/read ruler at the bottom is gone; noise filter and speech clarity share one row and
+  bass/middle/treble sits under them. "Save as favourite" moved into the sound sheet; the
+  favourites row appears once one is saved (aids without sound controls keep the key).
+- The whole aid header opens the aid's page, which leaves room for the full model name.
+
+### Fixed
+
+- Program names, sound keys and tab labels no longer break inside a word with large text: the
+  text shrinks to fit, and at very large sizes programs go two to a row.
+- "dBm" no longer wraps under the signal reading on narrow plates.
+
 ## 0.3.0 (2026-11-03)
 
 ### Added

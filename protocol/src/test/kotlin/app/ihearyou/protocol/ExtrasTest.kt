@@ -14,6 +14,22 @@ private fun hexOf(b: ByteArray) = b.joinToString(" ") { "%02X".format(it) }
 class StreamVolumeTest {
 
     @Test
+    fun stepsLikeTheAidButton() {
+        // 170 is position 9; one step up is position 10, one down position 8
+        assertEquals(9, StreamVolume.step(170))
+        assertEquals(10, StreamVolume.step(194))
+        assertEquals(10, StreamVolume.step(StreamVolume.stepped(170, 1)))
+        assertEquals(8, StreamVolume.step(StreamVolume.stepped(170, -1)))
+        // stepping back lands on the fitted default, not on the floor of its position
+        assertEquals(170, StreamVolume.stepped(194, -1, default = 170))
+        assertEquals(194, StreamVolume.stepped(170, 1, default = 194))
+        // ends: never mute, never past the top
+        assertEquals(1, StreamVolume.stepped(10, -5))
+        assertEquals(1, StreamVolume.stepped(0, 0))
+        assertEquals(255, StreamVolume.stepped(250, 3))
+    }
+
+    @Test
     fun payloadAndParse() {
         assertEquals("02 80", hexOf(StreamVolume.payload(2, 0x80)))
         assertEquals("00 00", hexOf(StreamVolume.payload(0, StreamVolume.MUTE)))

@@ -102,7 +102,8 @@ sealed class Cmd {
     /** Mute ([on] true), unmute (false) or toggle (null); [address] null means every linked aid. */
     data class Mute(val address: String? = null, val on: Boolean? = null) : Cmd()
     /** Step every linked aid's volume together. */
-    data class VolumeAll(val delta: Int) : Cmd()
+    /** Every linked aid [steps] positions up or down the 1..13 scale, as the aid's button does. */
+    data class VolumeAll(val steps: Int) : Cmd()
     /** Delete the stored key; the link then drops and the aid shows as needing pairing. */
     data class Forget(val address: String) : Cmd()
     /** End the current voice note and save it (notification action, no aid press). */
@@ -954,9 +955,10 @@ class RemoteService : Service() {
             }
             is Cmd.SetVolume -> setVolume(c.address, c.value)
             is Cmd.VolumeAll -> sessions.keys.toList().forEach { address ->
-                val now = ui.value[address]?.volume ?: return@forEach
-                val base = if (now == 0) lastAudible[address] ?: 0xAA else now
-                setVolume(address, base + c.delta)
+                val st = ui.value[address] ?: return@forEach
+                val now = st.volume ?: return@forEach
+                val base = if (now == 0) lastAudible[address] ?: st.micDefault ?: 0xAA else now
+                setVolume(address, app.ihearyou.protocol.StreamVolume.stepped(base, c.steps, st.micDefault))
             }
             is Cmd.Mute -> {
                 val targets = c.address?.let { listOf(it) } ?: sessions.keys.toList()

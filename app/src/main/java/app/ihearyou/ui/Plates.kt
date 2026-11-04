@@ -44,6 +44,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -245,7 +247,7 @@ fun Key(
                 if (text.isNotEmpty()) Spacer(Modifier.width(6.dp))
             }
             if (text.isNotEmpty()) {
-                Text(
+                FitText(
                     text = if (dense) text.uppercase() else text,
                     style = if (dense) {
                         InstrumentType.plateLarge.copy(fontSize = 11.sp, lineHeight = 15.sp, letterSpacing = 1.sp)
@@ -259,6 +261,42 @@ fun Key(
             }
         }
     }
+}
+
+/**
+ * Text that never splits a word: while a line ends inside a word (or one word is wider than the
+ * box), the size steps down to [minScale] of the style's size. It stays invisible until it fits,
+ * so the broken first layout is never drawn.
+ */
+@Composable
+fun FitText(
+    text: String,
+    style: androidx.compose.ui.text.TextStyle,
+    color: Color,
+    modifier: Modifier = Modifier,
+    maxLines: Int = 2,
+    textAlign: TextAlign? = null,
+    minScale: Float = 0.7f,
+) {
+    var scale by remember(text, style) { mutableStateOf(1f) }
+    var ready by remember(text, style) { mutableStateOf(false) }
+    val size = style.fontSize * scale
+    Text(
+        text = text,
+        style = style.copy(fontSize = size, lineHeight = if (style.lineHeight.isSp) style.lineHeight * scale else style.lineHeight),
+        color = color,
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        textAlign = textAlign,
+        modifier = modifier.drawWithContent { if (ready) drawContent() },
+        onTextLayout = { r ->
+            val broken = (0 until r.lineCount - 1).any { i ->
+                val end = r.getLineEnd(i)
+                end in 1 until text.length && text[end - 1].isLetterOrDigit() && text[end].isLetterOrDigit()
+            } || r.hasVisualOverflow
+            if (broken && scale > minScale + 0.001f) scale = maxOf(minScale, scale - 0.08f) else ready = true
+        },
+    )
 }
 
 /** A panel toggle: a lever in a well that slides. Reads as hardware, announces as a switch. */
@@ -473,7 +511,7 @@ fun BatteryMeter(level: Int?, modifier: Modifier = Modifier, hiState: Int? = nul
 
 /** Four-bar field meter for RSSI. A rendered field, not a decorative sparkline. */
 @Composable
-fun SignalField(rssi: Int?, modifier: Modifier = Modifier) {
+fun SignalField(rssi: Int?, modifier: Modifier = Modifier, unit: Boolean = true) {
     val p = LocalPanel.current
     val bars = when {
         rssi == null -> 0
@@ -502,7 +540,7 @@ fun SignalField(rssi: Int?, modifier: Modifier = Modifier) {
             style = InstrumentType.number.copy(fontSize = 12.sp, lineHeight = 14.sp),
             color = p.inkMuted,
         )
-        Text(" dBm", style = InstrumentType.plate.copy(fontSize = 9.sp), color = p.inkMuted)
+        if (unit) Text(" dBm", style = InstrumentType.plate.copy(fontSize = 9.sp), color = p.inkMuted, maxLines = 1, softWrap = false)
     }
 }
 
@@ -548,6 +586,8 @@ val LevelTrackHeight = 150.dp
 fun LevelFader(
     value: Int?,
     modifier: Modifier = Modifier,
+    /** The program's fitted start level, drawn as an index notch beside the scale. */
+    mark: Int? = null,
     enabled: Boolean = true,
     trackHeight: Dp? = null,
     contentDescription: String,
@@ -592,14 +632,30 @@ fun LevelFader(
                 p.ruleStrong, topLeft = Offset(cx - channel / 2f, top),
                 size = Size(channel, bottom - top), style = Stroke(1.dp.toPx()),
             )
-            // printed scale: 20 minor steps, every fifth long
-            repeat(21) { i ->
-                val y = bottom - (bottom - top) * (i / 20f)
-                val long = i % 5 == 0
+            // printed scale: the aid's 13 positions, every fourth long
+            repeat(13) { i ->
+                val y = bottom - (bottom - top) * (i / 12f)
+                val long = i % 4 == 0
                 val len = if (long) 9.dp.toPx() else 4.dp.toPx()
                 val gap = channel / 2f + 3.dp.toPx()
                 drawLine(p.ruleStrong, Offset(cx - gap - len, y), Offset(cx - gap, y), 1.dp.toPx())
                 drawLine(p.ruleStrong, Offset(cx + gap, y), Offset(cx + gap + len, y), 1.dp.toPx())
+            }
+            // index notch at the fitted start level, left of the cap's travel
+            if (mark != null) {
+                val my = bottom - (bottom - top) * (mark.coerceIn(0, 255) / 255f)
+                val tip = cx - size.width * 0.35f - 3.dp.toPx() // just outside the cap, so it shows at the default too
+                val w = 7.dp.toPx()
+                val h = 5.dp.toPx()
+                drawPath(
+                    androidx.compose.ui.graphics.Path().apply {
+                        moveTo(tip, my)
+                        lineTo(tip - w, my - h)
+                        lineTo(tip - w, my + h)
+                        close()
+                    },
+                    p.ink,
+                )
             }
             // machined cap
             val capH = 22.dp.toPx()

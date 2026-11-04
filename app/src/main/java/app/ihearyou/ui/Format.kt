@@ -7,7 +7,6 @@ import app.ihearyou.service.AidUiState
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import kotlin.math.roundToInt
 
 private val clock = DateTimeFormatter.ofPattern("HH:mm").withZone(ZoneId.systemDefault())
 private val preciseClock = DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault())
@@ -56,7 +55,8 @@ fun modelWord(context: Context, info: AidInfo?, fallback: String?): String =
 
 /** Auth/attenuation byte to the 0-99 level the fader shows. A linear transform of the aid's own
  * attenuation byte, not a claim about loudness. */
-fun levelOf(volume: Int?): Int? = volume?.let { ((it.coerceIn(0, 255) / 255f) * 100f).roundToInt() }
+/** The level on the aid's own 1..13 scale (one press of the aid's button is one step); 0 when muted. */
+fun levelOf(volume: Int?): Int? = volume?.let { if (it <= 0) 0 else app.ihearyou.protocol.StreamVolume.step(it) }
 
 /**
  * The aid reports battery on a 1–10 scale (1 = lowest, 10 = full).

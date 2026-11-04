@@ -51,6 +51,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -85,13 +86,13 @@ fun NowScreen(
 
     BoxWithConstraints(Modifier.fillMaxSize()) {
         val sideBySide = maxWidth >= 330.dp && !stacked
-        val tight = stacked || maxHeight < 610.dp
-        val track: Dp? = if (tight) 176.dp else null
 
         Column(Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
-            NowHeader(showFinder = scope.addresses.isNotEmpty(), onOpenFinder = onOpenFinder)
+            NowHeader(showFinder = scope.addresses.isNotEmpty(), onOpenFinder = onOpenFinder) {
+                LinkRuler(scope = scope, aids = aids)
+            }
             if (scope.sample) SampleBand()
-            LinkRuler(scope = scope, aids = aids)
+            Spacer(Modifier.height(10.dp))
             ReceiverNotice(scope = scope, aids = aids, modifier = Modifier.padding(bottom = 10.dp))
             // an aid still within its automatic reconnect attempts shows "connecting" on the
             // ruler only; the fix appears once they run out or for something to act on
@@ -116,49 +117,83 @@ fun NowScreen(
                     Spacer(Modifier.height(10.dp))
                     EmptyPairPlate(onOpenSetup = onOpenSetup)
                 }
-            } else {
-                if (tight) {
-                    Column(
-                        Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(bottom = 8.dp),
-                    ) {
-                        if (sideBySide) {
-                            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                                aids.forEach { (address, state) -> ChannelFor(address, state, scope, track, onOpenAid, Modifier.weight(1f)) }
-                            }
-                        } else {
-                            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                                aids.forEach { (address, state) -> ChannelFor(address, state, scope, track, onOpenAid, Modifier.fillMaxWidth()) }
-                            }
-                        }
-                        Spacer(Modifier.height(12.dp))
-                        PairKeys(scope = scope, aids = aids)
-                        StreamPlate(scope = scope, aids = aids)
-                        ProgramsPlate(scope = scope, aids = aids, onOpenAid = onOpenAid)
-                        if (aids.isNotEmpty()) {
-                            Spacer(Modifier.height(4.dp))
-                            ConditionsRuler(scope = scope, aids = aids)
-                        }
-                    }
-                } else {
-                    Row(
-                        Modifier.weight(1f).fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    ) {
-                        aids.forEach { (address, state) ->
-                            ChannelFor(
-                                address, state, scope, null, onOpenAid,
-                                Modifier.weight(1f).fillMaxHeight(),
-                            )
-                        }
+            } else if (!sideBySide) {
+                // narrow or very large text: plates stacked, fixed fader, the screen scrolls
+                Column(
+                    Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(bottom = 8.dp),
+                ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        aids.forEach { (address, state) -> ChannelFor(address, state, scope, 176.dp, onOpenAid, Modifier.fillMaxWidth()) }
                     }
                     Spacer(Modifier.height(12.dp))
                     PairKeys(scope = scope, aids = aids)
                     StreamPlate(scope = scope, aids = aids)
                     ProgramsPlate(scope = scope, aids = aids, onOpenAid = onOpenAid)
-                    Spacer(Modifier.height(10.dp))
-                    ConditionsRuler(scope = scope, aids = aids)
+                }
+            } else {
+                // The channels take whatever the controls below leave, but never less than a
+                // usable fader: past that the whole panel scrolls instead of the fader shrinking.
+                BoxWithConstraints(Modifier.weight(1f).fillMaxWidth()) {
+                    val viewport = maxHeight
+                    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+                        ChannelsThenControls(
+                            viewport = viewport,
+                            minChannels = ChannelMinHeight,
+                            channels = {
+                                Row(
+                                    Modifier.fillMaxSize(),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                ) {
+                                    aids.forEach { (address, state) ->
+                                        ChannelFor(address, state, scope, null, onOpenAid, Modifier.weight(1f).fillMaxHeight())
+                                    }
+                                }
+                            },
+                            controls = {
+                                Column {
+                                    Spacer(Modifier.height(12.dp))
+                                    PairKeys(scope = scope, aids = aids)
+                                    StreamPlate(scope = scope, aids = aids)
+                                    ProgramsPlate(scope = scope, aids = aids, onOpenAid = onOpenAid)
+                                    Spacer(Modifier.height(8.dp))
+                                }
+                            },
+                        )
+                    }
                 }
             }
+        }
+    }
+}
+
+/** Header, model, level window, a 120 dp fader, keys and the battery/signal row. */
+private val ChannelMinHeight = 340.dp
+
+/**
+ * [channels] fill the height [controls] leave in the visible area, but never shrink below
+ * [minChannels]; inside a vertical scroll that is the moment the panel starts to scroll.
+ */
+@Composable
+private fun ChannelsThenControls(
+    viewport: Dp,
+    minChannels: Dp,
+    channels: @Composable () -> Unit,
+    controls: @Composable () -> Unit,
+) {
+    // inside the scroll the height is unbounded, so the visible height comes in as [viewport]
+    androidx.compose.ui.layout.Layout(
+        contents = listOf(channels, controls),
+        modifier = Modifier.fillMaxWidth(),
+    ) { (channelM, controlM), c ->
+        val width = c.maxWidth
+        val below = controlM.map { it.measure(Constraints(minWidth = width, maxWidth = width)) }
+        val belowH = below.sumOf { it.height }
+        val chH = maxOf(viewport.roundToPx() - belowH, minChannels.roundToPx())
+        val top = channelM.map { it.measure(Constraints.fixed(width, chH)) }
+        layout(width, chH + belowH) {
+            top.forEach { it.place(0, 0) }
+            var y = chH
+            below.forEach { it.place(0, y); y += it.height }
         }
     }
 }
@@ -187,15 +222,18 @@ private fun ChannelFor(
 }
 
 @Composable
-private fun NowHeader(showFinder: Boolean, onOpenFinder: () -> Unit) {
+private fun NowHeader(showFinder: Boolean, onOpenFinder: () -> Unit, status: @Composable () -> Unit) {
     val p = LocalPanel.current
-    Row(Modifier.fillMaxWidth().padding(top = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text(
-            stringResource(R.string.now_wordmark),
-            style = InstrumentType.wordmark,
-            color = p.ink,
-            modifier = Modifier.weight(1f).padding(top = 6.dp, bottom = 6.dp),
-        )
+    // wordmark with the link status under it, beside the finder key: one band instead of two
+    Row(Modifier.fillMaxWidth().padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+        Column(Modifier.weight(1f)) {
+            Text(
+                stringResource(R.string.now_wordmark),
+                style = InstrumentType.wordmark,
+                color = p.ink,
+            )
+            status()
+        }
         if (showFinder) {
             Key(
                 text = stringResource(R.string.finder_open),
@@ -243,23 +281,28 @@ private fun LinkRuler(scope: AidScope, aids: List<Pair<String, AidUiState?>>) {
         linked > 0 -> stringResource(R.string.n_of_m_linked, linked, total)
         else -> stringResource(R.string.not_linked)
     }
-    Row(
-        Modifier.fillMaxWidth().heightIn(min = 34.dp).padding(bottom = 10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Lamp(
-            on = linked > 0,
-            tone = if (all) LampTone.Live else LampTone.Warn,
-            pulse = linked > 0 && !all,
-        )
-        Spacer(Modifier.width(5.dp))
-        Text(word, style = InstrumentType.plate, color = if (all) p.ink else p.inkMuted)
-        Spacer(Modifier.weight(1f))
+    Column(Modifier.padding(top = 4.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Lamp(
+                on = linked > 0,
+                tone = if (all) LampTone.Live else LampTone.Warn,
+                pulse = linked > 0 && !all,
+            )
+            Spacer(Modifier.width(5.dp))
+            Text(
+                word,
+                style = InstrumentType.plate,
+                color = if (all) p.ink else p.inkMuted,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
         if (total > 0) {
             Text(
                 stringResource(R.string.now_read_at, clockOf(lastRead)),
                 style = InstrumentType.plate.copy(fontSize = 9.sp),
                 color = p.inkMuted,
+                maxLines = 1,
             )
         }
     }
@@ -297,6 +340,7 @@ private fun ChannelPlate(
     LaunchedEffect(volume) { if (volume != null) mutedLocal = volume == 0 }
     val muted = mutedLocal
     val level = levelOf(volume)
+    val startLevel = state?.micDefault?.takeIf { it in 1..255 }?.let { app.ihearyou.protocol.StreamVolume.step(it) }
     val detailsLabel = stringResource(R.string.now_details_cd, sideLc)
     val readWord = when {
         commitAt != 0L -> stringResource(R.string.now_sent)
@@ -309,15 +353,28 @@ private fun ChannelPlate(
         onSend(Cmd.SetVolume(address, value.coerceIn(0, 255)))
         commitAt = System.currentTimeMillis()
     }
+    val stepVolume: (Int) -> Unit = { steps ->
+        val base = volume?.takeIf { it > 0 } ?: lastAudible
+        sendVolume(app.ihearyou.protocol.StreamVolume.stepped(base, steps, state?.micDefault))
+    }
 
     Plate(
         modifier = modifier,
         fillHeight = trackHeight == null,
         contentPadding = androidx.compose.foundation.layout.PaddingValues(12.dp),
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        // the whole header opens the aid's page, so the model gets the width a separate
+        // 48 dp chevron key used to take
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .heightIn(min = 48.dp)
+                .clickable(role = Role.Button) { onOpen() }
+                .semantics(mergeDescendants = true) { contentDescription = detailsLabel },
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             SideBadge(sideLetter(context, side))
-            Spacer(Modifier.width(9.dp))
+            Spacer(Modifier.width(8.dp))
             Column(Modifier.weight(1f)) {
                 Text(
                     roleWord(context, info).uppercase(),
@@ -334,15 +391,7 @@ private fun ChannelPlate(
                     overflow = TextOverflow.Ellipsis,
                 )
             }
-            Box(
-                Modifier
-                    .size(48.dp)
-                    .clickable(role = Role.Button) { onOpen() }
-                    .semantics { contentDescription = detailsLabel },
-                contentAlignment = Alignment.Center,
-            ) {
-                Glyph(GlyphKind.Chevron, color = p.inkMuted, size = 16.dp)
-            }
+            Glyph(GlyphKind.Chevron, color = p.inkMuted, size = 14.dp)
         }
 
         Row(Modifier.padding(top = 2.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -391,6 +440,17 @@ private fun ChannelPlate(
                     style = InstrumentType.plate.copy(fontSize = 9.sp, letterSpacing = 0.8.sp),
                     color = if (commitAt != 0L) p.seal else p.inkMuted,
                 )
+                // the audiologist's start level for this program, so a fitted difference between
+                // the ears reads as intended rather than as a fault
+                startLevel?.let { start ->
+                    val cd = stringResource(R.string.now_start_level_cd, start)
+                    Text(
+                        stringResource(R.string.now_start_level, start),
+                        style = InstrumentType.plate.copy(fontSize = 9.sp, letterSpacing = 0.8.sp),
+                        color = if (start == level && !muted) p.ink else p.inkMuted,
+                        modifier = Modifier.semantics { contentDescription = cd },
+                    )
+                }
             }
             Spacer(Modifier.weight(1f))
             LevelReading(level = level, muted = muted)
@@ -399,6 +459,7 @@ private fun ChannelPlate(
         Spacer(Modifier.height(2.dp))
         LevelFader(
             value = volume,
+            mark = state?.micDefault?.takeIf { it in 1..255 },
             enabled = state != null,
             trackHeight = trackHeight,
             contentDescription = stringResource(R.string.now_level_cd, sideLc),
@@ -411,7 +472,7 @@ private fun ChannelPlate(
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             Key(
                 text = "",
-                onClick = { sendVolume((volume ?: lastAudible) - 8) },
+                onClick = { stepVolume(-1) },
                 glyph = GlyphKind.Minus,
                 dense = true,
                 enabled = state != null,
@@ -438,7 +499,7 @@ private fun ChannelPlate(
             )
             Key(
                 text = "",
-                onClick = { sendVolume((volume ?: lastAudible) + 8) },
+                onClick = { stepVolume(1) },
                 glyph = GlyphKind.Plus,
                 dense = true,
                 enabled = state != null,
@@ -448,10 +509,14 @@ private fun ChannelPlate(
         }
 
         Spacer(Modifier.height(8.dp))
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            BatteryMeter(state?.battery, hiState = state?.hiState)
-            Spacer(Modifier.weight(1f))
-            SignalField(state?.rssi)
+        BoxWithConstraints(Modifier.fillMaxWidth()) {
+            // a narrow plate drops the "dBm" unit rather than wrapping it under the reading
+            val roomy = maxWidth >= 172.dp
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                BatteryMeter(state?.battery, hiState = state?.hiState)
+                Spacer(Modifier.weight(1f))
+                SignalField(state?.rssi, unit = roomy)
+            }
         }
     }
 }
@@ -590,7 +655,7 @@ private fun PairKeys(scope: AidScope, aids: List<Pair<String, AidUiState?>>) {
         )
         Key(
             text = "",
-            onClick = { scope.send(Cmd.VolumeAll(-8)) },
+            onClick = { scope.send(Cmd.VolumeAll(-1)) },
             glyph = GlyphKind.Minus,
             dense = true,
             contentDescription = stringResource(R.string.now_quieter_both_cd),
@@ -606,7 +671,7 @@ private fun PairKeys(scope: AidScope, aids: List<Pair<String, AidUiState?>>) {
         )
         Key(
             text = "",
-            onClick = { scope.send(Cmd.VolumeAll(8)) },
+            onClick = { scope.send(Cmd.VolumeAll(1)) },
             glyph = GlyphKind.Plus,
             dense = true,
             contentDescription = stringResource(R.string.now_louder_both_cd),
@@ -635,7 +700,9 @@ private fun ProgramsPlate(scope: AidScope, aids: List<Pair<String, AidUiState?>>
             )
             return@Plate
         }
-        val perRow = if (programs.size <= 4) programs.size.coerceAtLeast(2) else 3
+        // very large text gets two programs to a row, so a name keeps whole words
+        val huge = androidx.compose.ui.platform.LocalDensity.current.fontScale >= 1.45f
+        val perRow = if (huge) 2 else if (programs.size <= 4) programs.size.coerceAtLeast(2) else 3
         val gap = 6.dp
         Column(verticalArrangement = Arrangement.spacedBy(gap)) {
             programs.chunked(perRow).forEach { row ->
@@ -675,9 +742,10 @@ private fun ProgramsPlate(scope: AidScope, aids: List<Pair<String, AidUiState?>>
         }
         // null: closed; true: open with the name field up
         var favourites by remember { mutableStateOf<Boolean?>(null) }
-        FavouritesStrip(scope = scope, aids = aids, onOpen = { save -> favourites = save })
         val sound = pairSound(aids, scope.infos)
-        if (sound != null && !split && sound.program == lead?.program) {
+        val soundHere = sound != null && !split && sound.program == lead?.program
+        FavouritesStrip(scope = scope, aids = aids, onOpen = { save -> favourites = save }, saveHere = !soundHere)
+        if (sound != null && soundHere) {
             var sheet by remember { mutableStateOf(false) }
             var tinnitus by remember { mutableStateOf(false) }
             SoundKeys(scope = scope, sound = sound, aids = aids, onOpen = { sheet = true }, onTinnitus = { tinnitus = true })
@@ -714,20 +782,37 @@ private fun SoundKeys(
     val p = LocalPanel.current
     val context = LocalContext.current
     Spacer(Modifier.height(10.dp))
+    val soundCd = stringResource(R.string.sound_open)
+    val soundShort = stringResource(R.string.sound_open_short)
+    // the full "bass · middle · treble" on a row of its own, the short word beside a preset
+    val soundKey: @Composable (Modifier, Boolean) -> Unit = { m, short ->
+        Key(
+            text = if (short) soundShort else soundCd,
+            onClick = onOpen,
+            tone = KeyTone.Ghost,
+            glyph = GlyphKind.Chevron,
+            dense = true,
+            contentDescription = soundCd,
+            modifier = m,
+        )
+    }
     if (sound.mixIn.isNotEmpty()) {
         // while a phone or broadcast stream is mixed in, its keys take the presets' place
         MixInKeys(scope = scope, sound = sound, aids = aids)
-    } else if (sound.presets.isNotEmpty()) {
-        // two per row when there are three or the text is large, so a label never gets cut
-        val large = androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.3f
-        val perRow = if (sound.presets.size > 2 || large) 2 else sound.presets.size
+        Spacer(Modifier.height(6.dp))
+        soundKey(Modifier.fillMaxWidth(), false)
+    } else {
+        // two presets to a row, so a label like "Speech clarity" keeps whole words; the way into
+        // bass/middle/treble joins a lone preset's row, or takes a low row of its own
+        val presets = sound.presets
+        val withSound = presets.size <= 1
         androidx.compose.foundation.layout.FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp),
-            maxItemsInEachRow = perRow,
+            maxItemsInEachRow = 2,
         ) {
-            sound.presets.forEach { kind ->
+            presets.forEach { kind ->
                 val label = soundPresetLabel(context, kind)
                 val on = sound.active == kind
                 Key(
@@ -739,20 +824,16 @@ private fun SoundKeys(
                     enabled = !sound.busy,
                     contentDescription = if (on) stringResource(R.string.sound_preset_on_cd, label)
                     else stringResource(R.string.sound_preset_off_cd, label),
-                    modifier = Modifier.weight(1f).heightIn(min = 56.dp),
+                    modifier = Modifier.weight(1f).heightIn(min = 52.dp),
                 )
             }
+            if (withSound) soundKey(Modifier.weight(1f).heightIn(min = 52.dp), presets.isNotEmpty())
         }
-        Spacer(Modifier.height(6.dp))
+        if (!withSound) {
+            Spacer(Modifier.height(6.dp))
+            soundKey(Modifier.fillMaxWidth(), false)
+        }
     }
-    Key(
-        text = stringResource(R.string.sound_open),
-        onClick = onOpen,
-        tone = KeyTone.Ghost,
-        glyph = GlyphKind.Chevron,
-        dense = true,
-        modifier = Modifier.fillMaxWidth(),
-    )
     if (sound.tinnitus != null) {
         Spacer(Modifier.height(6.dp))
         Key(
@@ -806,53 +887,11 @@ private fun ProgramKey(
             )
         }
         Spacer(Modifier.height(2.dp))
-        Text(
+        FitText(
             name,
             style = InstrumentType.plate.copy(fontSize = 9.sp, letterSpacing = 0.4.sp),
             color = if (active) p.plate else p.inkMuted,
             maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-        )
-    }
-}
-
-@Composable
-private fun ConditionsRuler(scope: AidScope, aids: List<Pair<String, AidUiState?>>) {
-    val context = LocalContext.current
-    val receiver = aids.firstOrNull { (address, _) -> scope.infos[address]?.cros != true } ?: aids.firstOrNull()
-    val state = receiver?.second
-    val linked = aids.count { it.second != null }
-    val lastRead = aids.mapNotNull { it.second?.confirmedAt }.maxOrNull()
-    val kind = streamKindWord(context, state?.streamType)
-    val streamBase = streamWord(context, state?.streamStatus)
-    val stream = if (kind != null && state?.streamStatus != 0) stringResource(R.string.join_dot, streamBase, kind) else streamBase
-
-    Column {
-        HairRule()
-        Row(
-            Modifier.fillMaxWidth().heightIn(min = 44.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            RulerCell(stringResource(R.string.now_stream), stream, Modifier.weight(1.35f))
-            VRule(height = 26.dp)
-            RulerCell(stringResource(R.string.now_link), "$linked / ${aids.size}", Modifier.weight(0.8f))
-            VRule(height = 26.dp)
-            RulerCell(stringResource(R.string.now_read), clockOf(lastRead), Modifier.weight(0.85f))
-        }
-    }
-}
-
-@Composable
-private fun RulerCell(label: String, value: String, modifier: Modifier = Modifier) {
-    val p = LocalPanel.current
-    Column(modifier.padding(horizontal = 8.dp, vertical = 6.dp)) {
-        Text(label, style = InstrumentType.plate.copy(fontSize = 9.sp), color = p.inkMuted)
-        Text(
-            value,
-            style = InstrumentType.number.copy(fontSize = 12.sp, lineHeight = 15.sp, letterSpacing = 0.3.sp),
-            color = p.ink,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
         )
     }
 }

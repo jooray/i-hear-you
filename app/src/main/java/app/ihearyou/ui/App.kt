@@ -170,10 +170,13 @@ private fun PanelSwitchPlate(selected: Int, onSelect: (Int) -> Unit, modifier: M
                     Spacer(Modifier.height(7.dp))
                     Glyph(dest.glyph, color = if (isSelected) p.ink else p.inkMuted, size = 19.dp)
                     Spacer(Modifier.height(3.dp))
-                    Text(
+                    // large text shrinks to fit the tab instead of losing its last letters
+                    FitText(
                         label.uppercase(),
                         style = InstrumentType.plate.copy(fontSize = 9.sp, letterSpacing = 1.1.sp),
                         color = if (isSelected) p.ink else p.inkMuted,
+                        maxLines = 1,
+                        minScale = 0.6f,
                     )
                 }
             }

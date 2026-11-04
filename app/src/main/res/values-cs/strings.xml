@@ -62,7 +62,7 @@
     <string name="aid_detail_readings">Naměřené hodnoty</string>
     <string name="aid_detail_attenuation">Útlum</string>
     <string name="aid_detail_level_shown">Zobrazená úroveň</string>
-    <string name="aid_detail_level_of_99">%1$d / 99</string>
+    <string name="aid_detail_level_of_99">%1$d / 13</string>
     <string name="aid_detail_battery_state">Stav baterie</string>
     <string name="aid_detail_battery_level">Úroveň baterie</string>
     <string name="aid_detail_battery_of_10">%1$d z 10</string>
@@ -183,6 +183,8 @@
     <string name="now_stale">STARÉ %1$s</string>
     <string name="now_stream">STREAM</string>
     <string name="now_level">ÚROVEŇ</string>
+    <string name="now_start_level">START %1$d</string>
+    <string name="now_start_level_cd">Startovní úroveň programu: %1$d</string>
     <string name="now_link">SPOJENÍ</string>
     <string name="now_read">ČTENÍ</string>
     <string name="now_both">OBĚ</string>
@@ -288,6 +290,7 @@
     <string name="sound_failed">Sluchadlo změnu nepotvrdilo. Nic dalšího se neodeslalo.</string>
     <string name="sound_sheet_heading">Program %1$d · obě sluchadla</string>
     <string name="sound_open">Basy · středy · výšky</string>
+    <string name="sound_open_short">Zvuk</string>
     <string name="sound_preset_on_cd">%1$s, zapnuto. Klepnutím vypnete.</string>
     <string name="sound_preset_off_cd">%1$s, vypnuto</string>
     <string name="sound_slider_cd">%1$s, %2$s dB</string>

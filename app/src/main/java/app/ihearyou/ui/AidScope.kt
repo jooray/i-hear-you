@@ -72,6 +72,7 @@ class DemoPanel {
             leftAddress to AidUiState(
                 battery = 9,
                 volume = 0xC1,
+                micDefault = 0xAA,
                 streamStatus = 0,
                 streamType = null,
                 rssi = -58,
@@ -88,6 +89,7 @@ class DemoPanel {
                     3 to "Outdoors",
                 ),
                 volume = 0xAA,
+                micDefault = 0xAA,
                 tap = 0x02,
                 streamStatus = 4,
                 streamType = 1,
@@ -214,7 +216,7 @@ class DemoPanel {
             // the sample pair has no stream, feature or tinnitus controls
             is Cmd.SoundFeature, is Cmd.TinnitusSet, is Cmd.StreamLevel, is Cmd.StreamMute, is Cmd.MixIn -> Unit
             is Cmd.VolumeAll -> addresses.forEach { a ->
-                update(a) { it.copy(volume = ((it.volume ?: 0xAA) + cmd.delta).coerceIn(0, 255), confirmedAt = now) }
+                update(a) { it.copy(volume = app.ihearyou.protocol.StreamVolume.stepped(it.volume ?: 0xAA, cmd.steps, it.micDefault), confirmedAt = now) }
             }
             is Cmd.Mute -> {
                 val targets = cmd.address?.let { listOf(it) } ?: addresses

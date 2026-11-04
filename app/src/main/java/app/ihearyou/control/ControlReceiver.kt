@@ -19,8 +19,8 @@ class ControlReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val cmd = when (intent.action) {
-            ACTION_QUIETER -> Cmd.VolumeAll(-8)
-            ACTION_LOUDER -> Cmd.VolumeAll(8)
+            ACTION_QUIETER -> Cmd.VolumeAll(-1)
+            ACTION_LOUDER -> Cmd.VolumeAll(1)
             ACTION_MUTE -> Cmd.Mute()
             ACTION_VOICE_STOP -> Cmd.VoiceStop
             ACTION_VOICE_RETRY -> Cmd.VoiceRetry(intent.getStringExtra("id") ?: return)
