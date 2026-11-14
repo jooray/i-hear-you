@@ -7,7 +7,7 @@ What it does: volume, mute, programs, battery, signal and stream state for each 
 button mapped to media keys and other phone actions; and voice notes recorded from the aids,
 transcribed on the phone and sent to a webhook or a White Noise (Marmot) group.
 
-Website: https://jooray.github.io/i-hear-you/
+Website: https://cypherpunk.today/i-hear-you/
 
 ![Now, light](docs/screens/now-light.png)
 ![Now, dark](docs/screens/now-dark.png)

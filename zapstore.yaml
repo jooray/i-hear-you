@@ -19,7 +19,7 @@ description: |
   untested. Aids from other makers are not supported.
 
   Pair the aids in Android's Bluetooth settings first, then finish pairing in the app.
-website: https://jooray.github.io/i-hear-you/
+website: https://cypherpunk.today/i-hear-you/
 license: MIT
 tags:
     - hearing-aid
