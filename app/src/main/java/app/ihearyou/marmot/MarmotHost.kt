@@ -291,7 +291,24 @@ object MarmotHost {
         val acct = account ?: return
         // media references come resolved on the timeline record, not on the raw message
         val media = runCatching {
-            m.timelineMessages(acct, TimelineMessageQueryFfi(msg.groupIdHex, null, null, null, null, null, 30u))
+            m.timelineMessages(
+                acct,
+                // named: 0.15 inserted sender/since/until/cursorGroupId (and defaulted
+                // attachmentType/searchWallClock) ahead of before/limit, shifting positions
+                TimelineMessageQueryFfi(
+                    groupIdHex = msg.groupIdHex,
+                    search = null,
+                    sender = null,
+                    since = null,
+                    until = null,
+                    cursorGroupId = null,
+                    before = null,
+                    beforeMessageId = null,
+                    after = null,
+                    afterMessageId = null,
+                    limit = 30u,
+                ),
+            )
                 .messages.firstOrNull { it.messageIdHex == msg.messageIdHex }
                 ?.media?.filterIsInstance<MediaAttachmentOutcomeFfi.Accepted>()?.map { it.reference }
         }.getOrNull().orEmpty()

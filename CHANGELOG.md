@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.2 (2026-11-15)
+
+### Changed
+
+- White Noise voice-note delivery now runs on MarmotKit 0.17 (was 0.14), picking up three MDK
+  releases' worth of protocol, delivery and security fixes. The first start after this update
+  migrates the White Noise account store to the newer format; it cannot be downgraded afterwards.
+
 ## 0.3.1 (2026-11-04)
 
 ### Changed
