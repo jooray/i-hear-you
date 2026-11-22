@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- White Noise runs on MarmotKit 0.18 (was 0.17). The first start migrates the White Noise store
+  again (schema 207 to 216); a 0.17 build cannot open it afterwards. Declining an invite that made
+  I Hear You an admin steps down first; a voice note whose group moved on during the upload is
+  uploaded once more; "the group's last change is still being sent" and "no usable relay" read as
+  sentences instead of error names.
+
 ## 0.3.2 (2026-11-15)
 
 ### Changed

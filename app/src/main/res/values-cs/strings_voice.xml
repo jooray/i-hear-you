@@ -163,4 +163,6 @@
     <string name="voice_wn_name_hint">Členové skupiny vidí toto jméno u tvých poznámek. Ať je z něj jasné, čí je, například \"I Hear You (Anna)\".</string>
     <string name="voice_wn_name_published">Jméno je zveřejněné. Jiným aplikacím může chvíli trvat, než ho ukážou.</string>
     <string name="voice_no_speech_no_ostt">Nebyla rozpoznána žádná řeč. Rozpoznávač v tomto telefonu neumí přepsat nahrávku: nainstaluj Offline Speech to Text (zdarma, na Zapstore).</string>
+    <string name="voice_wn_err_commit_pending">Poslední změna skupiny se ještě odesílá. Zkus to znovu, až projde.</string>
+    <string name="voice_wn_err_no_usable_relay">Na žádný relay skupiny nelze z tohoto telefonu posílat, proto se nic neodeslalo. Nejdřív je potřeba změnit relaye skupiny.</string>
 </resources>

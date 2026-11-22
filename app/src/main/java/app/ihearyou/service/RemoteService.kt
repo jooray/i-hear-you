@@ -980,7 +980,7 @@ class RemoteService : Service() {
             is Cmd.AcceptInvite -> runCatching {
                 if (c.accept) app.ihearyou.marmot.MarmotHost.accept(c.groupId) else app.ihearyou.marmot.MarmotHost.decline(c.groupId)
                 addLog("white noise: invite ${if (c.accept) "accepted" else "declined"}")
-            }.onFailure { addLog("white noise: invite failed: ${it.message}") }
+            }.onFailure { addLog("white noise: invite failed: ${app.ihearyou.marmot.MarmotHost.readable(this@RemoteService, it)}") }
             is Cmd.SimulateGesture -> {
                 val side = c.side.lowercase()
                 val address = sides.value.entries.firstOrNull { it.value.lowercase().startsWith(side.take(1)) }?.key

@@ -161,4 +161,6 @@
     <string name="voice_wn_name_hint">Los miembros del grupo ven este nombre junto a tus notas. Que diga de quién es, por ejemplo \"I Hear You (Ana)\".</string>
     <string name="voice_wn_name_published">Nombre publicado. Otras apps pueden tardar un poco en mostrarlo.</string>
     <string name="voice_no_speech_no_ostt">No se reconoció ninguna voz. El reconocedor de este teléfono no puede transcribir una grabación: instala Offline Speech to Text (gratis, en Zapstore).</string>
+    <string name="voice_wn_err_commit_pending">El último cambio del grupo aún se está enviando. Inténtalo de nuevo cuando se haya enviado.</string>
+    <string name="voice_wn_err_no_usable_relay">Ninguno de los relays del grupo se puede usar desde este teléfono, así que no se envió nada. Primero hay que cambiar los relays del grupo.</string>
 </resources>

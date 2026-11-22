@@ -161,4 +161,6 @@
     <string name="voice_wn_name_hint">Gruppenmitglieder sehen diesen Namen bei deinen Notizen. Er sollte zeigen, wem es gehört, zum Beispiel \"I Hear You (Anna)\".</string>
     <string name="voice_wn_name_published">Name veröffentlicht. Andere Apps zeigen ihn eventuell erst nach einer Weile.</string>
     <string name="voice_no_speech_no_ostt">Keine Sprache erkannt. Die Spracherkennung auf diesem Handy kann keine Aufnahme umschreiben: installiere Offline Speech to Text (kostenlos, auf Zapstore).</string>
+    <string name="voice_wn_err_commit_pending">Die letzte Änderung der Gruppe wird noch gesendet. Versuche es erneut, sobald sie durch ist.</string>
+    <string name="voice_wn_err_no_usable_relay">Keines der Relays der Gruppe ist von diesem Handy aus nutzbar, darum wurde nichts gesendet. Zuerst müssen sich die Relays der Gruppe ändern.</string>
 </resources>

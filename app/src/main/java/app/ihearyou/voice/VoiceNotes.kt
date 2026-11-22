@@ -383,7 +383,7 @@ class VoiceNotes(
             log("voice: ${note.destination.name.lowercase()} done for ${note.id}")
             if (note.destination != Destination.SAVE && note.destination != Destination.SHARE) Tones.play(Tones.Cue.SENT)
         } catch (t: Throwable) {
-            val raw = MarmotHost.readable(t)
+            val raw = MarmotHost.readable(context, t)
             val why = if (raw.contains("EPERM")) context.getString(R.string.voice_net_error) else raw
             note = note.copy(delivery = Delivery.FAILED, error = why)
             store.put(note)

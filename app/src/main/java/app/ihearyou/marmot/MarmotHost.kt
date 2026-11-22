@@ -1,6 +1,7 @@
 package app.ihearyou.marmot
 
 import android.content.Context
+import app.ihearyou.R
 import dev.ipf.marmotkit.AccountSummaryFfi
 import dev.ipf.marmotkit.Marmot
 import dev.ipf.marmotkit.MarmotAndroid
@@ -14,6 +15,8 @@ import dev.ipf.marmotkit.MediaFileUploadAttachmentRequestFfi
 import dev.ipf.marmotkit.MediaFileUploadRequestFfi
 import dev.ipf.marmotkit.SecretStore
 import dev.ipf.marmotkit.SelfMembershipFfi
+import dev.ipf.marmotkit.SendAcceptDispositionFfi
+import dev.ipf.marmotkit.SendSummaryFfi
 import dev.ipf.marmotkit.UserProfileMetadataFfi
 import dev.ipf.marmotkit.TimelineMessageQueryFfi
 import dev.ipf.marmotkit.marmotDeploymentWhiteNoise
@@ -133,11 +136,12 @@ object MarmotHost {
                 scope.launch {
                     ensureWhiteNoiseRelays(m, label)
                     ensureKeyPackage(m, label)
+                    logChangesNotDelivered(m, label)
                 }
             } catch (t: Throwable) {
                 phase.value = Phase.FAILED
                 // some MarmotKit errors carry an empty message or only ids: name the error instead
-                error.value = readable(t)
+                error.value = readable(context, t)
                 log("white noise: start failed: ${error.value}")
                 // close whatever was opened, also one that never became `marmot`
                 (marmot ?: opened)?.let { r ->
@@ -210,6 +214,33 @@ object MarmotHost {
         val m = t.message?.trim().orEmpty()
         val idsOnly = m.isEmpty() || Regex("""^(\w+=\S*,?\s*)+$""").matches(m)
         return if (idsOnly) t.javaClass.simpleName.replace(Regex("([a-z])([A-Z])"), "$1 $2") else m
+    }
+
+    /**
+     * [readable], with the MarmotKit 0.18 errors that carry no useful message put in words for
+     * the note's failure line and the White Noise state.
+     */
+    fun readable(context: Context, t: Throwable): String = when (t) {
+        // 0.18: one commit at a time; a decline waits for the group's last one, and media
+        // encrypted before it cannot be sent until it settles
+        is MarmotKitException.GroupCommitPending, is MarmotKitException.MediaReferenceEpochUnsettled,
+        is MarmotKitException.MediaReferenceStaleEpoch -> context.getString(R.string.voice_wn_err_commit_pending)
+        // 0.18 (was Publish): no relay of the group may be sent to; a retry fails the same way
+        is MarmotKitException.NoUsableRelay -> context.getString(R.string.voice_wn_err_no_usable_relay)
+        else -> readable(t)
+    }
+
+    /**
+     * Group changes MDK gave up after their call returned (0.18: no relay took them, for ten
+     * minutes). I Hear You has no screen for them; logged for diagnosis, and kept by MDK until
+     * acknowledged.
+     */
+    private suspend fun logChangesNotDelivered(m: Marmot, acct: String) {
+        for (g in groups.value.filter { it.member }) {
+            runCatching { m.groupChangesNotDelivered(acct, g.id) }.getOrNull().orEmpty().forEach {
+                log("white noise: group change not delivered in ${g.id.take(8)}: ${it.intentKind} (${it.reason})")
+            }
+        }
     }
 
     suspend fun stop() = withContext(NonCancellable + Dispatchers.IO) {
@@ -335,12 +366,34 @@ object MarmotHost {
         refreshGroups()
     }
 
+    /**
+     * An invite that makes I Hear You an admin (a White Noise direct chat makes both sides admins)
+     * can be declined only after stepping down, else AdminCannotSelfRemove. With device groups on
+     * (always, since MarmotKit 0.18) MDK steps a nonlast admin down itself and reports no demote
+     * as required; should a decline still refuse, step down and decline again. While the group's
+     * own last commit is unconfirmed a decline fails with GroupCommitPending.
+     */
     suspend fun decline(groupId: String) = io { m, acct ->
-        m.declineGroupInvite(acct, groupId)
-        refreshGroups()
+        try {
+            val state = runCatching { m.groupManagementState(acct, groupId) }.getOrNull()
+            if (state?.requiresSelfDemoteBeforeLeave == true) m.selfDemoteAdmin(acct, groupId)
+            try {
+                m.declineGroupInvite(acct, groupId)
+            } catch (_: MarmotKitException.AdminCannotSelfRemove) {
+                m.selfDemoteAdmin(acct, groupId)
+                m.declineGroupInvite(acct, groupId)
+            }
+        } finally {
+            // a decline that timed out may still complete: show the state MDK has, not the old row
+            refreshGroups()
+        }
     }
 
-    /** Uploads (encrypted, to the group's media servers) and sends in one message. */
+    /**
+     * Uploads (encrypted, to the group's media servers) and sends in one message. An upload is
+     * encrypted for the group's current epoch: when the group moved on before the send
+     * (MediaReferenceStaleEpoch), it is uploaded once more.
+     */
     suspend fun sendVoice(groupId: String, file: File, fileName: String, mime: String, caption: String?) = io { m, acct ->
         val request = MediaFileUploadRequestFfi(
             attachments = listOf(MediaFileUploadAttachmentRequestFfi(file.path, file.length().toULong(), fileName, mime, null, null)),
@@ -348,12 +401,25 @@ object MarmotHost {
             send = true,
             blossomServer = null,
         )
-        val result = m.uploadMediaFiles(acct, groupId, request, MediaFileTransferControlFfi())
-        if (result.sent == null) error("uploaded but not sent")
+        val result = try {
+            m.uploadMediaFiles(acct, groupId, request, MediaFileTransferControlFfi())
+        } catch (_: MarmotKitException.MediaReferenceStaleEpoch) {
+            log("white noise: group moved on during the upload, uploading again")
+            m.uploadMediaFiles(acct, groupId, request, MediaFileTransferControlFfi())
+        }
+        logQueued(result.sent ?: error("uploaded but not sent"))
     }
 
     suspend fun sendText(groupId: String, text: String) = io { m, acct ->
-        m.sendText(acct, groupId, text)
+        logQueued(m.sendText(acct, groupId, text))
+    }
+
+    /**
+     * An accepted send that did not publish yet (MarmotKit 0.18 holds messages while the group's
+     * own last commit is unconfirmed, and sends them once it resolves): not a failure.
+     */
+    private fun logQueued(sent: SendSummaryFfi) {
+        if (sent.acceptDisposition != SendAcceptDispositionFfi.PUBLISHED) log("white noise: send accepted, ${sent.acceptDisposition}")
     }
 
     suspend fun download(groupId: String, ref: MediaAttachmentReferenceFfi): ByteArray = io { m, acct ->
