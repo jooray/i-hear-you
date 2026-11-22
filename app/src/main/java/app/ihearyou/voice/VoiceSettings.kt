@@ -42,6 +42,12 @@ class VoiceSettings(context: Context) {
 
         fun isHttp(url: String?): Boolean = url?.trim()?.lowercase()?.let { it.startsWith("http://") && it.length > "http://".length } ?: false
 
+        private const val PUBKEY_HEX_LENGTH = 64
+
+        /** A member's account pubkey as a mention stores it: 64 lowercase hex characters, else null. */
+        fun pubkeyHex(value: String?): String? =
+            value?.takeIf { it.length == PUBKEY_HEX_LENGTH && it.all { c -> c in "0123456789abcdef" } }
+
         /** The webhook address as typed, with https:// assumed when no scheme is given; null when blank. */
         fun webhookUrl(raw: String?): String? {
             val u = raw?.trim()?.takeIf { it.isNotEmpty() } ?: return null
@@ -119,6 +125,24 @@ class VoiceSettings(context: Context) {
     var group: String?
         get() = prefs.getString("wn_group", null)
         set(v) = prefs.edit().putString("wn_group", v).apply()
+
+    /**
+     * A member (account pubkey hex) every note sent to [groupId] mentions with a `["p", hex]` tag,
+     * for agents that act only when mentioned (wn-agent groupActivation=mention). Null, the
+     * default: no mention; the text is never changed.
+     */
+    fun mention(groupId: String): String? = pubkeyHex(prefs.getString("wn_mention:$groupId", null))
+
+    /** The mentioned member's name when it was picked, shown while the member list loads. */
+    fun mentionName(groupId: String): String? = prefs.getString("wn_mention_name:$groupId", null)
+
+    fun setMention(groupId: String, pubkey: String?, name: String?) {
+        val hex = pubkeyHex(pubkey)
+        prefs.edit()
+            .putString("wn_mention:$groupId", hex)
+            .putString("wn_mention_name:$groupId", if (hex == null) null else name?.trim()?.ifEmpty { null })
+            .apply()
+    }
 
     var replies: ReplyMode
         get() = enumOr(prefs.getString("replies", null), ReplyMode.AFTER_NOTE)

@@ -168,4 +168,7 @@
     <string name="voice_webhook_cleartext_allow">Use http</string>
     <string name="voice_webhook_cleartext_on">Sent over plain http. Only on a network that encrypts it, such as Tailscale or Nostr VPN.</string>
     <string name="voice_webhook_cleartext_undo">Undo</string>
+    <string name="voice_wn_mention">MENTION WITH EVERY NOTE</string>
+    <string name="voice_wn_mention_none">Nobody (default)</string>
+    <string name="voice_wn_mention_note">For agents that answer only when mentioned (for example a wn-agent gateway in a group with more people). I Hear You adds an invisible mention of this member to every note it sends to this group. The text stays as it is.</string>
 </resources>

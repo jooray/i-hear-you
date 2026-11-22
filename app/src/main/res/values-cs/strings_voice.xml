@@ -170,4 +170,7 @@
     <string name="voice_webhook_cleartext_allow">Použít http</string>
     <string name="voice_webhook_cleartext_on">Posílá se přes čisté http. Jen v síti, která ho šifruje, například Tailscale nebo Nostr VPN.</string>
     <string name="voice_webhook_cleartext_undo">Zrušit</string>
+    <string name="voice_wn_mention">OZNAČIT V KAŽDÉ ZPRÁVĚ</string>
+    <string name="voice_wn_mention_none">Nikoho (výchozí)</string>
+    <string name="voice_wn_mention_note">Pro agenty, kteří odpovídají, jen když je někdo označí (například brána wn-agent ve skupině s více lidmi). I Hear You přidá do každé zprávy pro tuto skupinu neviditelné označení tohoto člena. Text se nemění.</string>
 </resources>

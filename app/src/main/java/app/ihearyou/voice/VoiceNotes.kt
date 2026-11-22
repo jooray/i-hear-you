@@ -372,8 +372,10 @@ class VoiceNotes(
                     if (MarmotHost.phase.value != MarmotHost.Phase.READY) MarmotHost.start(context)
                     // removed from the group (or it is gone): say so rather than MarmotKit's id dump
                     if (MarmotHost.groups.value.none { it.id == group && it.member && !it.pending }) error(context.getString(R.string.voice_wn_group_gone))
-                    if (textOnly) MarmotHost.sendText(group, transcript!!)
-                    else MarmotHost.sendVoice(group, m4a, name, AacEncoder.MIME, if (withText) transcript else null)
+                    // off by default: a mention only for agents that act when mentioned
+                    val mention = settings.mention(group)
+                    if (textOnly) MarmotHost.sendText(group, transcript!!, mention)
+                    else MarmotHost.sendVoice(group, m4a, name, AacEncoder.MIME, if (withText) transcript else null, mention)
                     lastSentAt = System.currentTimeMillis()
                 }
                 Destination.SHARE -> share(m4a, if (withText) transcript else null, textOnly)

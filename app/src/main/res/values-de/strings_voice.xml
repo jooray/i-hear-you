@@ -168,4 +168,7 @@
     <string name="voice_webhook_cleartext_allow">http verwenden</string>
     <string name="voice_webhook_cleartext_on">Wird über einfaches http gesendet. Nur in einem Netz, das es verschlüsselt, etwa Tailscale oder Nostr VPN.</string>
     <string name="voice_webhook_cleartext_undo">Rückgängig</string>
+    <string name="voice_wn_mention">IN JEDER NACHRICHT ERWÄHNEN</string>
+    <string name="voice_wn_mention_none">Niemanden (Standard)</string>
+    <string name="voice_wn_mention_note">Für Agenten, die nur antworten, wenn sie erwähnt werden (etwa ein wn-agent-Gateway in einer Gruppe mit mehreren Leuten). I Hear You fügt jeder Nachricht an diese Gruppe eine unsichtbare Erwähnung dieses Mitglieds hinzu. Der Text bleibt, wie er ist.</string>
 </resources>

@@ -168,4 +168,7 @@
     <string name="voice_webhook_cleartext_allow">Usar http</string>
     <string name="voice_webhook_cleartext_on">Se envía por http sin cifrar. Solo en una red que lo cifra, como Tailscale o Nostr VPN.</string>
     <string name="voice_webhook_cleartext_undo">Deshacer</string>
+    <string name="voice_wn_mention">MENCIONAR EN CADA NOTA</string>
+    <string name="voice_wn_mention_none">Nadie (predeterminado)</string>
+    <string name="voice_wn_mention_note">Para agentes que solo responden cuando se los menciona (por ejemplo una pasarela wn-agent en un grupo con más personas). I Hear You añade una mención invisible de este miembro a cada nota que envía a este grupo. El texto no cambia.</string>
 </resources>

@@ -13,6 +13,10 @@
   longer refused: the Webhook settings warn that the recording and transcript travel unencrypted
   and ask once for that address ("Use http"), fine on a network that encrypts by itself
   (Tailscale, Nostr VPN, WireGuard). A new address needs its own confirmation.
+- White Noise: the chosen group gets "Mention with every note": nobody (the default, unchanged
+  behaviour) or one member picked from the group. Every note sent there then carries an invisible
+  mention of that member, so an agent that acts only when mentioned (a wn-agent gateway in a group
+  with more people) answers. The text is never changed.
 
 ## 0.3.2 (2026-11-15)
 

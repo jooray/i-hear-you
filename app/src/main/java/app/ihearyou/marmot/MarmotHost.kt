@@ -393,25 +393,57 @@ object MarmotHost {
      * Uploads (encrypted, to the group's media servers) and sends in one message. An upload is
      * encrypted for the group's current epoch: when the group moved on before the send
      * (MediaReferenceStaleEpoch), it is uploaded once more.
+     *
+     * [mention]: a member's pubkey hex the message mentions with a `["p", hex]` tag
+     * (VoiceSettings.mention), for agents that act only when mentioned; null sends as before.
      */
-    suspend fun sendVoice(groupId: String, file: File, fileName: String, mime: String, caption: String?) = io { m, acct ->
+    suspend fun sendVoice(groupId: String, file: File, fileName: String, mime: String, caption: String?, mention: String? = null) = io { m, acct ->
+        // with a mention: upload only, then send the references with the tag (an upload that sends carries no tags)
         val request = MediaFileUploadRequestFfi(
             attachments = listOf(MediaFileUploadAttachmentRequestFfi(file.path, file.length().toULong(), fileName, mime, null, null)),
             caption = caption,
-            send = true,
+            send = mention == null,
             blossomServer = null,
         )
-        val result = try {
-            m.uploadMediaFiles(acct, groupId, request, MediaFileTransferControlFfi())
+        suspend fun once(): SendSummaryFfi {
+            val result = m.uploadMediaFiles(acct, groupId, request, MediaFileTransferControlFfi())
+            if (mention == null) return result.sent ?: error("uploaded but not sent")
+            return m.sendTaggedMedia(acct, groupId, result.attachments.map { it.reference }, caption, mentionTags(mention))
+        }
+        val sent = try {
+            once()
         } catch (_: MarmotKitException.MediaReferenceStaleEpoch) {
             log("white noise: group moved on during the upload, uploading again")
-            m.uploadMediaFiles(acct, groupId, request, MediaFileTransferControlFfi())
+            once()
         }
-        logQueued(result.sent ?: error("uploaded but not sent"))
+        logQueued(sent)
     }
 
-    suspend fun sendText(groupId: String, text: String) = io { m, acct ->
-        logQueued(m.sendText(acct, groupId, text))
+    suspend fun sendText(groupId: String, text: String, mention: String? = null) = io { m, acct ->
+        logQueued(if (mention == null) m.sendText(acct, groupId, text) else m.sendTaggedText(acct, groupId, text, mentionTags(mention)))
+    }
+
+    private fun mentionTags(pubkey: String) = listOf(listOf("p", pubkey))
+
+    /** A group member as the mention picker lists them. */
+    data class Member(val pubkey: String, val name: String?, val self: Boolean) {
+        val label: String get() = name ?: short(pubkey)
+
+        companion object {
+            /** The member's npub, shortened (npub1abcdefgh…uvwxyz); the hex when no runtime is open. */
+            fun short(pubkey: String): String {
+                val npub = marmot?.let { m -> runCatching { m.npub(pubkey) }.getOrNull() } ?: pubkey
+                return npub.take(12) + "…" + npub.takeLast(6)
+            }
+        }
+    }
+
+    /** The group's members with their display names; this identity is marked [Member.self]. */
+    suspend fun members(groupId: String): List<Member> = io { m, acct ->
+        val self = accountHex
+        m.groupMembers(acct, groupId).map { r ->
+            Member(r.memberIdHex, runCatching { m.displayName(r.memberIdHex) }.getOrNull()?.takeIf { it.isNotBlank() }, r.memberIdHex == self)
+        }.sortedWith(compareBy({ it.self }, { it.label.lowercase() }))
     }
 
     /**

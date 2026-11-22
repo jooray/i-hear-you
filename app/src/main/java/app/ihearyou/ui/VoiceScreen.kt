@@ -583,6 +583,9 @@ private fun WhiteNoisePlate(settings: VoiceSettings, version: Int, changed: () -
                 Text(g.name.ifBlank { g.id.take(12) }, style = MaterialTheme.typography.bodyMedium, color = p.ink)
             }
         }
+        if (phase == MarmotHost.Phase.READY && chosen != null && joined.any { it.id == chosen }) {
+            MentionChoice(settings, chosen, version, changed)
+        }
         Spacer(Modifier.height(10.dp))
         HairRule()
         Text(stringResource(R.string.voice_replies_title), style = InstrumentType.plate.copy(fontSize = 9.sp), color = p.inkMuted, modifier = Modifier.padding(top = 10.dp, bottom = 6.dp))
@@ -600,6 +603,42 @@ private fun WhiteNoisePlate(settings: VoiceSettings, version: Int, changed: () -
             KeyBackup(settings, changed)
         }
     }
+}
+
+/**
+ * Who every note to the chosen group mentions: nobody (the default) or one member, for agents
+ * that act only when mentioned (a wn-agent gateway with groupActivation=mention).
+ */
+@Composable
+private fun MentionChoice(settings: VoiceSettings, groupId: String, version: Int, changed: () -> Unit) {
+    val p = LocalPanel.current
+    val mention = remember(version, groupId) { settings.mention(groupId) }
+    val mentionName = remember(version, groupId) { settings.mentionName(groupId) }
+    var members by remember(groupId) { mutableStateOf<List<MarmotHost.Member>?>(null) }
+    LaunchedEffect(groupId) { members = runCatching { MarmotHost.members(groupId) }.getOrDefault(emptyList()) }
+    Text(stringResource(R.string.voice_wn_mention), style = InstrumentType.plate.copy(fontSize = 9.sp), color = p.inkMuted, modifier = Modifier.padding(top = 12.dp))
+    @Composable
+    fun row(label: String, selected: Boolean, onPick: () -> Unit) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .heightIn(min = 44.dp)
+                .selectable(selected = selected, role = Role.RadioButton, onClick = onPick),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            RadioMark(selected)
+            Spacer(Modifier.width(10.dp))
+            Text(label, style = MaterialTheme.typography.bodyMedium, color = p.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        }
+    }
+    row(stringResource(R.string.voice_wn_mention_none), mention == null) { settings.setMention(groupId, null, null); changed() }
+    val others = members.orEmpty().filter { !it.self }
+    others.forEach { m -> row(m.label, mention == m.pubkey) { settings.setMention(groupId, m.pubkey, m.name); changed() } }
+    // a member picked earlier who is no longer listed (or the list is still loading) stays visible
+    if (mention != null && others.none { it.pubkey == mention }) {
+        row(mentionName ?: MarmotHost.Member.short(mention), true) {}
+    }
+    Text(stringResource(R.string.voice_wn_mention_note), style = MaterialTheme.typography.bodySmall, color = p.inkMuted, modifier = Modifier.padding(top = 4.dp))
 }
 
 /**
