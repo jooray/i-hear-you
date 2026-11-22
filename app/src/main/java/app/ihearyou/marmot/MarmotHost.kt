@@ -344,7 +344,9 @@ object MarmotHost {
                 ?.media?.filterIsInstance<MediaAttachmentOutcomeFfi.Accepted>()?.map { it.reference }
         }.getOrNull().orEmpty()
         val at = msg.recordedAt.toLong().let { if (it > 100_000_000_000L) it else it * 1000 }
-        onIncoming?.invoke(Incoming(msg.groupIdHex, msg.messageIdHex, msg.sender, msg.plaintext, media, at))
+        // a mention (@npub1…) reads aloud as a name, not 63 characters
+        val text = Mentions.readable(msg.plaintext) { hex -> runCatching { m.displayName(hex) }.getOrNull() }
+        onIncoming?.invoke(Incoming(msg.groupIdHex, msg.messageIdHex, msg.sender, text, media, at))
     }
 
     fun refreshGroups() {

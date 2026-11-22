@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.3 (2026-11-22)
 
 ### Changed
 
@@ -17,6 +17,11 @@
   behaviour) or one member picked from the group. Every note sent there then carries an invisible
   mention of that member, so an agent that acts only when mentioned (a wn-agent gateway in a group
   with more people) answers. The text is never changed.
+
+### Fixed
+
+- A mention in a reply (@npub1…, nostr:npub1…) is read aloud as the member's name instead of a
+  63-character npub.
 
 ## 0.3.2 (2026-11-15)
 
