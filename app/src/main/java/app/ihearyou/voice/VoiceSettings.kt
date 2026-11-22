@@ -38,12 +38,23 @@ class VoiceSettings(context: Context) {
         const val REPLY_WINDOW_MIN = 15
         const val DEFAULT_REPLY_IGNORE = "\uD83C\uDF99\uFE0F"
 
+        fun isHttps(url: String?): Boolean = url?.trim()?.lowercase()?.let { it.startsWith("https://") && it.length > "https://".length } ?: false
+
+        fun isHttp(url: String?): Boolean = url?.trim()?.lowercase()?.let { it.startsWith("http://") && it.length > "http://".length } ?: false
+
+        /** The webhook address as typed, with https:// assumed when no scheme is given; null when blank. */
+        fun webhookUrl(raw: String?): String? {
+            val u = raw?.trim()?.takeIf { it.isNotEmpty() } ?: return null
+            return if ("://" in u) u else "https://$u"
+        }
+
         /**
-         * Webhooks are https only: Android blocks cleartext for this app anyway (target SDK 36, no
-         * exception), so an http:// URL only failed when a note was sent; and it carries the
-         * recording and its transcript.
+         * Where a note is posted: https, or plain http the user confirmed for this address (a
+         * webhook on a Tailscale, Nostr VPN or WireGuard address is encrypted by that layer); it
+         * carries the recording and its transcript. Null: nowhere to send.
          */
-        fun isHttps(url: String): Boolean = url.trim().lowercase().let { it.startsWith("https://") && it.length > "https://".length }
+        fun webhookTarget(raw: String?, cleartextConfirmed: Boolean): String? =
+            webhookUrl(raw)?.takeIf { isHttps(it) || (isHttp(it) && cleartextConfirmed) }
     }
 
     private val appContext = context.applicationContext
@@ -72,9 +83,23 @@ class VoiceSettings(context: Context) {
         get() = prefs.getString("folder", null)
         set(v) = prefs.edit().putString("folder", v).apply()
 
+    /** Stored with its scheme (https:// added when typed without one). A new address drops [webhookCleartext]. */
     var webhookUrl: String
         get() = prefs.getString("webhook_url", "") ?: ""
-        set(v) = prefs.edit().putString("webhook_url", v.trim()).apply()
+        set(v) {
+            val url = webhookUrl(v).orEmpty()
+            val edit = prefs.edit().putString("webhook_url", url)
+            if (url != webhookUrl) edit.putBoolean("webhook_cleartext", false)
+            edit.apply()
+        }
+
+    /** The user confirmed posting to this plain http:// [webhookUrl] (unencrypted unless a VPN encrypts it). */
+    var webhookCleartext: Boolean
+        get() = prefs.getBoolean("webhook_cleartext", false)
+        set(v) = prefs.edit().putBoolean("webhook_cleartext", v).apply()
+
+    /** Where notes are posted now: see [webhookTarget]. */
+    val webhookTarget: String? get() = webhookTarget(webhookUrl, webhookCleartext)
 
     /** Sent as the Authorization header value when not blank, e.g. "Bearer …". */
     var webhookAuth: String
@@ -128,7 +153,7 @@ class VoiceSettings(context: Context) {
     fun available(): List<Destination> = Destination.entries.filter {
         when (it) {
             Destination.SAVE, Destination.SHARE -> true
-            Destination.WEBHOOK -> isHttps(webhookUrl)
+            Destination.WEBHOOK -> webhookTarget != null
             Destination.WHITE_NOISE -> whiteNoise
         }
     }

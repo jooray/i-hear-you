@@ -157,7 +157,6 @@
     </plurals>
     <string name="voice_ostt_hint">Hlasové poznámky fungujú oveľa lepšie s Offline Speech to Text: bezplatnou aplikáciou, ktorá prevádza reč na text priamo v telefóne, bez internetu.</string>
     <string name="voice_get_ostt">Stiahnuť Offline Speech to Text</string>
-    <string name="voice_webhook_https">URL musí začínať https://. Android nedovolí I Hear You posielať na http:// a poznámka by išla nešifrovaná.</string>
     <string name="voice_wn_group_gone">I Hear You už v tejto skupine nie je. Vyber inú alebo ho nechaj znova pozvať.</string>
     <string name="voice_wn_name">Meno v skupinách</string>
     <string name="voice_wn_name_hint">Členovia skupiny vidia toto meno pri tvojich poznámkach. Nech je z neho jasné, čí je, napríklad \"I Hear You (Anna)\".</string>
@@ -165,4 +164,10 @@
     <string name="voice_no_speech_no_ostt">Nerozpoznala sa žiadna reč. Rozpoznávač v tomto telefóne nevie prepísať nahrávku: nainštaluj Offline Speech to Text (zadarmo, na Zapstore).</string>
     <string name="voice_wn_err_commit_pending">Posledná zmena skupiny sa ešte odosiela. Skús to znova, keď prejde.</string>
     <string name="voice_wn_err_no_usable_relay">Na žiadny relay skupiny sa z tohto telefónu nedá posielať, preto sa nič neodoslalo. Najprv treba zmeniť relaye skupiny.</string>
+    <string name="voice_webhook_invalid">Zadaj adresu webhooku, napríklad example.org/hook (ak https:// vynecháš, doplní sa).</string>
+    <string name="voice_webhook_missing">Nie je zadaná adresa webhooku (alebo nepotvrdené čisté http).</string>
+    <string name="voice_webhook_cleartext_warning">Čisté http: nahrávka a prepis idú nešifrované. V poriadku v sieti, ktorá šifruje sama (Tailscale, Nostr VPN, WireGuard); inde použi https.</string>
+    <string name="voice_webhook_cleartext_allow">Použiť http</string>
+    <string name="voice_webhook_cleartext_on">Posiela sa cez čisté http. Len v sieti, ktorá ho šifruje, napríklad Tailscale alebo Nostr VPN.</string>
+    <string name="voice_webhook_cleartext_undo">Zrušiť</string>
 </resources>

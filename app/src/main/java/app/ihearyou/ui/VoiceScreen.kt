@@ -458,20 +458,37 @@ private fun WebhookPlate(settings: VoiceSettings, version: Int, changed: () -> U
     val p = LocalPanel.current
     var url by remember(version) { mutableStateOf(settings.webhookUrl) }
     var auth by remember(version) { mutableStateOf(settings.webhookAuth) }
+    var cleartext by remember(version) { mutableStateOf(settings.webhookCleartext) }
     Plate(title = stringResource(R.string.voice_webhook_title)) {
         Text(stringResource(R.string.voice_webhook_body), style = MaterialTheme.typography.bodySmall, color = p.inkMuted)
-        Field(stringResource(R.string.voice_webhook_url), url, "https://", KeyboardType.Uri) { url = it }
-        // https only: Android refuses http:// for this app, and the note would travel unencrypted
-        val urlOk = url.isBlank() || VoiceSettings.isHttps(url)
-        if (!urlOk) {
-            Text(stringResource(R.string.voice_webhook_https), style = MaterialTheme.typography.bodySmall, color = p.fault, modifier = Modifier.padding(top = 4.dp))
+        // a new address needs its own confirmation for plain http
+        Field(stringResource(R.string.voice_webhook_url), url, "example.org/hook", KeyboardType.Uri) { url = it; cleartext = false }
+        // https:// is assumed when no scheme is typed; plain http only after the user confirms it
+        val typed = VoiceSettings.webhookUrl(url)
+        val http = VoiceSettings.isHttp(typed)
+        val urlOk = typed == null || VoiceSettings.isHttps(typed) || (http && cleartext)
+        when {
+            http && cleartext -> {
+                Text(stringResource(R.string.voice_webhook_cleartext_on), style = MaterialTheme.typography.bodySmall, color = p.inkMuted, modifier = Modifier.padding(top = 4.dp))
+                Key(stringResource(R.string.voice_webhook_cleartext_undo), onClick = { cleartext = false }, dense = true, tone = KeyTone.Ghost, modifier = Modifier.padding(top = 4.dp))
+            }
+            http -> {
+                Text(stringResource(R.string.voice_webhook_cleartext_warning), style = MaterialTheme.typography.bodySmall, color = p.fault, modifier = Modifier.padding(top = 4.dp))
+                Key(stringResource(R.string.voice_webhook_cleartext_allow), onClick = { cleartext = true }, dense = true, modifier = Modifier.padding(top = 4.dp))
+            }
+            !urlOk -> Text(stringResource(R.string.voice_webhook_invalid), style = MaterialTheme.typography.bodySmall, color = p.fault, modifier = Modifier.padding(top = 4.dp))
         }
         Field(stringResource(R.string.voice_webhook_auth), auth, "Bearer …", KeyboardType.Ascii) { auth = it }
         Key(
             stringResource(R.string.voice_save_settings),
-            onClick = { settings.webhookUrl = url; settings.webhookAuth = auth; changed() },
+            onClick = {
+                settings.webhookUrl = url
+                settings.webhookCleartext = http && cleartext
+                settings.webhookAuth = auth
+                changed()
+            },
             dense = true,
-            enabled = urlOk && (url != settings.webhookUrl || auth != settings.webhookAuth),
+            enabled = urlOk && (typed.orEmpty() != settings.webhookUrl || auth.trim() != settings.webhookAuth || (http && cleartext) != settings.webhookCleartext),
             modifier = Modifier.padding(top = 8.dp),
         )
     }

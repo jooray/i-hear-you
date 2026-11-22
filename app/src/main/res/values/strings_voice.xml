@@ -155,7 +155,6 @@
     </plurals>
     <string name="voice_ostt_hint">Voice notes work much better with Offline Speech to Text: a free app that turns speech into text on the phone, offline.</string>
     <string name="voice_get_ostt">Get Offline Speech to Text</string>
-    <string name="voice_webhook_https">The URL must start with https://. Android does not let I Hear You send to http://, and the note would travel unencrypted.</string>
     <string name="voice_wn_group_gone">I Hear You is no longer in this group. Pick another one, or have it invited again.</string>
     <string name="voice_wn_name">Name in groups</string>
     <string name="voice_wn_name_hint">Group members see this name next to your notes. Make it say whose it is, for example \"I Hear You (Anna)\".</string>
@@ -163,4 +162,10 @@
     <string name="voice_no_speech_no_ostt">No speech recognised. The recognizer on this phone cannot transcribe a recording: install Offline Speech to Text (free, on Zapstore).</string>
     <string name="voice_wn_err_commit_pending">The group\'s last change is still being sent. Try again once it has gone through.</string>
     <string name="voice_wn_err_no_usable_relay">None of the group\'s relays can be used from this phone, so nothing was sent. The group\'s relays have to change first.</string>
+    <string name="voice_webhook_invalid">Enter the webhook address, such as example.org/hook (https:// is added when you leave it out).</string>
+    <string name="voice_webhook_missing">No webhook address set (or plain http not confirmed).</string>
+    <string name="voice_webhook_cleartext_warning">Plain http: the recording and transcript travel unencrypted. Fine on a network that encrypts by itself (Tailscale, Nostr VPN, WireGuard); elsewhere use https.</string>
+    <string name="voice_webhook_cleartext_allow">Use http</string>
+    <string name="voice_webhook_cleartext_on">Sent over plain http. Only on a network that encrypts it, such as Tailscale or Nostr VPN.</string>
+    <string name="voice_webhook_cleartext_undo">Undo</string>
 </resources>

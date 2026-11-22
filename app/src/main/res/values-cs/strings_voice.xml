@@ -157,7 +157,6 @@
     </plurals>
     <string name="voice_ostt_hint">Hlasové poznámky fungují mnohem lépe s Offline Speech to Text: bezplatnou aplikací, která převádí řeč na text přímo v telefonu, bez internetu.</string>
     <string name="voice_get_ostt">Stáhnout Offline Speech to Text</string>
-    <string name="voice_webhook_https">URL musí začínat https://. Android nedovolí I Hear You posílat na http:// a poznámka by šla nešifrovaná.</string>
     <string name="voice_wn_group_gone">I Hear You už v této skupině není. Vyber jinou, nebo ho nech znovu pozvat.</string>
     <string name="voice_wn_name">Jméno ve skupinách</string>
     <string name="voice_wn_name_hint">Členové skupiny vidí toto jméno u tvých poznámek. Ať je z něj jasné, čí je, například \"I Hear You (Anna)\".</string>
@@ -165,4 +164,10 @@
     <string name="voice_no_speech_no_ostt">Nebyla rozpoznána žádná řeč. Rozpoznávač v tomto telefonu neumí přepsat nahrávku: nainstaluj Offline Speech to Text (zdarma, na Zapstore).</string>
     <string name="voice_wn_err_commit_pending">Poslední změna skupiny se ještě odesílá. Zkus to znovu, až projde.</string>
     <string name="voice_wn_err_no_usable_relay">Na žádný relay skupiny nelze z tohoto telefonu posílat, proto se nic neodeslalo. Nejdřív je potřeba změnit relaye skupiny.</string>
+    <string name="voice_webhook_invalid">Zadej adresu webhooku, například example.org/hook (když https:// vynecháš, doplní se).</string>
+    <string name="voice_webhook_missing">Není zadaná adresa webhooku (nebo nepotvrzené čisté http).</string>
+    <string name="voice_webhook_cleartext_warning">Čisté http: nahrávka a přepis jdou nešifrované. V pořádku v síti, která šifruje sama (Tailscale, Nostr VPN, WireGuard); jinde použij https.</string>
+    <string name="voice_webhook_cleartext_allow">Použít http</string>
+    <string name="voice_webhook_cleartext_on">Posílá se přes čisté http. Jen v síti, která ho šifruje, například Tailscale nebo Nostr VPN.</string>
+    <string name="voice_webhook_cleartext_undo">Zrušit</string>
 </resources>

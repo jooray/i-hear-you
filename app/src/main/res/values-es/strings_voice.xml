@@ -155,7 +155,6 @@
     </plurals>
     <string name="voice_ostt_hint">Las notas de voz funcionan mucho mejor con Offline Speech to Text: una app gratuita que convierte la voz en texto en el propio móvil, sin conexión.</string>
     <string name="voice_get_ostt">Obtener Offline Speech to Text</string>
-    <string name="voice_webhook_https">La URL debe empezar por https://. Android no deja a I Hear You enviar a http://, y la nota viajaría sin cifrar.</string>
     <string name="voice_wn_group_gone">I Hear You ya no está en este grupo. Elige otro o haz que lo inviten de nuevo.</string>
     <string name="voice_wn_name">Nombre en los grupos</string>
     <string name="voice_wn_name_hint">Los miembros del grupo ven este nombre junto a tus notas. Que diga de quién es, por ejemplo \"I Hear You (Ana)\".</string>
@@ -163,4 +162,10 @@
     <string name="voice_no_speech_no_ostt">No se reconoció ninguna voz. El reconocedor de este teléfono no puede transcribir una grabación: instala Offline Speech to Text (gratis, en Zapstore).</string>
     <string name="voice_wn_err_commit_pending">El último cambio del grupo aún se está enviando. Inténtalo de nuevo cuando se haya enviado.</string>
     <string name="voice_wn_err_no_usable_relay">Ninguno de los relays del grupo se puede usar desde este teléfono, así que no se envió nada. Primero hay que cambiar los relays del grupo.</string>
+    <string name="voice_webhook_invalid">Escribe la dirección del webhook, por ejemplo example.org/hook (si omites https:// se añade).</string>
+    <string name="voice_webhook_missing">No hay dirección de webhook (o http sin confirmar).</string>
+    <string name="voice_webhook_cleartext_warning">http sin cifrar: la grabación y la transcripción viajan sin cifrar. Está bien en una red que cifra por sí misma (Tailscale, Nostr VPN, WireGuard); en otro caso usa https.</string>
+    <string name="voice_webhook_cleartext_allow">Usar http</string>
+    <string name="voice_webhook_cleartext_on">Se envía por http sin cifrar. Solo en una red que lo cifra, como Tailscale o Nostr VPN.</string>
+    <string name="voice_webhook_cleartext_undo">Deshacer</string>
 </resources>

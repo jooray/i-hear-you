@@ -357,7 +357,7 @@ class VoiceNotes(
             when (note.destination) {
                 Destination.SAVE -> Unit
                 Destination.WEBHOOK -> {
-                    val url = settings.webhookUrl.takeIf { VoiceSettings.isHttps(it) } ?: error(context.getString(R.string.voice_webhook_https))
+                    val url = settings.webhookTarget ?: error(context.getString(R.string.voice_webhook_missing))
                     val meta = JSONObject()
                         .put("app", "i-hear-you")
                         .put("id", note.id)

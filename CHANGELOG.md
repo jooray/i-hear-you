@@ -9,6 +9,10 @@
   I Hear You an admin steps down first; a voice note whose group moved on during the upload is
   uploaded once more; "the group's last change is still being sent" and "no usable relay" read as
   sentences instead of error names.
+- Webhooks: an address typed without a scheme is taken as https://. A plain http:// address is no
+  longer refused: the Webhook settings warn that the recording and transcript travel unencrypted
+  and ask once for that address ("Use http"), fine on a network that encrypts by itself
+  (Tailscale, Nostr VPN, WireGuard). A new address needs its own confirmation.
 
 ## 0.3.2 (2026-11-15)
 

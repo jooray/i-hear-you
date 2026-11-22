@@ -155,7 +155,6 @@
     </plurals>
     <string name="voice_ostt_hint">Sprachnotizen funktionieren viel besser mit Offline Speech to Text: einer kostenlosen App, die Sprache direkt auf dem Handy in Text umwandelt, ganz ohne Internet.</string>
     <string name="voice_get_ostt">Offline Speech to Text holen</string>
-    <string name="voice_webhook_https">Die URL muss mit https:// beginnen. Android lässt I Hear You nicht an http:// senden, und die Notiz ginge unverschlüsselt hinaus.</string>
     <string name="voice_wn_group_gone">I Hear You ist nicht mehr in dieser Gruppe. Wähle eine andere oder lass es neu einladen.</string>
     <string name="voice_wn_name">Name in Gruppen</string>
     <string name="voice_wn_name_hint">Gruppenmitglieder sehen diesen Namen bei deinen Notizen. Er sollte zeigen, wem es gehört, zum Beispiel \"I Hear You (Anna)\".</string>
@@ -163,4 +162,10 @@
     <string name="voice_no_speech_no_ostt">Keine Sprache erkannt. Die Spracherkennung auf diesem Handy kann keine Aufnahme umschreiben: installiere Offline Speech to Text (kostenlos, auf Zapstore).</string>
     <string name="voice_wn_err_commit_pending">Die letzte Änderung der Gruppe wird noch gesendet. Versuche es erneut, sobald sie durch ist.</string>
     <string name="voice_wn_err_no_usable_relay">Keines der Relays der Gruppe ist von diesem Handy aus nutzbar, darum wurde nichts gesendet. Zuerst müssen sich die Relays der Gruppe ändern.</string>
+    <string name="voice_webhook_invalid">Gib die Webhook-Adresse ein, zum Beispiel example.org/hook (ohne https:// wird es ergänzt).</string>
+    <string name="voice_webhook_missing">Keine Webhook-Adresse eingestellt (oder einfaches http nicht bestätigt).</string>
+    <string name="voice_webhook_cleartext_warning">Einfaches http: Aufnahme und Transkript gehen unverschlüsselt hinaus. In Ordnung in einem Netz, das selbst verschlüsselt (Tailscale, Nostr VPN, WireGuard); sonst nimm https.</string>
+    <string name="voice_webhook_cleartext_allow">http verwenden</string>
+    <string name="voice_webhook_cleartext_on">Wird über einfaches http gesendet. Nur in einem Netz, das es verschlüsselt, etwa Tailscale oder Nostr VPN.</string>
+    <string name="voice_webhook_cleartext_undo">Rückgängig</string>
 </resources>
